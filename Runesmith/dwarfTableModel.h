@@ -18,21 +18,26 @@ class dwarfTableModel : public QAbstractTableModel
 	Q_OBJECT
 
 public:
-	dwarfTableModel(DFHack::API &nDF, QObject *parent = 0);
+	dwarfTableModel(QObject *parent = 0);
 	~dwarfTableModel(void);
 	int rowCount(const QModelIndex &parent = QModelIndex()) const;
 	int columnCount(const QModelIndex &parent = QModelIndex()) const;
 	QVariant data(const QModelIndex &index, int role) const;
 	QVariant headerData(int section, Qt::Orientation orientation,
 		int role = Qt::DisplayRole) const;
+	void attach(DFHack::API *nDF);
+	void detatch();
+
+public slots:
 	void update(const int &numCreatures);
 
 private:
 	std::vector<DFHack::t_creature> creatures;
-	DFHack::API &DF;
+	DFHack::API *DF;
 	DFHack::Materials *Materials;
 	DFHack::Translation *Tran;
 	DFHack::Creatures *Creatures;
+	bool attached;
 };
 
 #endif

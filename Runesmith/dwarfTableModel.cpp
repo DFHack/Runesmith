@@ -1,16 +1,15 @@
 #include <string>
 #include "dwarfTableModel.h"
 
-dwarfTableModel::dwarfTableModel(DFHack::API &nDF, QObject *parent) 
-	: QAbstractTableModel(parent), DF(nDF)
-{
-	Creatures = DF.getCreatures();
-    Materials = DF.getMaterials();
-	Tran = DF.getTranslation();
+dwarfTableModel::dwarfTableModel(QObject *parent) 
+	: QAbstractTableModel(parent), attached(false), DF(NULL), Creatures(NULL),
+	Tran(NULL), Materials(NULL)
+{	
 }
 
 dwarfTableModel::~dwarfTableModel(void)
 {
+	creatures.clear();
 }
 
 int dwarfTableModel::rowCount(const QModelIndex &parent) const
@@ -25,10 +24,13 @@ int dwarfTableModel::columnCount(const QModelIndex &parent) const
 
 QVariant dwarfTableModel::data(const QModelIndex &index, int role) const
 {
-	QString transName;
+	if(!attached)
+		return QVariant();
 
 	if((index.row() >= creatures.size()) || (role != Qt::DisplayRole))
 		return QVariant();
+	
+	QString transName;
 
 	switch(index.column())
 	{
@@ -70,14 +72,36 @@ QVariant dwarfTableModel::headerData
 
 void dwarfTableModel::update(const int &numCreatures)
 {
-	for(int i=0; i<numCreatures; i++)
-    {
-        DFHack::t_creature temp;
-        Creatures->ReadCreature(i,temp);
+	if(attached)
+	{
+		creatures.clear();
 
-		if(std::string(Materials->raceEx[temp.race].rawname) == "DWARF")
-        {
-            creatures.push_back(temp);
-        }
-    }
+		for(int i=0; i<numCreatures; i++)
+		{
+			DFHack::t_creature temp;
+			Creatures->ReadCreature(i,temp);
+
+			if(std::string(Materials->raceEx[temp.race].rawname) == "DWARF")
+			{
+				creatures.push_back(temp);
+			}
+		}
+	}
+}
+
+void dwarfTableModel::attach(DFHack::API *nDF)
+{
+	if(nDF)
+	{
+		DF = nDF;
+		attached = true;
+		Creatures = DF->getCreatures();
+		Materials = DF->getMaterials();
+		Tran = DF->getTranslation();
+	}
+}
+
+void dwarfTableModel::detatch()
+{
+	attached = false;
 }

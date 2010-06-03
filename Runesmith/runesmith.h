@@ -20,6 +20,11 @@ public:
 	Runesmith(QWidget *parent = 0, Qt::WFlags flags = 0);
 	~Runesmith();
 
+public slots:
+	void attach();
+	void detatch();
+	void close();
+
 private:
 	Ui::RunesmithClass ui;
 	dwarfTableModel *dTM;
@@ -27,7 +32,8 @@ private:
 	DFHack::Materials *Materials;
 	DFHack::Translation *Tran;
 	DFHack::Creatures *Creatures;
-	uint32_t numCreatures;	
+	uint32_t numCreatures;
+	bool attached;
 };
 
 #endif // RUNESMITH_H
