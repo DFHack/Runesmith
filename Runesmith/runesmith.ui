@@ -26,17 +26,17 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
-         <widget class="QListView" name="dwarvesLV"/>
+         <widget class="QTableView" name="dwarvesTV"/>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="creatureTab">
+      <widget class="QWidget" name="creaturesTab">
        <attribute name="title">
         <string>Creatures</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="0">
-         <widget class="QListView" name="creatureLV"/>
+         <widget class="QTableView" name="creaturesTV"/>
         </item>
        </layout>
       </widget>
@@ -58,6 +58,7 @@
      <string>&amp;File</string>
     </property>
     <addaction name="action_Connect"/>
+    <addaction name="action_Disconnect"/>
     <addaction name="action_Refresh"/>
     <addaction name="separator"/>
     <addaction name="actionE_xit"/>
@@ -84,6 +85,9 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+   <addaction name="action_Connect"/>
+   <addaction name="action_Disconnect"/>
+   <addaction name="action_Refresh"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionE_xit">
@@ -92,18 +96,39 @@
    </property>
   </action>
   <action name="action_Connect">
+   <property name="icon">
+    <iconset resource="runesmith.qrc">
+     <normaloff>:/Runesmith/Icons/connect-icon.png</normaloff>:/Runesmith/Icons/connect-icon.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Connect</string>
    </property>
   </action>
   <action name="action_Refresh">
+   <property name="icon">
+    <iconset resource="runesmith.qrc">
+     <normaloff>:/Runesmith/Icons/refresh-32.png</normaloff>:/Runesmith/Icons/refresh-32.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;Refresh</string>
    </property>
   </action>
   <action name="action_About">
+   <property name="icon">
+    <iconset resource="runesmith.qrc">
+     <normaloff>:/Runesmith/Icons/Help-icon.png</normaloff>:/Runesmith/Icons/Help-icon.png</iconset>
+   </property>
    <property name="text">
     <string>&amp;About</string>
+   </property>
+  </action>
+  <action name="action_Disconnect">
+   <property name="icon">
+    <iconset resource="runesmith.qrc">
+     <normaloff>:/Runesmith/Icons/disconnect-icon.png</normaloff>:/Runesmith/Icons/disconnect-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Disconnect</string>
    </property>
   </action>
  </widget>

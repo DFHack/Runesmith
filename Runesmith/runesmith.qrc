@@ -1,4 +1,8 @@
 <RCC>
-    <qresource prefix="Runesmith">
-    </qresource>
+  <qresource prefix="Runesmith">
+    <file>Icons/Help-icon.png</file>
+    <file>Icons/connect-icon.png</file>
+    <file>Icons/disconnect-icon.png</file>
+    <file>Icons/refresh-32.png</file>
+  </qresource>
 </RCC>
