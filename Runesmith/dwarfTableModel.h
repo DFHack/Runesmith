@@ -3,10 +3,13 @@
 
 #include <QAbstractTableModel>
 #include <vector>
+#include <integers.h>
 #include <DFGlobal.h>
 #include <DFTypes.h>
 #include <DFHackAPI.h>
+#include <modules/Materials.h>
 #include <modules/Creatures.h>
+#include <modules/Translation.h>
 
 #define DTM_COL_COUNT 4
 
@@ -22,11 +25,14 @@ public:
 	QVariant data(const QModelIndex &index, int role) const;
 	QVariant headerData(int section, Qt::Orientation orientation,
 		int role = Qt::DisplayRole) const;
-	void update(DFHack::Creatures &Creatures);
+	void update(const int &numCreatures);
 
 private:
 	std::vector<DFHack::t_creature> creatures;
 	DFHack::API &DF;
+	DFHack::Materials *Materials;
+	DFHack::Translation *Tran;
+	DFHack::Creatures *Creatures;
 };
 
 #endif
