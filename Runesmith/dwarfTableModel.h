@@ -7,6 +7,7 @@
 #include <DFGlobal.h>
 #include <DFTypes.h>
 #include <DFHackAPI.h>
+#include <DFMemInfo.h>
 #include <modules/Materials.h>
 #include <modules/Creatures.h>
 #include <modules/Translation.h>
@@ -37,6 +38,7 @@ private:
 	DFHack::Materials *Materials;
 	DFHack::Translation *Tran;
 	DFHack::Creatures *Creatures;
+	DFHack::memory_info *mem;
 	bool attached;
 };
 

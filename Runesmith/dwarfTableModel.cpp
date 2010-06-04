@@ -35,8 +35,14 @@ QVariant dwarfTableModel::data(const QModelIndex &index, int role) const
 	switch(index.column())
 	{
 	case 0:		
-		transName = Tran->TranslateName(creatures[index.row()].name, false).c_str();
-		return QString(creatures[index.row()].name.first_name[0] + " " + transName);		
+		transName = creatures[index.row()].name.first_name;
+		transName.append(" ");
+		transName.append(Tran->TranslateName
+			(creatures[index.row()].name, false).c_str());
+		return transName;
+	
+	case 1:
+		return QString(mem->getProfession(creatures[index.row()].profession).c_str());
 		 
 	default:
 		return QVariant();
@@ -101,6 +107,7 @@ void dwarfTableModel::attach(DFHack::API *nDF)
 		Creatures = DF->getCreatures();
 		Materials = DF->getMaterials();
 		Tran = DF->getTranslation();
+		mem = DF->getMemoryInfo();
 	}
 }
 
