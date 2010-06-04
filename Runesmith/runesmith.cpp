@@ -1,3 +1,4 @@
+ #include <QMessageBox>
 #include "runesmith.h"
 #include "rsException.h"
 
@@ -22,7 +23,9 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	catch (std::exception& e)
     {
         throw;
-    }		
+    }
+
+	attach();
 }
 
 Runesmith::~Runesmith()
@@ -41,7 +44,18 @@ void Runesmith::attach()
 {
 	if(!attached)
 	{
-		DF->Attach();
+		try
+		{
+			DF->Attach();
+		}
+		catch(std::exception &e)
+		{
+			QMessageBox msgBox(
+				QMessageBox::Critical, "Error!", e.what(), QMessageBox::Ok, this);			
+			msgBox.exec();
+			return;
+		}
+
 		Creatures = DF->getCreatures();
 		Materials = DF->getMaterials();
 		Tran = DF->getTranslation();

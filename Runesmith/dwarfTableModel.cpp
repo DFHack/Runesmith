@@ -43,6 +43,22 @@ QVariant dwarfTableModel::data(const QModelIndex &index, int role) const
 	
 	case 1:
 		return QString(mem->getProfession(creatures[index.row()].profession).c_str());
+
+	case 2:
+		return QString(QString::number(creatures[index.row()].happiness));
+
+	case 3:
+		for(int i=0; i<creatures[index.row()].defaultSoul.numSkills; i++)
+		{
+			transName.append(
+				mem->getSkill(creatures[index.row()].defaultSoul.skills[i].id).c_str());
+			transName.append('[');
+			transName.append(
+				QString::number(creatures[index.row()].defaultSoul.skills[i].rating));
+			transName.append("]  ");
+		}
+
+		return transName;
 		 
 	default:
 		return QVariant();
