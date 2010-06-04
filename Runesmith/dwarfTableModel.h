@@ -21,10 +21,9 @@ public:
 		int role = Qt::DisplayRole) const;
 	void attach(DFHack::Context *nDF);
 	void detatch();
-
+//TODO add getData(int id) function
 public slots:
 	void update(const int &numCreatures);
-	void selected(const QModelIndex & index);
 
 private:
 	std::vector<DFHack::t_creature> creatures;

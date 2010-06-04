@@ -106,6 +106,9 @@ void Runesmith::aboutSlot()
 
 void Runesmith::suspend()
 {
+	if(Tran)
+		Tran->Finish();
+
 	DF->Suspend();	
 	Materials->ReadAllMaterials();
 
@@ -120,9 +123,7 @@ void Runesmith::suspend()
 }
 
 void Runesmith::resume()
-{
-	//if(Tran)
-	//	Tran->Finish();
+{	
 	if(Creatures)
 		Creatures->Finish();
 

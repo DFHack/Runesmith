@@ -155,7 +155,3 @@ void dwarfTableModel::detatch()
 	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
 		QAbstractItemModel::createIndex(3, creatures.size()));
 }
-
-void dwarfTableModel::selected(const QModelIndex & index)
-{
-}
