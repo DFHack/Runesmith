@@ -6,14 +6,15 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	attached(false), numCreatures(0)
 {
 	ui.setupUi(this);	
-	QApplication::connect(ui.action_Connect, SIGNAL(triggered()), this, SLOT(attach()));
-	QApplication::connect(ui.action_Disconnect, SIGNAL(triggered()), this, SLOT(detatch()));
-	QApplication::connect(ui.action_Refresh, SIGNAL(triggered()), dTM, SLOT(update(numCreatures)));
-	QApplication::connect(ui.actionE_xit, SIGNAL(triggered()), this, SLOT(close()));
 	
 	if(!(dTM = new dwarfTableModel(this)))
-			throw RSException();
-
+			throw RSException();	
+		
+	QApplication::connect(ui.action_Connect, SIGNAL(triggered()), this, SLOT(attach()));
+	QApplication::connect(ui.action_Disconnect, SIGNAL(triggered()), this, SLOT(detatch()));
+	QApplication::connect(ui.action_Refresh, SIGNAL(triggered()), this, SLOT(update()));
+	QApplication::connect(ui.actionE_xit, SIGNAL(triggered()), this, SLOT(close()));
+	
 	try
     {
 		DF = new DFHack::API("Memory.xml");        
@@ -25,10 +26,10 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 }
 
 Runesmith::~Runesmith()
-{
+{	
+	detatch();
 	if(dTM)
 		delete dTM;
-	detatch();
 }
 
 void Runesmith::close()
@@ -56,9 +57,9 @@ void Runesmith::attach()
 			throw RSException();		
 
 		dTM->attach(DF);
-		dTM->update(numCreatures);
-		ui.dwarvesTV->setModel(dTM);
-		attached = true;		
+		dTM->update(numCreatures);ui.dwarvesTV->setModel(dTM);	
+		attached = true;
+		DF->Resume();
 	}	
 }
 
@@ -66,6 +67,7 @@ void Runesmith::detatch()
 {
 	if(attached)
 	{
+		DF->Suspend();
 		dTM->detatch();
 
 		if(Creatures)
@@ -77,5 +79,15 @@ void Runesmith::detatch()
 		DF->Detach();
 		attached = false;
 		numCreatures = 0;
+	}
+}
+
+void Runesmith::update()
+{
+	if(attached)
+	{
+		DF->Suspend();
+		dTM->update(numCreatures);ui.dwarvesTV->setModel(dTM);
+		DF->Resume();
 	}
 }

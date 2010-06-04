@@ -86,6 +86,9 @@ void dwarfTableModel::update(const int &numCreatures)
 				creatures.push_back(temp);
 			}
 		}
+		
+		emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
+			QAbstractItemModel::createIndex(3, creatures.size()));
 	}
 }
 
@@ -103,5 +106,8 @@ void dwarfTableModel::attach(DFHack::API *nDF)
 
 void dwarfTableModel::detatch()
 {
+	creatures.clear();
 	attached = false;
+	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
+		QAbstractItemModel::createIndex(3, creatures.size()));
 }
