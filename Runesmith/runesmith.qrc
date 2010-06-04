@@ -1,6 +1,7 @@
 <RCC>
   <qresource prefix="Runesmith">
     <file>Icons/Help-icon.png</file>
+    <file>Resources/Runesmith.png</file>
     <file>Icons/connect-icon.png</file>
     <file>Icons/disconnect-icon.png</file>
     <file>Icons/refresh-32.png</file>

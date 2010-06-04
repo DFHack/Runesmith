@@ -1,6 +1,7 @@
  #include <QMessageBox>
 #include "runesmith.h"
 #include "rsException.h"
+#include "about.h"
 
 Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags), dTM(NULL), Creatures(NULL), Tran(NULL),
@@ -15,6 +16,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	QApplication::connect(ui.action_Disconnect, SIGNAL(triggered()), this, SLOT(detatch()));
 	QApplication::connect(ui.action_Refresh, SIGNAL(triggered()), this, SLOT(update()));
 	QApplication::connect(ui.actionE_xit, SIGNAL(triggered()), this, SLOT(close()));
+	QApplication::connect(ui.action_About, SIGNAL(triggered()), this, SLOT(aboutSlot()));
 	
 	try
     {
@@ -104,4 +106,10 @@ void Runesmith::update()
 		dTM->update(numCreatures);ui.dwarvesTV->setModel(dTM);
 		DF->Resume();
 	}
+}
+
+void Runesmith::aboutSlot()
+{
+	About abDiaInstance;
+	abDiaInstance.exec();
 }

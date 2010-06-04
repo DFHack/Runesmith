@@ -25,6 +25,7 @@ public slots:
 	void detatch();
 	void close();
 	void update();
+	void aboutSlot();
 
 private:
 	Ui::RunesmithClass ui;
