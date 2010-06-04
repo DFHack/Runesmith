@@ -48,6 +48,27 @@ QVariant dwarfTableModel::data(const QModelIndex &index, int role) const
 		return QString(QString::number(creatures[index.row()].happiness));
 
 	case 3:
+		//TODO make this general status instead of just mood
+		switch(creatures[index.row()].mood)
+		{
+		case -1:
+			return QVariant();
+
+		case 0:
+			return QString("Fey");
+
+		case 1:
+			return QString("Possesed");
+
+		case 2:
+		case 3:
+		case 4:
+			return QVariant();
+
+		case 5:
+			return QString("Melancholy/Beserk");
+		}
+		/*case 3:
 		for(int i=0; i<creatures[index.row()].defaultSoul.numSkills; i++)
 		{
 			transName.append(
@@ -58,7 +79,7 @@ QVariant dwarfTableModel::data(const QModelIndex &index, int role) const
 			transName.append("]  ");
 		}
 
-		return transName;
+		return transName;*/
 		 
 	default:
 		return QVariant();
@@ -85,7 +106,7 @@ QVariant dwarfTableModel::headerData
 			return QString("Happiness");			
 
 		case 3:
-			return QString("Skills");			
+			return QString("Status");	
 		}
 	}
 	else
@@ -114,7 +135,7 @@ void dwarfTableModel::update(const int &numCreatures)
 	}
 }
 
-void dwarfTableModel::attach(DFHack::API *nDF)
+void dwarfTableModel::attach(DFHack::Context *nDF)
 {
 	if(nDF)
 	{
@@ -133,4 +154,8 @@ void dwarfTableModel::detatch()
 	attached = false;
 	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
 		QAbstractItemModel::createIndex(3, creatures.size()));
+}
+
+void dwarfTableModel::selected(const QModelIndex & index)
+{
 }

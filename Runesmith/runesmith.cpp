@@ -17,10 +17,12 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	QApplication::connect(ui.action_Refresh, SIGNAL(triggered()), this, SLOT(update()));
 	QApplication::connect(ui.actionE_xit, SIGNAL(triggered()), this, SLOT(close()));
 	QApplication::connect(ui.action_About, SIGNAL(triggered()), this, SLOT(aboutSlot()));
+	QApplication::connect(ui.dwarvesTV, SIGNAL(clicked(const QModelIndex&)), dTM, SLOT(selected(const QModelIndex&)));
 	
 	try
     {
-		DF = new DFHack::API("Memory.xml");        
+		DFMgr = new DFHack::ContextManager("Memory.xml");
+		DF = DFMgr->getSingleContext();       
     }
 	catch (std::exception& e)
     {
@@ -35,6 +37,9 @@ Runesmith::~Runesmith()
 	detatch();
 	if(dTM)
 		delete dTM;
+
+	if(DFMgr)
+		delete DFMgr;
 }
 
 void Runesmith::close()
@@ -61,21 +66,12 @@ void Runesmith::attach()
 		Creatures = DF->getCreatures();
 		Materials = DF->getMaterials();
 		Tran = DF->getTranslation();
-		Materials->ReadAllMaterials();
-
-		if(!Creatures->Start(numCreatures))
-			throw RSException();    
-
-		if(!numCreatures)
-			throw RSException();
-
-		if(!Tran->Start())
-			throw RSException();		
-
+		suspend();	
 		dTM->attach(DF);
-		dTM->update(numCreatures);ui.dwarvesTV->setModel(dTM);	
+		dTM->update(numCreatures);
+		ui.dwarvesTV->setModel(dTM);	
 		attached = true;
-		DF->Resume();
+		resume();
 	}	
 }
 
@@ -83,15 +79,8 @@ void Runesmith::detatch()
 {
 	if(attached)
 	{
-		DF->Suspend();
 		dTM->detatch();
-
-		if(Creatures)
-			Creatures->Finish();
-
-		if(Tran)
-			Tran->Finish();
-
+		suspend();
 		DF->Detach();
 		attached = false;
 		numCreatures = 0;
@@ -102,9 +91,10 @@ void Runesmith::update()
 {
 	if(attached)
 	{
-		DF->Suspend();
-		dTM->update(numCreatures);ui.dwarvesTV->setModel(dTM);
-		DF->Resume();
+		suspend();
+		dTM->update(numCreatures);
+		//ui.dwarvesTV->setModel(dTM);
+		resume();
 	}
 }
 
@@ -112,4 +102,29 @@ void Runesmith::aboutSlot()
 {
 	About abDiaInstance;
 	abDiaInstance.exec();
+}
+
+void Runesmith::suspend()
+{
+	DF->Suspend();	
+	Materials->ReadAllMaterials();
+
+	if(!Creatures->Start(numCreatures))
+		throw RSException();    
+
+	if(!numCreatures)
+		throw RSException();
+
+	if(!Tran->Start())
+		throw RSException();
+}
+
+void Runesmith::resume()
+{
+	//if(Tran)
+	//	Tran->Finish();
+	if(Creatures)
+		Creatures->Finish();
+
+	DF->Resume();		
 }

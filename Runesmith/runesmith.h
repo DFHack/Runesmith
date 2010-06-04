@@ -2,13 +2,7 @@
 #define RUNESMITH_H
 
 #include <QtGui/QMainWindow>
-#include <integers.h>
-#include <DFGlobal.h>
-#include <DFTypes.h>
-#include <DFHackAPI.h>
-#include <modules/Materials.h>
-#include <modules/Creatures.h>
-#include <modules/Translation.h>
+#include <DFHack.h>
 #include "ui_runesmith.h"
 #include "dwarfTableModel.h"
 
@@ -28,9 +22,14 @@ public slots:
 	void aboutSlot();
 
 private:
+	void suspend();
+	void resume();
+
+private:
 	Ui::RunesmithClass ui;
 	dwarfTableModel *dTM;
-	DFHack::API *DF;
+	DFHack::ContextManager *DFMgr;
+    DFHack::Context *DF;
 	DFHack::Materials *Materials;
 	DFHack::Translation *Tran;
 	DFHack::Creatures *Creatures;
