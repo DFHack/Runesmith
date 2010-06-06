@@ -20,6 +20,7 @@ public slots:
 	void close();
 	void update();
 	void aboutSlot();
+	void dwarfSelected(const QModelIndex& index);
 
 private:
 	void suspend();

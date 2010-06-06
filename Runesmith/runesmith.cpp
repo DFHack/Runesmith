@@ -2,12 +2,15 @@
 #include "runesmith.h"
 #include "rsException.h"
 #include "about.h"
+#include "progBarDelegate.h"
 
 Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	: QMainWindow(parent, flags), dTM(NULL), Creatures(NULL), Tran(NULL),
 	attached(false), numCreatures(0)
 {
 	ui.setupUi(this);	
+	//progBarDelegate *tempdeli = new progBarDelegate(this);
+	//ui.dwarvesTV->setItemDelegateForColumn(2, tempdeli);
 	
 	if(!(dTM = new dwarfTableModel(this)))
 			throw RSException();	
@@ -17,7 +20,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	QApplication::connect(ui.action_Refresh, SIGNAL(triggered()), this, SLOT(update()));
 	QApplication::connect(ui.actionE_xit, SIGNAL(triggered()), this, SLOT(close()));
 	QApplication::connect(ui.action_About, SIGNAL(triggered()), this, SLOT(aboutSlot()));
-	QApplication::connect(ui.dwarvesTV, SIGNAL(clicked(const QModelIndex&)), dTM, SLOT(selected(const QModelIndex&)));
+	QApplication::connect(ui.dwarvesTV, SIGNAL(clicked(const QModelIndex&)), this, SLOT(dwarfSelected(const QModelIndex&)));
 	
 	try
     {
@@ -128,4 +131,9 @@ void Runesmith::resume()
 		Creatures->Finish();
 
 	DF->Resume();		
+}
+
+void Runesmith::dwarfSelected(const QModelIndex& index)
+{
+	dTM->getCreatureR(index.row());
 }

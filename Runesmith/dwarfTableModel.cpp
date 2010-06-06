@@ -155,3 +155,8 @@ void dwarfTableModel::detatch()
 	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
 		QAbstractItemModel::createIndex(3, creatures.size()));
 }
+
+const DFHack::t_creature& dwarfTableModel::getCreatureR(int id)
+{
+	return creatures[id];	
+}
