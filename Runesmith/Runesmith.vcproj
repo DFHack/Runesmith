@@ -639,6 +639,10 @@
 			</Filter>
 		</Filter>
 		<File
+			RelativePath=".\experiance.xml"
+			>
+		</File>
+		<File
 			RelativePath=".\Runesmith.ico"
 			>
 		</File>
