@@ -1,9 +1,9 @@
 #include <string>
 #include "dwarfTableModel.h"
 
-dwarfTableModel::dwarfTableModel(QObject *parent) 
+dwarfTableModel::dwarfTableModel(QObject *parent, int nCols) 
 	: QAbstractTableModel(parent), attached(false), DF(NULL), Creatures(NULL),
-	Tran(NULL), Materials(NULL)
+	Tran(NULL), Materials(NULL), colCount(nCols)
 {	
 }
 
@@ -19,7 +19,7 @@ int dwarfTableModel::rowCount(const QModelIndex &parent) const
 
 int dwarfTableModel::columnCount(const QModelIndex &parent) const
 {
-	return DTM_COL_COUNT;
+	return colCount;
 }
 
 QVariant dwarfTableModel::data(const QModelIndex &index, int role) const
@@ -123,7 +123,7 @@ void dwarfTableModel::update(const int &numCreatures)
 		
 		reset();
 		emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
-			QAbstractItemModel::createIndex(DTM_COL_COUNT, creatures.size()));
+			QAbstractItemModel::createIndex(colCount, creatures.size()));
 	}
 }
 
@@ -146,7 +146,7 @@ void dwarfTableModel::detatch()
 	attached = false;
 	reset();
 	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
-		QAbstractItemModel::createIndex(DTM_COL_COUNT, creatures.size()));
+		QAbstractItemModel::createIndex(colCount, creatures.size()));
 }
 
 const DFHack::t_creature* dwarfTableModel::getCreatureP(int id)

@@ -5,28 +5,27 @@
 #include <vector>
 #include <DFHack.h>
 
-#define DTM_COL_COUNT 4
-
 class dwarfTableModel : public QAbstractTableModel
 {
 	Q_OBJECT
 
 public:
-	dwarfTableModel(QObject *parent = 0);
+	dwarfTableModel(QObject *parent = 0, int nCols = 4);
 	~dwarfTableModel(void);
 	int rowCount(const QModelIndex &parent = QModelIndex()) const;
 	int columnCount(const QModelIndex &parent = QModelIndex()) const;
-	QVariant data(const QModelIndex &index, int role) const;
-	QVariant headerData(int section, Qt::Orientation orientation,
+	virtual QVariant data(const QModelIndex &index, int role) const;
+	virtual QVariant headerData(int section, Qt::Orientation orientation,
 		int role = Qt::DisplayRole) const;
 	void attach(DFHack::Context *nDF);
 	void detatch();
 	const DFHack::t_creature* getCreatureP(int id); 
 
 public slots:
-	void update(const int &numCreatures);
+	virtual void update(const int &numCreatures);
 
-private:
+protected:
+	const int colCount;
 	std::vector<DFHack::t_creature> creatures;
 	DFHack::Context *DF;
 	DFHack::Materials *Materials;

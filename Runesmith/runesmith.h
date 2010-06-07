@@ -6,6 +6,7 @@
 #include "ui_runesmith.h"
 #include "dwarfTableModel.h"
 #include "skillsTableModel.h"
+#include "creatureTableModel.h"
 
 class Runesmith : public QMainWindow
 {
@@ -22,6 +23,7 @@ public slots:
 	void update();
 	void aboutSlot();
 	void dwarfSelected(const QModelIndex& index);
+	void creatureSelected(const QModelIndex& index);
 
 private:
 	void suspend();
@@ -29,8 +31,12 @@ private:
 
 private:
 	Ui::RunesmithClass ui;
+
 	dwarfTableModel *dTM;
 	skillsTableModel *sTM;
+	creatureTableModel *cTM;
+	skillsTableModel *csTM;
+
 	DFHack::ContextManager *DFMgr;
     DFHack::Context *DF;
 	DFHack::Materials *Materials;

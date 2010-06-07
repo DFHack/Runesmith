@@ -17,16 +17,28 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 
 	if(!(sTM = new skillsTableModel(this)))
 		throw RSException();
+
+	if(!(cTM = new creatureTableModel(this)))
+		throw RSException();
+
+	if(!(csTM = new skillsTableModel(this)))
+		throw RSException();
 	
 	ui.dwarvesTV->setModel(dTM);		
 	ui.skillsTV->setModel(sTM);
+	ui.creaturesTV->setModel(cTM);
+	ui.cSkillsTV->setModel(csTM);
 
 	QApplication::connect(ui.action_Connect, SIGNAL(triggered()), this, SLOT(attach()));
-	QApplication::connect(ui.action_Disconnect, SIGNAL(triggered()), this, SLOT(detatch()));
+	QApplication::connect(ui.action_Disconnect, SIGNAL(triggered()), this,
+		SLOT(detatch()));
 	QApplication::connect(ui.action_Refresh, SIGNAL(triggered()), this, SLOT(update()));
 	QApplication::connect(ui.actionE_xit, SIGNAL(triggered()), this, SLOT(close()));
 	QApplication::connect(ui.action_About, SIGNAL(triggered()), this, SLOT(aboutSlot()));
-	QApplication::connect(ui.dwarvesTV, SIGNAL(clicked(const QModelIndex&)), this, SLOT(dwarfSelected(const QModelIndex&)));
+	QApplication::connect(ui.dwarvesTV, SIGNAL(clicked(const QModelIndex&)), this,
+		SLOT(dwarfSelected(const QModelIndex&)));
+	QApplication::connect(ui.creaturesTV, SIGNAL(clicked(const QModelIndex&)), this,
+		SLOT(creatureSelected(const QModelIndex&)));
 	
 	try
     {
@@ -46,6 +58,12 @@ Runesmith::~Runesmith()
 	detatch();
 	if(dTM)
 		delete dTM;
+
+	if(sTM)
+		delete sTM;
+
+	if(cTM)
+		delete cTM;
 
 	if(DFMgr)
 		delete DFMgr;
@@ -77,7 +95,9 @@ void Runesmith::attach()
 		Tran = DF->getTranslation();
 		suspend();	
 		dTM->attach(DF);
-		dTM->update(numCreatures);		
+		cTM->attach(DF);
+		dTM->update(numCreatures);	
+		cTM->update(numCreatures);
 		attached = true;
 		resume();
 	}	
@@ -88,6 +108,7 @@ void Runesmith::detatch()
 	if(attached)
 	{
 		dTM->detatch();
+		cTM->detatch();
 		suspend();
 		DF->Detach();
 		attached = false;
@@ -101,6 +122,7 @@ void Runesmith::update()
 	{
 		suspend();
 		dTM->update(numCreatures);
+		cTM->update(numCreatures);
 		resume();
 	}
 }
@@ -141,4 +163,9 @@ void Runesmith::dwarfSelected(const QModelIndex& index)
 {
 	sTM->setCreature(DF,dTM->getCreatureP(index.row()));
 	
+}
+
+void Runesmith::creatureSelected(const QModelIndex& index)
+{
+	csTM->setCreature(DF,cTM->getCreatureP(index.row()));	
 }
