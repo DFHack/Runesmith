@@ -67,19 +67,7 @@ QVariant dwarfTableModel::data(const QModelIndex &index, int role) const
 
 		case 5:
 			return QString("Melancholy/Beserk");
-		}
-		/*case 3:
-		for(int i=0; i<creatures[index.row()].defaultSoul.numSkills; i++)
-		{
-			transName.append(
-				mem->getSkill(creatures[index.row()].defaultSoul.skills[i].id).c_str());
-			transName.append('[');
-			transName.append(
-				QString::number(creatures[index.row()].defaultSoul.skills[i].rating));
-			transName.append("]  ");
-		}
-
-		return transName;*/
+		}		
 		 
 	default:
 		return QVariant();
@@ -106,7 +94,10 @@ QVariant dwarfTableModel::headerData
 			return QString("Happiness");			
 
 		case 3:
-			return QString("Status");	
+			return QString("Status");
+
+		default:
+			return QVariant();
 		}
 	}
 	else
@@ -130,8 +121,9 @@ void dwarfTableModel::update(const int &numCreatures)
 			}
 		}
 		
+		reset();
 		emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
-			QAbstractItemModel::createIndex(3, creatures.size()));
+			QAbstractItemModel::createIndex(DTM_COL_COUNT, creatures.size()));
 	}
 }
 
@@ -152,11 +144,12 @@ void dwarfTableModel::detatch()
 {
 	creatures.clear();
 	attached = false;
+	reset();
 	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
-		QAbstractItemModel::createIndex(3, creatures.size()));
+		QAbstractItemModel::createIndex(DTM_COL_COUNT, creatures.size()));
 }
 
-const DFHack::t_creature& dwarfTableModel::getCreatureR(int id)
+const DFHack::t_creature* dwarfTableModel::getCreatureP(int id)
 {
-	return creatures[id];	
+	return &creatures[id];	
 }

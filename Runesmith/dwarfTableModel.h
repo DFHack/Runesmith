@@ -21,7 +21,7 @@ public:
 		int role = Qt::DisplayRole) const;
 	void attach(DFHack::Context *nDF);
 	void detatch();
-	const DFHack::t_creature& getCreatureR(int id); 
+	const DFHack::t_creature* getCreatureP(int id); 
 
 public slots:
 	void update(const int &numCreatures);

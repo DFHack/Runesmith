@@ -5,6 +5,7 @@
 #include <DFHack.h>
 #include "ui_runesmith.h"
 #include "dwarfTableModel.h"
+#include "skillsTableModel.h"
 
 class Runesmith : public QMainWindow
 {
@@ -29,6 +30,7 @@ private:
 private:
 	Ui::RunesmithClass ui;
 	dwarfTableModel *dTM;
+	skillsTableModel *sTM;
 	DFHack::ContextManager *DFMgr;
     DFHack::Context *DF;
 	DFHack::Materials *Materials;

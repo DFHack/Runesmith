@@ -13,8 +13,14 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	//ui.dwarvesTV->setItemDelegateForColumn(2, tempdeli);
 	
 	if(!(dTM = new dwarfTableModel(this)))
-			throw RSException();	
-		
+		throw RSException();
+
+	if(!(sTM = new skillsTableModel(this)))
+		throw RSException();
+	
+	ui.dwarvesTV->setModel(dTM);		
+	ui.skillsTV->setModel(sTM);
+
 	QApplication::connect(ui.action_Connect, SIGNAL(triggered()), this, SLOT(attach()));
 	QApplication::connect(ui.action_Disconnect, SIGNAL(triggered()), this, SLOT(detatch()));
 	QApplication::connect(ui.action_Refresh, SIGNAL(triggered()), this, SLOT(update()));
@@ -71,8 +77,7 @@ void Runesmith::attach()
 		Tran = DF->getTranslation();
 		suspend();	
 		dTM->attach(DF);
-		dTM->update(numCreatures);
-		ui.dwarvesTV->setModel(dTM);	
+		dTM->update(numCreatures);		
 		attached = true;
 		resume();
 	}	
@@ -96,7 +101,6 @@ void Runesmith::update()
 	{
 		suspend();
 		dTM->update(numCreatures);
-		//ui.dwarvesTV->setModel(dTM);
 		resume();
 	}
 }
@@ -135,5 +139,6 @@ void Runesmith::resume()
 
 void Runesmith::dwarfSelected(const QModelIndex& index)
 {
-	dTM->getCreatureR(index.row());
+	sTM->setCreature(DF,dTM->getCreatureP(index.row()));
+	
 }
