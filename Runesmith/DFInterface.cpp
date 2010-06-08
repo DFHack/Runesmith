@@ -21,10 +21,8 @@ DFInterface::~DFInterface(void)
 
 bool DFInterface::isAttached()
 {
-	if(isContextValid())
-	{
+	if(DF)
 		return DF->isAttached();
-	}
 	else
 		return false;
 }
@@ -33,11 +31,18 @@ bool DFInterface::isContextValid()
 {
 	if(!DF)
 		return false;
-/*
+
 	DFHack::BadContexts inval;
 	DFMgr->Refresh(&inval);
-	return !inval.Contains(DF);*/
-	return true;
+	
+	if(inval.Contains(DF))
+	{
+		DF = NULL;
+		return false;
+	}
+	else
+		return true;
+	
 }
 
 bool DFInterface::attach()
@@ -76,24 +81,30 @@ bool DFInterface::attach()
 }
 
 void DFInterface::detatch()
-{	
-	if(isAttached())
-	{				
-		suspend();
-		DF->Detach();
-		numCreatures = 0;
-		creatures.clear();
-		dwarves.clear();
+{
+	if(isContextValid())
+	{
+		if(isAttached())
+		{				
+			suspend();
+			DF->Detach();
+			numCreatures = 0;
+			creatures.clear();
+			dwarves.clear();
+		}
 	}
 }
 
 void DFInterface::update()
 {
-	if(isAttached())
+	if(isContextValid())
 	{
-		suspend();
-		process();
-		resume();
+		if(isAttached())
+		{
+			suspend();
+			process();
+			resume();
+		}
 	}
 }
 
