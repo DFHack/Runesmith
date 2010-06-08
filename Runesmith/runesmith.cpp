@@ -40,7 +40,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	ui.dwarvesTV->setModel(dTM);		
 	ui.skillsTV->setModel(sTM);
 	ui.creaturesTV->setModel(cTM);
-	ui.cSkillsTV->setModel(csTM);
+	ui.cSkillsTV->setModel(csTM); 
 
 	try
 	{
@@ -115,6 +115,7 @@ void Runesmith::detatch()
 	dTM->update(DFI);
 	cTM->update(DFI);
 	sTM->clear();
+	csTM->clear();
 }
 
 void Runesmith::update()
@@ -123,6 +124,7 @@ void Runesmith::update()
 	dTM->update(DFI);
 	cTM->update(DFI);	
 	sTM->clear();
+	csTM->clear();
 }
 
 void Runesmith::aboutSlot()
@@ -134,4 +136,9 @@ void Runesmith::aboutSlot()
 void Runesmith::dwarfSelected(const QModelIndex& index)
 {
 	sTM->setCreature(DFI, DFI->getDwarf(index.row()));
+}
+
+void Runesmith::creatureSelected(const QModelIndex& index)
+{
+	sTM->setCreature(DFI, DFI->getCreature(index.row()));
 }

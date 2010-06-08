@@ -23,6 +23,7 @@ public slots:
 	void update();
 	void aboutSlot();
 	void dwarfSelected(const QModelIndex& index);
+	void creatureSelected(const QModelIndex& index);
 
 private:
 	Ui::RunesmithClass ui;
