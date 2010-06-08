@@ -10,8 +10,7 @@
 #include "levelParse.h"
 
 Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
-: QMainWindow(parent, flags), dTM(NULL), Creatures(NULL), Tran(NULL),
-numCreatures(0), DF(NULL), DFMgr(NULL)
+: QMainWindow(parent, flags), dTM(NULL), DFI(NULL)
 {
 	ui.setupUi(this);	
 	//progBarDelegate *tempdeli = new progBarDelegate(this);
@@ -43,9 +42,21 @@ numCreatures(0), DF(NULL), DFMgr(NULL)
 	ui.creaturesTV->setModel(cTM);
 	ui.cSkillsTV->setModel(csTM);
 
+	try
+	{
+		DFI = new DFInterface();  
+	}
+	catch (std::exception& e)
+	{
+		QMessageBox msgBox(QMessageBox::Critical,
+			"Error!", e.what(), QMessageBox::Ok, this);			
+		msgBox.exec();
+	}
+
+	attach();
+
 	QApplication::connect(ui.action_Connect, SIGNAL(triggered()), this, SLOT(attach()));
-	QApplication::connect(ui.action_Disconnect, SIGNAL(triggered()), this,
-		SLOT(detatch()));
+	QApplication::connect(ui.action_Disconnect, SIGNAL(triggered()), this, SLOT(detatch()));
 	QApplication::connect(ui.action_Refresh, SIGNAL(triggered()), this, SLOT(update()));
 	QApplication::connect(ui.actionE_xit, SIGNAL(triggered()), this, SLOT(close()));
 	QApplication::connect(ui.action_About, SIGNAL(triggered()), this, SLOT(aboutSlot()));
@@ -53,23 +64,10 @@ numCreatures(0), DF(NULL), DFMgr(NULL)
 		SLOT(dwarfSelected(const QModelIndex&)));
 	QApplication::connect(ui.creaturesTV, SIGNAL(clicked(const QModelIndex&)), this,
 		SLOT(creatureSelected(const QModelIndex&)));
-
-	try
-	{
-		DFMgr = new DFHack::ContextManager("Memory.xml");
-		attach();   
-	}
-	catch (std::exception& e)
-	{
-		QMessageBox msgBox(QMessageBox::Critical,
-			"Error!", e.what(), QMessageBox::Ok, this);			
-		msgBox.exec();
-	}	
 }
 
 Runesmith::~Runesmith()
 {	
-	detatch();
 	if(dTM)
 		delete dTM;
 
@@ -79,8 +77,8 @@ Runesmith::~Runesmith()
 	if(cTM)
 		delete cTM;
 
-	if(DFMgr)
-		delete DFMgr;
+	if(DFI)
+		delete DFI;
 }
 
 void Runesmith::close()
@@ -90,87 +88,37 @@ void Runesmith::close()
 
 void Runesmith::attach()
 {
-	if(!DF)
+	try
 	{
-		try
-		{
-			DF = DFMgr->getSingleContext(); 
-		}
-		catch (std::exception& e)
-		{
-			QMessageBox msgBox(QMessageBox::Critical,
-				"Error!", e.what(), QMessageBox::Ok, this);			
-			msgBox.exec();
-			return;
-		}
+		if(!DFI)
+			DFI = new DFInterface();
+		DFI->attach();
+	}
+	catch(std::exception &e)
+	{
+		QMessageBox msgBox(QMessageBox::Critical,
+			"Error!", e.what(), QMessageBox::Ok, this);			
+		msgBox.exec();
+		return;
 	}
 
-	if(DF)
-	{
-		if(isContextValid())
-		{
-
-			try
-			{
-				DF->Attach();
-			}
-			catch (std::exception& e)
-			{
-				QMessageBox msgBox(QMessageBox::Critical,
-					"Error!", e.what(), QMessageBox::Ok, this);			
-				msgBox.exec();
-			}	
-
-			Creatures = DF->getCreatures();
-			Materials = DF->getMaterials();
-			Tran = DF->getTranslation();
-			suspend();	
-			dTM->attach(DF);
-			cTM->attach(DF);
-			dTM->update(numCreatures);	
-			cTM->update(numCreatures);
-			resume();
-		}
-	}	
+	dTM->update(DFI);
+	cTM->update(DFI);	
 }
 
 void Runesmith::detatch()
 {
-	if(DF)
-	{
-		if(isContextValid())
-		{
-			if(DF->isAttached())
-			{
-				dTM->detatch();
-				cTM->detatch();
-				suspend();
-				DF->Detach();
-				numCreatures = 0;
-			}
-		}
-	}
+	DFI->detatch();
+	dTM->update(DFI);
+	cTM->update(DFI);
+	sTM->clear();
 }
 
 void Runesmith::update()
 {
-	if(DF)
-	{
-		if(isContextValid())
-		{
-			if(DF->isAttached())
-			{
-				suspend();
-				dTM->update(numCreatures);
-				cTM->update(numCreatures);
-				resume();
-				return;
-			}
-		}
-	}
-
-	dTM->detatch();
-	cTM->detatch();
+	DFI->update();
+	dTM->update(DFI);
+	cTM->update(DFI);				
 }
 
 void Runesmith::aboutSlot()
@@ -179,45 +127,7 @@ void Runesmith::aboutSlot()
 	abDiaInstance.exec();
 }
 
-void Runesmith::suspend()
-{
-	if(Tran)
-		Tran->Finish();
-
-	DF->Suspend();	
-	Materials->ReadAllMaterials();
-
-	if(!Creatures->Start(numCreatures))
-		throw RSException();    
-
-	if(!numCreatures)
-		throw RSException();
-
-	if(!Tran->Start())
-		throw RSException();
-}
-
-void Runesmith::resume()
-{	
-	if(Creatures)
-		Creatures->Finish();
-
-	DF->Resume();		
-}
-
 void Runesmith::dwarfSelected(const QModelIndex& index)
 {
-	sTM->setCreature(DF,dTM->getCreatureP(index.row()));
-}
-
-void Runesmith::creatureSelected(const QModelIndex& index)
-{
-	csTM->setCreature(DF,cTM->getCreatureP(index.row()));	
-}
-
-bool Runesmith::isContextValid()
-{
-	DFHack::BadContexts inval;
-	DFMgr->Refresh(&inval);
-	return !inval.Contains(DF);
+	sTM->setCreature(DFI, DFI->getDwarf(index.row()));
 }

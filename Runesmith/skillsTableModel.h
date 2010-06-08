@@ -2,7 +2,7 @@
 #define SKILLSTV_H
 
 #include <QAbstractTableModel>
-#include <DFHack.h>
+#include "DFInterface.h"
 #define STM_COL_COUNT 2
 
 class skillsTableModel : public QAbstractTableModel
@@ -18,11 +18,12 @@ public:
 	QVariant headerData(int section,
 		Qt::Orientation orientation,
 		int role = Qt::DisplayRole) const;
-	void setCreature(DFHack::Context *DF, const DFHack::t_creature *nCreature);
+	void setCreature(DFInterface *nDFI, const DFHack::t_creature *nCreature);
+	void clear();
 
 private:
 	const DFHack::t_creature *creature;
-	DFHack::memory_info *mem;
+	DFInterface *DFI;
 };
 
 #endif

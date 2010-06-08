@@ -9,29 +9,24 @@ creatureTableModel::~creatureTableModel(void)
 {
 }
 
-void creatureTableModel::update(const int &numCreatures)
+int creatureTableModel::rowCount(const QModelIndex &parent) const
 {
-	if(attached)
-	{
-		creatures.clear();
+	if(!DFI)
+		return 0;
 
-		for(int i=0; i<numCreatures; i++)
-		{
-			DFHack::t_creature temp;
-			Creatures->ReadCreature(i,temp);			
-			creatures.push_back(temp);
-		}
-		
-		reset();
-		emit dataChanged(QAbstractItemModel::createIndex(0, 0),
-			QAbstractItemModel::createIndex(colCount, creatures.size()));
-	}
+	std::vector<DFHack::t_creature>& creatures = DFI->getCreatures();
+	return creatures.size();
 }
 
 QVariant creatureTableModel::data(const QModelIndex &index, int role) const
 {
-	if(!attached)
+	if(!DFI)
 		return QVariant();
+
+	if(!DFI->isAttached())
+		return QVariant();
+	
+	std::vector<DFHack::t_creature>& creatures = DFI->getCreatures();
 
 	if((index.row() >= creatures.size()) || (role != Qt::DisplayRole))
 		return QVariant();
@@ -41,16 +36,16 @@ QVariant creatureTableModel::data(const QModelIndex &index, int role) const
 	switch(index.column())
 	{
 	case 0:
-		return QString(Materials->raceEx[creatures[index.row()].race].rawname);
+		return QString(DFI->translateRace(creatures[index.row()].race));
+
 	case 1:		
 		transName = creatures[index.row()].name.first_name;
 		transName.append(" ");
-		transName.append(Tran->TranslateName
-			(creatures[index.row()].name, false).c_str());
+		transName.append(DFI->translateName(creatures[index.row()].name));
 		return transName;
-	
+
 	case 2:
-		return QString(mem->getProfession(creatures[index.row()].profession).c_str());
+		return QString(DFI->translateProfession(creatures[index.row()].profession));
 
 	case 3:
 		return QString(QString::number(creatures[index.row()].happiness));

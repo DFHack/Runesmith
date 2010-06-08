@@ -2,7 +2,7 @@
 #define RUNESMITH_H
 
 #include <QtGui/QMainWindow>
-#include <DFHack.h>
+#include "DFInterface.H"
 #include "ui_runesmith.h"
 #include "dwarfTableModel.h"
 #include "skillsTableModel.h"
@@ -23,12 +23,6 @@ public slots:
 	void update();
 	void aboutSlot();
 	void dwarfSelected(const QModelIndex& index);
-	void creatureSelected(const QModelIndex& index);
-
-private:
-	void suspend();
-	void resume();
-	bool isContextValid();
 
 private:
 	Ui::RunesmithClass ui;
@@ -38,12 +32,7 @@ private:
 	creatureTableModel *cTM;
 	skillsTableModel *csTM;
 
-	DFHack::ContextManager *DFMgr;
-    DFHack::Context *DF;
-	DFHack::Materials *Materials;
-	DFHack::Translation *Tran;
-	DFHack::Creatures *Creatures;
-	uint32_t numCreatures;
+	DFInterface *DFI;
 };
 
 #endif // RUNESMITH_H

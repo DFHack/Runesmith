@@ -2,19 +2,21 @@
 #include "dwarfTableModel.h"
 
 dwarfTableModel::dwarfTableModel(QObject *parent, int nCols) 
-	: QAbstractTableModel(parent), attached(false), DF(NULL), Creatures(NULL),
-	Tran(NULL), Materials(NULL), colCount(nCols)
+	: QAbstractTableModel(parent), colCount(nCols), DFI(NULL)
 {	
 }
 
 dwarfTableModel::~dwarfTableModel(void)
 {
-	creatures.clear();
 }
 
 int dwarfTableModel::rowCount(const QModelIndex &parent) const
 {
-	return creatures.size();
+	if(!DFI)
+		return 0;
+
+	std::vector<DFHack::t_creature>& dwarves = DFI->getDwarves();
+	return dwarves.size();
 }
 
 int dwarfTableModel::columnCount(const QModelIndex &parent) const
@@ -24,10 +26,15 @@ int dwarfTableModel::columnCount(const QModelIndex &parent) const
 
 QVariant dwarfTableModel::data(const QModelIndex &index, int role) const
 {
-	if(!attached)
+	if(!DFI)
 		return QVariant();
 
-	if((index.row() >= creatures.size()) || (role != Qt::DisplayRole))
+	if(!DFI->isAttached())
+		return QVariant();
+	
+	std::vector<DFHack::t_creature>& dwarves = DFI->getDwarves();
+
+	if((index.row() >= dwarves.size()) || (role != Qt::DisplayRole))
 		return QVariant();
 	
 	QString transName;
@@ -35,21 +42,20 @@ QVariant dwarfTableModel::data(const QModelIndex &index, int role) const
 	switch(index.column())
 	{
 	case 0:		
-		transName = creatures[index.row()].name.first_name;
+		transName = dwarves[index.row()].name.first_name;
 		transName.append(" ");
-		transName.append(Tran->TranslateName
-			(creatures[index.row()].name, false).c_str());
+		transName.append(DFI->translateName(dwarves[index.row()].name));
 		return transName;
-	
+
 	case 1:
-		return QString(mem->getProfession(creatures[index.row()].profession).c_str());
+		return QString(DFI->translateProfession(dwarves[index.row()].profession));
 
 	case 2:
-		return QString(QString::number(creatures[index.row()].happiness));
+		return QString(QString::number(dwarves[index.row()].happiness));
 
 	case 3:
 		//TODO make this general status instead of just mood
-		switch(creatures[index.row()].mood)
+		switch(dwarves[index.row()].mood)
 		{
 		case -1:
 			return QVariant();
@@ -104,52 +110,10 @@ QVariant dwarfTableModel::headerData
 		return QVariant();
 }
 
-void dwarfTableModel::update(const int &numCreatures)
+void dwarfTableModel::update(DFInterface *nDFI)
 {
-	if(attached)
-	{
-		creatures.clear();
-
-		for(int i=0; i<numCreatures; i++)
-		{
-			DFHack::t_creature temp;
-			Creatures->ReadCreature(i,temp);
-
-			if(std::string(Materials->raceEx[temp.race].rawname) == "DWARF")
-			{
-				creatures.push_back(temp);
-			}
-		}
-		
-		reset();
-		emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
-			QAbstractItemModel::createIndex(colCount, creatures.size()));
-	}
-}
-
-void dwarfTableModel::attach(DFHack::Context *nDF)
-{
-	if(nDF)
-	{
-		DF = nDF;
-		attached = true;
-		Creatures = DF->getCreatures();
-		Materials = DF->getMaterials();
-		Tran = DF->getTranslation();
-		mem = DF->getMemoryInfo();
-	}
-}
-
-void dwarfTableModel::detatch()
-{
-	creatures.clear();
-	attached = false;
+	DFI = nDFI;
 	reset();
 	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
-		QAbstractItemModel::createIndex(colCount, creatures.size()));
-}
-
-const DFHack::t_creature* dwarfTableModel::getCreatureP(int id)
-{
-	return &creatures[id];	
+		QAbstractItemModel::createIndex(colCount, rowCount()));
 }

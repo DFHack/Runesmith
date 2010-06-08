@@ -1,7 +1,7 @@
 #include "skillsTableModel.h"
 
 skillsTableModel::skillsTableModel(QObject *parent) 
-	: QAbstractTableModel(parent), creature(NULL), mem(NULL)
+	: QAbstractTableModel(parent), creature(NULL)
 {
 }
 
@@ -26,14 +26,13 @@ int skillsTableModel::columnCount(const QModelIndex &parent) const
 
 QVariant skillsTableModel::data(const QModelIndex &index, int role) const
 {
-	if((!creature) || (!mem) || (role != Qt::DisplayRole))
+	if((!creature) || (!DFI) || (role != Qt::DisplayRole))
 		return QVariant();	
 	
 	switch(index.column())
 	{
 	case 0:
-		return QString(
-			mem->getSkill(creature->defaultSoul.skills[index.row()].id).c_str());
+		return DFI->translateSkill(creature->defaultSoul.skills[index.row()].id);
 	case 1:
 		return QString(
 			QString::number(creature->defaultSoul.skills[index.row()].rating));
@@ -68,20 +67,27 @@ QVariant skillsTableModel::headerData(int section,
 		return QVariant();
 }
 
-void skillsTableModel::setCreature(DFHack::Context *DF,
+void skillsTableModel::setCreature(DFInterface *nDFI,
 								   const DFHack::t_creature *nCreature)
 {
-	if(DF)
-		mem = DF->getMemoryInfo();
-	else
-		return;
-
+	DFI = nDFI;
+	
 	if(nCreature)
 		creature = nCreature;
 	else
 		return;
+
 	reset();
 	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
 			QAbstractItemModel::createIndex(
 			STM_COL_COUNT, creature->defaultSoul.numSkills));
+}
+
+void skillsTableModel::clear()
+{
+	creature = NULL;
+	reset();
+	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
+			QAbstractItemModel::createIndex(
+			STM_COL_COUNT, 0));	
 }
