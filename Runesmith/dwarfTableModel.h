@@ -15,7 +15,8 @@ public:
 	int rowCount(const QModelIndex &parent = QModelIndex()) const;
 	int columnCount(const QModelIndex &parent = QModelIndex()) const;
 	virtual QVariant data(const QModelIndex &index, int role) const;
-	virtual QVariant headerData(int section, Qt::Orientation orientation,
+	virtual QVariant headerData(int section,
+		Qt::Orientation orientation,
 		int role = Qt::DisplayRole) const;
 	void attach(DFHack::Context *nDF);
 	void detatch();

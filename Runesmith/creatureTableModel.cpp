@@ -23,7 +23,7 @@ void creatureTableModel::update(const int &numCreatures)
 		}
 		
 		reset();
-		emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
+		emit dataChanged(QAbstractItemModel::createIndex(0, 0),
 			QAbstractItemModel::createIndex(colCount, creatures.size()));
 	}
 }
@@ -82,8 +82,9 @@ QVariant creatureTableModel::data(const QModelIndex &index, int role) const
 	}
 }
 
-QVariant creatureTableModel::headerData
-	(int section, Qt::Orientation orientation,int role) const
+QVariant creatureTableModel::headerData(int section,
+										Qt::Orientation orientation,
+										int role) const
 {
 	if (role != Qt::DisplayRole)
 		return QVariant();

@@ -1,17 +1,31 @@
- #include <QMessageBox>
+#include <QMessageBox>
+#include <QFile>
+#include <QXmlInputSource>
+#include <QXmlSimpleReader>
+#include <DFHack.h>
 #include "runesmith.h"
 #include "rsException.h"
 #include "about.h"
 #include "progBarDelegate.h"
+#include "levelParse.h"
 
 Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
-	: QMainWindow(parent, flags), dTM(NULL), Creatures(NULL), Tran(NULL),
-	attached(false), numCreatures(0)
+: QMainWindow(parent, flags), dTM(NULL), Creatures(NULL), Tran(NULL),
+numCreatures(0), DF(NULL), DFMgr(NULL)
 {
 	ui.setupUi(this);	
 	//progBarDelegate *tempdeli = new progBarDelegate(this);
 	//ui.dwarvesTV->setItemDelegateForColumn(2, tempdeli);
-	
+
+	/*
+	QFile xmlFile("experience.xml");
+	QXmlInputSource source(&xmlFile);
+	levelParse handler; 
+	QXmlSimpleReader reader;
+	reader.setContentHandler(&handler);
+	reader.parse(source);
+	*/
+
 	if(!(dTM = new dwarfTableModel(this)))
 		throw RSException();
 
@@ -23,7 +37,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 
 	if(!(csTM = new skillsTableModel(this)))
 		throw RSException();
-	
+
 	ui.dwarvesTV->setModel(dTM);		
 	ui.skillsTV->setModel(sTM);
 	ui.creaturesTV->setModel(cTM);
@@ -39,18 +53,18 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 		SLOT(dwarfSelected(const QModelIndex&)));
 	QApplication::connect(ui.creaturesTV, SIGNAL(clicked(const QModelIndex&)), this,
 		SLOT(creatureSelected(const QModelIndex&)));
-	
-	try
-    {
-		DFMgr = new DFHack::ContextManager("Memory.xml");
-		DF = DFMgr->getSingleContext();       
-    }
-	catch (std::exception& e)
-    {
-        throw;
-    }
 
-	attach();
+	try
+	{
+		DFMgr = new DFHack::ContextManager("Memory.xml");
+		attach();   
+	}
+	catch (std::exception& e)
+	{
+		QMessageBox msgBox(QMessageBox::Critical,
+			"Error!", e.what(), QMessageBox::Ok, this);			
+		msgBox.exec();
+	}	
 }
 
 Runesmith::~Runesmith()
@@ -76,55 +90,87 @@ void Runesmith::close()
 
 void Runesmith::attach()
 {
-	if(!attached)
+	if(!DF)
 	{
 		try
 		{
-			DF->Attach();
+			DF = DFMgr->getSingleContext(); 
 		}
-		catch(std::exception &e)
+		catch (std::exception& e)
 		{
-			QMessageBox msgBox(
-				QMessageBox::Critical, "Error!", e.what(), QMessageBox::Ok, this);			
+			QMessageBox msgBox(QMessageBox::Critical,
+				"Error!", e.what(), QMessageBox::Ok, this);			
 			msgBox.exec();
 			return;
 		}
+	}
 
-		Creatures = DF->getCreatures();
-		Materials = DF->getMaterials();
-		Tran = DF->getTranslation();
-		suspend();	
-		dTM->attach(DF);
-		cTM->attach(DF);
-		dTM->update(numCreatures);	
-		cTM->update(numCreatures);
-		attached = true;
-		resume();
+	if(DF)
+	{
+		if(isContextValid())
+		{
+
+			try
+			{
+				DF->Attach();
+			}
+			catch (std::exception& e)
+			{
+				QMessageBox msgBox(QMessageBox::Critical,
+					"Error!", e.what(), QMessageBox::Ok, this);			
+				msgBox.exec();
+			}	
+
+			Creatures = DF->getCreatures();
+			Materials = DF->getMaterials();
+			Tran = DF->getTranslation();
+			suspend();	
+			dTM->attach(DF);
+			cTM->attach(DF);
+			dTM->update(numCreatures);	
+			cTM->update(numCreatures);
+			resume();
+		}
 	}	
 }
 
 void Runesmith::detatch()
 {
-	if(attached)
+	if(DF)
 	{
-		dTM->detatch();
-		cTM->detatch();
-		suspend();
-		DF->Detach();
-		attached = false;
-		numCreatures = 0;
+		if(isContextValid())
+		{
+			if(DF->isAttached())
+			{
+				dTM->detatch();
+				cTM->detatch();
+				suspend();
+				DF->Detach();
+				numCreatures = 0;
+			}
+		}
 	}
 }
 
 void Runesmith::update()
 {
-	if(attached)
+	if(DF)
 	{
-		suspend();
-		dTM->update(numCreatures);
-		cTM->update(numCreatures);
-		resume();
+		if(isContextValid())
+		{
+			if(DF->isAttached())
+			{
+				suspend();
+				dTM->update(numCreatures);
+				cTM->update(numCreatures);
+				resume();
+				return;
+			}
+		}
 	}
+
+	dTM->detatch();
+	cTM->detatch();
 }
 
 void Runesmith::aboutSlot()
@@ -162,10 +208,16 @@ void Runesmith::resume()
 void Runesmith::dwarfSelected(const QModelIndex& index)
 {
 	sTM->setCreature(DF,dTM->getCreatureP(index.row()));
-	
 }
 
 void Runesmith::creatureSelected(const QModelIndex& index)
 {
 	csTM->setCreature(DF,cTM->getCreatureP(index.row()));	
+}
+
+bool Runesmith::isContextValid()
+{
+	DFHack::BadContexts inval;
+	DFMgr->Refresh(&inval);
+	return !inval.Contains(DF);
 }

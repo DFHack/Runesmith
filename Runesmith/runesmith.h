@@ -28,6 +28,7 @@ public slots:
 private:
 	void suspend();
 	void resume();
+	bool isContextValid();
 
 private:
 	Ui::RunesmithClass ui;
@@ -43,7 +44,6 @@ private:
 	DFHack::Translation *Tran;
 	DFHack::Creatures *Creatures;
 	uint32_t numCreatures;
-	bool attached;
 };
 
 #endif // RUNESMITH_H

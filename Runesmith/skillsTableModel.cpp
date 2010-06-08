@@ -43,8 +43,9 @@ QVariant skillsTableModel::data(const QModelIndex &index, int role) const
 	}
 }
 
-QVariant skillsTableModel::headerData(int section, Qt::Orientation orientation,
-		int role) const
+QVariant skillsTableModel::headerData(int section,
+									  Qt::Orientation orientation,
+									  int role) const
 {
 	if (role != Qt::DisplayRole)
 		return QVariant();
@@ -67,8 +68,8 @@ QVariant skillsTableModel::headerData(int section, Qt::Orientation orientation,
 		return QVariant();
 }
 
-void skillsTableModel::setCreature(
-	DFHack::Context *DF, const DFHack::t_creature *nCreature)
+void skillsTableModel::setCreature(DFHack::Context *DF,
+								   const DFHack::t_creature *nCreature)
 {
 	if(DF)
 		mem = DF->getMemoryInfo();

@@ -11,7 +11,8 @@ public:
 	creatureTableModel(QObject *parent = 0);
 	~creatureTableModel(void);
 	QVariant data(const QModelIndex &index, int role) const;
-	QVariant headerData(int section, Qt::Orientation orientation,
+	QVariant headerData(int section,
+		Qt::Orientation orientation,
 		int role = Qt::DisplayRole) const;
 
 public slots:
