@@ -28,7 +28,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	if(!(dTM = new dwarfTableModel(this)))
 		throw RSException();
 
-	if(!(sTM = new skillsTableModel(this)))
+	if(!(dsTM = new skillsTableModel(this)))
 		throw RSException();
 
 	if(!(cTM = new creatureTableModel(this)))
@@ -37,10 +37,18 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	if(!(csTM = new skillsTableModel(this)))
 		throw RSException();
 
+	if(!(daTM = new attrTableModel(this)))
+		throw RSException();
+
+	if(!(caTM = new attrTableModel(this)))
+		throw RSException();
+
 	ui.dwarvesTV->setModel(dTM);		
-	ui.skillsTV->setModel(sTM);
+	ui.skillsTV->setModel(dsTM);
 	ui.creaturesTV->setModel(cTM);
-	ui.cSkillsTV->setModel(csTM); 
+	ui.cSkillsTV->setModel(csTM);
+	ui.cAttrTV->setModel(caTM);
+	ui.dAttrTV->setModel(daTM);
 
 	try
 	{
@@ -71,11 +79,20 @@ Runesmith::~Runesmith()
 	if(dTM)
 		delete dTM;
 
-	if(sTM)
-		delete sTM;
+	if(dsTM)
+		delete dsTM;
 
 	if(cTM)
 		delete cTM;
+
+	if(csTM)
+		delete csTM;
+
+	if(daTM)
+		delete daTM;
+
+	if(caTM)
+		delete caTM;
 
 	if(DFI)
 		delete DFI;
@@ -114,8 +131,7 @@ void Runesmith::detatch()
 	DFI->detatch();
 	dTM->update(DFI);
 	cTM->update(DFI);
-	sTM->clear();
-	csTM->clear();
+	clean();
 }
 
 void Runesmith::update()
@@ -123,8 +139,7 @@ void Runesmith::update()
 	DFI->update();
 	dTM->update(DFI);
 	cTM->update(DFI);	
-	sTM->clear();
-	csTM->clear();
+	clean();
 }
 
 void Runesmith::aboutSlot()
@@ -135,10 +150,20 @@ void Runesmith::aboutSlot()
 
 void Runesmith::dwarfSelected(const QModelIndex& index)
 {
-	sTM->setCreature(DFI, DFI->getDwarf(index.row()));
+	dsTM->setCreature(DFI, DFI->getDwarf(index.row()));
+	daTM->setCreature(DFI, DFI->getDwarf(index.row()));
 }
 
 void Runesmith::creatureSelected(const QModelIndex& index)
 {
-	sTM->setCreature(DFI, DFI->getCreature(index.row()));
+	csTM->setCreature(DFI, DFI->getCreature(index.row()));
+	caTM->setCreature(DFI, DFI->getCreature(index.row()));
+}
+
+void Runesmith::clean()
+{
+	dsTM->clear();
+	csTM->clear();
+	daTM->clear();
+	caTM->clear();
 }

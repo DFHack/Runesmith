@@ -7,7 +7,7 @@ class levelParse : public QXmlDefaultHandler
 {
 public:
 	levelParse(void);
-	~levelParse(void);
+	virtual ~levelParse(void);
 	bool startDocument();
 	bool endDocument();
 	bool startElement(const QString & namespaceURI,

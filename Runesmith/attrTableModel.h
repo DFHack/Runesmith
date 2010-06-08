@@ -1,15 +1,16 @@
-#ifndef CREATURETABLEMODEL_H
-#define CREATURETABLEMODEL_H
+#ifndef ATTRTM_H
+#define ATTRTM_H
 
-#include "dwarfTableModel.h"
+#include "skillsTableModel.h"
+#define NUM_ATTRS 18
 
-class creatureTableModel : public dwarfTableModel
+class attrTableModel : public skillsTableModel
 {
 	Q_OBJECT
 
 public:
-	creatureTableModel(QObject *parent = 0);
-	virtual ~creatureTableModel(void);
+	attrTableModel(QObject *parent);
+	virtual ~attrTableModel(void);
 	int rowCount(const QModelIndex &parent = QModelIndex()) const;
 	QVariant data(const QModelIndex &index, int role) const;
 	QVariant headerData(int section,

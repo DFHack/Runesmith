@@ -1,5 +1,5 @@
-#ifndef SKILLSTV_H
-#define SKILLSTV_H
+#ifndef SKILLSTM_H
+#define SKILLSTM_H
 
 #include <QAbstractTableModel>
 #include "DFInterface.h"
@@ -11,7 +11,7 @@ class skillsTableModel : public QAbstractTableModel
 
 public:
 	skillsTableModel(QObject *parent = 0);
-	~skillsTableModel(void);
+	virtual ~skillsTableModel(void);
 	int rowCount(const QModelIndex &parent = QModelIndex()) const;
 	int columnCount(const QModelIndex &parent = QModelIndex()) const;
 	QVariant data(const QModelIndex &index, int role) const;
@@ -21,7 +21,7 @@ public:
 	void setCreature(DFInterface *nDFI, const DFHack::t_creature *nCreature);
 	void clear();
 
-private:
+protected:
 	const DFHack::t_creature *creature;
 	DFInterface *DFI;
 };

@@ -10,7 +10,7 @@ class progBarDelegate : public QStyledItemDelegate
 
 public:
 	progBarDelegate(QObject  *parent = 0);
-	~progBarDelegate(void);
+	virtual ~progBarDelegate(void);
 	void paint(QPainter * painter, const QStyleOptionViewItem  & option, const QModelIndex & index) const;
 };
 

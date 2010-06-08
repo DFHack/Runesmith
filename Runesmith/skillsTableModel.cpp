@@ -80,7 +80,7 @@ void skillsTableModel::setCreature(DFInterface *nDFI,
 	reset();
 	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
 			QAbstractItemModel::createIndex(
-			STM_COL_COUNT, creature->defaultSoul.numSkills));
+			STM_COL_COUNT, rowCount()));
 }
 
 void skillsTableModel::clear()
@@ -89,5 +89,5 @@ void skillsTableModel::clear()
 	reset();
 	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
 			QAbstractItemModel::createIndex(
-			STM_COL_COUNT, 0));	
+			STM_COL_COUNT, rowCount()));	
 }

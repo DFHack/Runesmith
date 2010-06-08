@@ -7,6 +7,7 @@
 #include "dwarfTableModel.h"
 #include "skillsTableModel.h"
 #include "creatureTableModel.h"
+#include "attrTableModel.h"
 
 class Runesmith : public QMainWindow
 {
@@ -14,7 +15,7 @@ class Runesmith : public QMainWindow
 
 public:
 	Runesmith(QWidget *parent = 0, Qt::WFlags flags = 0);
-	~Runesmith();
+	virtual ~Runesmith();
 
 public slots:
 	void attach();
@@ -26,12 +27,16 @@ public slots:
 	void creatureSelected(const QModelIndex& index);
 
 private:
+	void clean();
+
 	Ui::RunesmithClass ui;
 
 	dwarfTableModel *dTM;
-	skillsTableModel *sTM;
+	skillsTableModel *dsTM;
 	creatureTableModel *cTM;
 	skillsTableModel *csTM;
+	attrTableModel *daTM;
+	attrTableModel *caTM;
 
 	DFInterface *DFI;
 };
