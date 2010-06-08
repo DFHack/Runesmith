@@ -42,7 +42,6 @@ bool DFInterface::isContextValid()
 	}
 	else
 		return true;
-	
 }
 
 bool DFInterface::attach()
@@ -105,6 +104,12 @@ void DFInterface::update()
 			process();
 			resume();
 		}
+	}
+	else
+	{
+		numCreatures = 0;
+		creatures.clear();
+		dwarves.clear();
 	}
 }
 

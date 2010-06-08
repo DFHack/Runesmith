@@ -96,8 +96,11 @@ void Runesmith::attach()
 	}
 	catch(std::exception &e)
 	{
+		QString temp(e.what()[0]);
+		temp = temp.toUpper();
+		temp.append(e.what()+1);		
 		QMessageBox msgBox(QMessageBox::Critical,
-			"Error!", e.what(), QMessageBox::Ok, this);			
+			"Error!", temp, QMessageBox::Ok, this);			
 		msgBox.exec();
 		return;
 	}
@@ -118,7 +121,8 @@ void Runesmith::update()
 {
 	DFI->update();
 	dTM->update(DFI);
-	cTM->update(DFI);				
+	cTM->update(DFI);	
+	sTM->clear();
 }
 
 void Runesmith::aboutSlot()
