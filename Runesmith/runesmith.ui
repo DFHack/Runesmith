@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>901</width>
-    <height>537</height>
+    <width>970</width>
+    <height>590</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -35,7 +35,7 @@
          <widget class="QTableView" name="dwarvesTV">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>2</horstretch>
+            <horstretch>3</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
@@ -75,7 +75,7 @@
          <widget class="QTabWidget" name="tabWidget_2">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>1</horstretch>
+            <horstretch>2</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
@@ -108,13 +108,13 @@
                <enum>QAbstractItemView::SelectRows</enum>
               </property>
               <property name="horizontalScrollMode">
-               <enum>QAbstractItemView::ScrollPerItem</enum>
+               <enum>QAbstractItemView::ScrollPerPixel</enum>
               </property>
               <attribute name="horizontalHeaderCascadingSectionResizes">
                <bool>false</bool>
               </attribute>
               <attribute name="horizontalHeaderDefaultSectionSize">
-               <number>100</number>
+               <number>110</number>
               </attribute>
               <attribute name="horizontalHeaderMinimumSectionSize">
                <number>10</number>
@@ -138,7 +138,7 @@
                <number>10</number>
               </attribute>
               <attribute name="horizontalHeaderDefaultSectionSize">
-               <number>100</number>
+               <number>110</number>
               </attribute>
              </widget>
             </item>
@@ -157,6 +157,15 @@
               <property name="selectionBehavior">
                <enum>QAbstractItemView::SelectRows</enum>
               </property>
+              <property name="horizontalScrollMode">
+               <enum>QAbstractItemView::ScrollPerPixel</enum>
+              </property>
+              <attribute name="horizontalHeaderDefaultSectionSize">
+               <number>110</number>
+              </attribute>
+              <attribute name="horizontalHeaderDefaultSectionSize">
+               <number>110</number>
+              </attribute>
              </widget>
             </item>
            </layout>
@@ -174,7 +183,7 @@
          <widget class="QTableView" name="creaturesTV">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>2</horstretch>
+            <horstretch>3</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
@@ -196,7 +205,7 @@
          <widget class="QTabWidget" name="tabWidget_3">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-            <horstretch>1</horstretch>
+            <horstretch>2</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
@@ -216,6 +225,15 @@
               <property name="selectionBehavior">
                <enum>QAbstractItemView::SelectRows</enum>
               </property>
+              <property name="horizontalScrollMode">
+               <enum>QAbstractItemView::ScrollPerPixel</enum>
+              </property>
+              <attribute name="horizontalHeaderDefaultSectionSize">
+               <number>110</number>
+              </attribute>
+              <attribute name="horizontalHeaderDefaultSectionSize">
+               <number>110</number>
+              </attribute>
              </widget>
             </item>
            </layout>
@@ -233,6 +251,15 @@
               <property name="selectionBehavior">
                <enum>QAbstractItemView::SelectRows</enum>
               </property>
+              <property name="horizontalScrollMode">
+               <enum>QAbstractItemView::ScrollPerPixel</enum>
+              </property>
+              <attribute name="horizontalHeaderDefaultSectionSize">
+               <number>110</number>
+              </attribute>
+              <attribute name="horizontalHeaderDefaultSectionSize">
+               <number>110</number>
+              </attribute>
              </widget>
             </item>
            </layout>
@@ -250,7 +277,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>901</width>
+     <width>970</width>
      <height>21</height>
     </rect>
    </property>

@@ -233,3 +233,51 @@ QString DFInterface::translateRace(const uint32_t race)
 	else
 		return "";
 }
+
+uint32_t DFInterface::getRacialAverage(uint32_t race, uint32_t caste, RacialStat stat)
+{
+	if(isAttached())
+	{
+		switch(stat)
+		{
+		case STRENGTH_STAT:
+			return Materials->raceEx[race].castes[caste].strength.level;
+		case AGILITY_STAT:
+			return Materials->raceEx[race].castes[caste].agility.level;
+		case TOUGHNESS_STAT:
+			return Materials->raceEx[race].castes[caste].toughness.level;
+		case ENDURANCE_STAT:
+			return Materials->raceEx[race].castes[caste].endurance.level;
+		case RECUPERATION_STAT:
+			return Materials->raceEx[race].castes[caste].recuperation.level;
+		case DISEASE_RESISTANCE_STAT:
+			return Materials->raceEx[race].castes[caste].disease_resistance.level;
+		case WILLPOWER_STAT:
+			return Materials->raceEx[race].castes[caste].willpower.level;
+		case MEMORY_STAT:
+			return Materials->raceEx[race].castes[caste].memory.level;
+		case FOCUS_STAT:
+			return Materials->raceEx[race].castes[caste].focus.level;
+		case INTUITION_STAT:
+			return Materials->raceEx[race].castes[caste].intuition.level;
+		case PATIENCE_STAT:
+			return Materials->raceEx[race].castes[caste].patience.level;
+		case CREATVITY_STAT:
+			return Materials->raceEx[race].castes[caste].creativity.level;
+		case MUSICALITY_STAT:
+			return Materials->raceEx[race].castes[caste].musicality.level;
+		case ANALYTICAL_ABILITY_STAT:
+			return Materials->raceEx[race].castes[caste].analytical_ability.level;
+		case LINGUISTIC_ABILITY_STAT:
+			return Materials->raceEx[race].castes[caste].linguistic_ability.level;
+		case SPATIAL_SENSE_STAT:
+			return Materials->raceEx[race].castes[caste].spatial_sense.level;
+		case KINESTHETIC_SENSE_STAT:
+			return Materials->raceEx[race].castes[caste].kinesthetic_sense.level;
+		default: 
+			return 0;
+		}
+	}
+	else
+		return 0;
+}

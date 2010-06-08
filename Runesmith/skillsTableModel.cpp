@@ -33,9 +33,14 @@ QVariant skillsTableModel::data(const QModelIndex &index, int role) const
 	{
 	case 0:
 		return DFI->translateSkill(creature->defaultSoul.skills[index.row()].id);
+
 	case 1:
 		return QString(
 			QString::number(creature->defaultSoul.skills[index.row()].rating));
+
+	case 2:
+		return QString(
+			QString::number(creature->defaultSoul.skills[index.row()].experience));
 
 	default:
 		return QVariant();
@@ -58,6 +63,9 @@ QVariant skillsTableModel::headerData(int section,
 
 		case 1:
 			return QString("Rating");
+
+		case 2:
+			return QString("Progress");
 
 		default:
 			return QVariant();

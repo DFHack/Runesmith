@@ -3,7 +3,7 @@
 
 #include <QAbstractTableModel>
 #include "DFInterface.h"
-#define STM_COL_COUNT 2
+#define STM_COL_COUNT 3
 
 class skillsTableModel : public QAbstractTableModel
 {

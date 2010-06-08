@@ -2,7 +2,7 @@
 #define ATTRTM_H
 
 #include "skillsTableModel.h"
-#define NUM_ATTRS 18
+#define NUM_ATTRS 16
 
 class attrTableModel : public skillsTableModel
 {

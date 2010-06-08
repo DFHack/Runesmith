@@ -4,6 +4,27 @@
 #include <QString>
 #include <DFHack.h>
 
+enum RacialStat
+{
+	STRENGTH_STAT,
+	AGILITY_STAT,
+	TOUGHNESS_STAT,
+	ENDURANCE_STAT,
+	RECUPERATION_STAT,
+	DISEASE_RESISTANCE_STAT,
+	WILLPOWER_STAT,
+	MEMORY_STAT,
+	FOCUS_STAT,
+	INTUITION_STAT,
+	PATIENCE_STAT,
+	CREATVITY_STAT,
+	MUSICALITY_STAT,
+	ANALYTICAL_ABILITY_STAT,
+	LINGUISTIC_ABILITY_STAT,
+	SPATIAL_SENSE_STAT,
+	KINESTHETIC_SENSE_STAT
+};
+
 class DFInterface
 {
 public:
@@ -22,6 +43,7 @@ public:
 	QString translateSkill(const uint32_t skill);
 	QString translateProfession(const uint32_t prof);
 	QString translateRace(const uint32_t race);
+	uint32_t getRacialAverage(uint32_t race, uint32_t caste, RacialStat stat);
 
 private:
 	bool isContextValid();

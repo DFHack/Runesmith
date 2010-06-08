@@ -6,15 +6,13 @@
 #include "runesmith.h"
 #include "rsException.h"
 #include "about.h"
-#include "progBarDelegate.h"
 #include "levelParse.h"
 
 Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 : QMainWindow(parent, flags), dTM(NULL), DFI(NULL)
 {
-	ui.setupUi(this);	
-	//progBarDelegate *tempdeli = new progBarDelegate(this);
-	//ui.dwarvesTV->setItemDelegateForColumn(2, tempdeli);
+	ui.setupUi(this);
+	ui.skillsTV->setItemDelegateForColumn(2, &skillProgDele);
 
 	/*
 	QFile xmlFile("experience.xml");
