@@ -65,7 +65,7 @@ QVariant skillsTableModel::headerData(int section,
 			return QString("Rating");
 
 		case 2:
-			return QString("Progress");
+			return QString("Progress (XP)");
 
 		default:
 			return QVariant();

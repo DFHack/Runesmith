@@ -19,6 +19,8 @@ public:
 		const QString & localName,
 		const QString & qName );
 
+private:
+
 };
 
 #endif

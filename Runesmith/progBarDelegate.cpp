@@ -16,8 +16,8 @@ void progBarDelegate::paint(QPainter * painter, const QStyleOptionViewItem  & op
 	opt.rect = option.rect;
 	opt.minimum = 0;
 	opt.maximum = ATTR_MAX;
-	opt.progress = (index.data().toFloat()/ATTR_MAX)*100;
-	opt.text = QString("%1%").arg((index.data().toFloat()/ATTR_MAX)*100);
+	opt.progress = (index.data().toInt()*100)/ATTR_MAX;
+	opt.text = QString("%1%").arg((index.data().toInt()*100)/ATTR_MAX);
 	opt.textVisible = true;
 	QApplication::style()->drawControl(QStyle::CE_ProgressBar, &opt, painter, (QWidget*)parent());
 }

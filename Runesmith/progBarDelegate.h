@@ -2,7 +2,7 @@
 #define PROGBARDELEGATE_H
 
 #include <QStyledItemDelegate>
-#define ATTR_MAX 5000
+#define ATTR_MAX 500
 
 class progBarDelegate : public QStyledItemDelegate
 {

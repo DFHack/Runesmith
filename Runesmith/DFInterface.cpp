@@ -1,5 +1,6 @@
 #include "DFInterface.h"
 #include "rsException.h"
+#include "levelParse.h"
 
 DFInterface::DFInterface(void) : DF(NULL),
 	DFMgr(NULL), Materials(NULL), Tran(NULL), Creatures(NULL), mem(NULL)
@@ -11,7 +12,14 @@ DFInterface::DFInterface(void) : DF(NULL),
 	catch (std::exception& e)
 	{
 		throw;
-	}	
+	}
+
+/*	QFile xmlFile("experience.xml");
+	QXmlInputSource source(&xmlFile);
+	levelParse handler; 
+	QXmlSimpleReader reader;
+	reader.setContentHandler(&handler);
+	reader.parse(source);*/
 }
 
 DFInterface::~DFInterface(void)

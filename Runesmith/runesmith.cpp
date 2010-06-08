@@ -6,22 +6,12 @@
 #include "runesmith.h"
 #include "rsException.h"
 #include "about.h"
-#include "levelParse.h"
 
 Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
-: QMainWindow(parent, flags), dTM(NULL), DFI(NULL)
+: QMainWindow(parent, flags), DFI(NULL)
 {
 	ui.setupUi(this);
-	ui.skillsTV->setItemDelegateForColumn(2, &skillProgDele);
-
-	/*
-	QFile xmlFile("experience.xml");
-	QXmlInputSource source(&xmlFile);
-	levelParse handler; 
-	QXmlSimpleReader reader;
-	reader.setContentHandler(&handler);
-	reader.parse(source);
-	*/
+	ui.skillsTV->setItemDelegateForColumn(2, &skillProgDele);	
 
 	if(!(dTM = new dwarfTableModel(this)))
 		throw RSException();
