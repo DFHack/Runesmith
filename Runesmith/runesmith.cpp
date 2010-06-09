@@ -37,6 +37,11 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	ui.cSkillsTV->setModel(csTM);
 	ui.cAttrTV->setModel(caTM);
 	ui.dAttrTV->setModel(daTM);
+	//this wasn't working correctly in the designer...
+	ui.skillsTV->horizontalHeader()->setResizeMode(STM_COL_COUNT-1, QHeaderView::Stretch);
+	ui.cSkillsTV->horizontalHeader()->setResizeMode(STM_COL_COUNT-1, QHeaderView::Stretch);
+	ui.cAttrTV->horizontalHeader()->setResizeMode(STM_COL_COUNT-1, QHeaderView::Stretch);
+	ui.dAttrTV->horizontalHeader()->setResizeMode(STM_COL_COUNT-1, QHeaderView::Stretch);
 
 	try
 	{
