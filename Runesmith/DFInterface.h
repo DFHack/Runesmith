@@ -44,6 +44,7 @@ public:
 	QString translateProfession(const uint32_t prof);
 	QString translateRace(const uint32_t race);
 	uint32_t getRacialAverage(uint32_t race, uint32_t caste, RacialStat stat);
+	DFHack::t_level getLevelInfo(uint32_t level);
 
 private:
 	bool isContextValid();

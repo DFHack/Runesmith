@@ -1,6 +1,5 @@
 #include "DFInterface.h"
 #include "rsException.h"
-#include "levelParse.h"
 
 DFInterface::DFInterface(void) : DF(NULL),
 	DFMgr(NULL), Materials(NULL), Tran(NULL), Creatures(NULL), mem(NULL)
@@ -13,13 +12,6 @@ DFInterface::DFInterface(void) : DF(NULL),
 	{
 		throw;
 	}
-
-/*	QFile xmlFile("experience.xml");
-	QXmlInputSource source(&xmlFile);
-	levelParse handler; 
-	QXmlSimpleReader reader;
-	reader.setContentHandler(&handler);
-	reader.parse(source);*/
 }
 
 DFInterface::~DFInterface(void)
@@ -288,4 +280,25 @@ uint32_t DFInterface::getRacialAverage(uint32_t race, uint32_t caste, RacialStat
 	}
 	else
 		return 0;
+}
+
+DFHack::t_level DFInterface::getLevelInfo(uint32_t level)
+{
+	if(isAttached())
+	{
+		try
+		{
+			return mem->getLevelInfo(level);
+		}
+		catch(std::exception &e)
+		{
+		}
+	}
+
+	DFHack::t_level tmpLvl;
+	tmpLvl.level = level;
+	tmpLvl.name = "Unknown";
+	tmpLvl.min_xp = 0;
+	tmpLvl.max_xp = 0;
+	return tmpLvl;	
 }

@@ -29,14 +29,23 @@ QVariant skillsTableModel::data(const QModelIndex &index, int role) const
 	if((!creature) || (!DFI) || (role != Qt::DisplayRole))
 		return QVariant();	
 	
+	QString temp;
+
 	switch(index.column())
 	{
 	case 0:
 		return DFI->translateSkill(creature->defaultSoul.skills[index.row()].id);
 
-	case 1:
-		return QString(
-			QString::number(creature->defaultSoul.skills[index.row()].rating));
+	case 1:		
+		temp.append(
+			DFI->getLevelInfo(
+			creature->defaultSoul.skills[index.row()].rating).name.c_str());
+		temp.append(" [");
+		temp.append(
+			QString::number(
+			DFI->getLevelInfo(creature->defaultSoul.skills[index.row()].rating).level));
+		temp.append("]");
+		return temp;
 
 	case 2:
 		return QString(
