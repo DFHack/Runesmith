@@ -29,7 +29,7 @@ QVariant skillsTableModel::data(const QModelIndex &index, int role) const
 	if((!creature) || (!DFI) || (role != Qt::DisplayRole))
 		return QVariant();	
 	
-	QString temp;
+	QString temp;int lo;
 
 	switch(index.column())
 	{
@@ -47,7 +47,7 @@ QVariant skillsTableModel::data(const QModelIndex &index, int role) const
 		temp.append("]");
 		return temp;
 
-	case 2:
+	case 2:		
 		return QString(
 			QString::number(creature->defaultSoul.skills[index.row()].experience));
 
@@ -92,7 +92,10 @@ void skillsTableModel::setCreature(DFInterface *nDFI,
 	if(nCreature)
 		creature = nCreature;
 	else
+	{
+		creature = NULL;
 		return;
+	}
 
 	reset();
 	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 

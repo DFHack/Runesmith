@@ -45,7 +45,8 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 
 	try
 	{
-		DFI = new DFInterface();  
+		DFI = new DFInterface();
+		skillProgDele.setDFI(DFI);
 	}
 	catch (std::exception& e)
 	{
@@ -101,7 +102,10 @@ void Runesmith::attach()
 	try
 	{
 		if(!DFI)
+		{
 			DFI = new DFInterface();
+			skillProgDele.setDFI(DFI);
+		}
 		DFI->attach();
 	}
 	catch(std::exception &e)
@@ -131,7 +135,7 @@ void Runesmith::update()
 {
 	DFI->update();
 	dTM->update(DFI);
-	cTM->update(DFI);	
+	cTM->update(DFI);
 	clean();
 }
 
@@ -143,8 +147,10 @@ void Runesmith::aboutSlot()
 
 void Runesmith::dwarfSelected(const QModelIndex& index)
 {
-	dsTM->setCreature(DFI, DFI->getDwarf(index.row()));
-	daTM->setCreature(DFI, DFI->getDwarf(index.row()));
+	DFHack::t_creature *dwarf = DFI->getDwarf(index.row());
+	dsTM->setCreature(DFI, dwarf);
+	daTM->setCreature(DFI, dwarf);
+	skillProgDele.setCreature(dwarf);
 }
 
 void Runesmith::creatureSelected(const QModelIndex& index)

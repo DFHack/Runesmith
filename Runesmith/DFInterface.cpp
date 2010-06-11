@@ -298,7 +298,6 @@ DFHack::t_level DFInterface::getLevelInfo(uint32_t level)
 	DFHack::t_level tmpLvl;
 	tmpLvl.level = level;
 	tmpLvl.name = "Unknown";
-	tmpLvl.min_xp = 0;
-	tmpLvl.max_xp = 0;
+	tmpLvl.xpNxtLvl = 1;
 	return tmpLvl;	
 }

@@ -183,10 +183,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\levelParse.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\main.cpp"
 				>
 			</File>
@@ -315,10 +311,6 @@
 						Outputs="&quot;.\GeneratedFiles\$(ConfigurationName)\moc_$(InputName).cpp&quot;"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\levelParse.h"
-				>
 			</File>
 			<File
 				RelativePath=".\progBarDelegate.h"
@@ -709,10 +701,6 @@
 				</File>
 			</Filter>
 		</Filter>
-		<File
-			RelativePath=".\experience.xml"
-			>
-		</File>
 		<File
 			RelativePath=".\Runesmith.ico"
 			>
