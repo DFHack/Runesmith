@@ -9,6 +9,7 @@
 #include "creatureTableModel.h"
 #include "attrTableModel.h"
 #include "progBarDelegate.h"
+#include "labTableModel.h"
 
 class Runesmith : public QMainWindow
 {
@@ -32,6 +33,7 @@ private:
 
 	Ui::RunesmithClass ui;
 	progBarDelegate skillProgDele;
+	progBarDelegate cSkillProgDele;
 
 	dwarfTableModel *dTM;
 	skillsTableModel *dsTM;
@@ -39,6 +41,8 @@ private:
 	skillsTableModel *csTM;
 	attrTableModel *daTM;
 	attrTableModel *caTM;
+	labTableModel *dlTM;
+	labTableModel *clTM;
 
 	DFInterface *DFI;
 };

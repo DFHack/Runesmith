@@ -1,8 +1,8 @@
 #include <string>
 #include "dwarfTableModel.h"
 
-dwarfTableModel::dwarfTableModel(QObject *parent, int nCols) 
-	: QAbstractTableModel(parent), colCount(nCols), DFI(NULL)
+dwarfTableModel::dwarfTableModel(QObject *parent, int nColCount) 
+	: QAbstractTableModel(parent), colCount(nColCount), DFI(NULL)
 {	
 }
 

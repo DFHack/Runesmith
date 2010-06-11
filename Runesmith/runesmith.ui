@@ -170,6 +170,16 @@
             </item>
            </layout>
           </widget>
+          <widget class="QWidget" name="dLabTab">
+           <attribute name="title">
+            <string>Labours</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_8">
+            <item row="0" column="0">
+             <widget class="QTableView" name="dLabTV"/>
+            </item>
+           </layout>
+          </widget>
          </widget>
         </item>
        </layout>
@@ -261,6 +271,16 @@
                <number>110</number>
               </attribute>
              </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="cLabTab">
+           <attribute name="title">
+            <string>Labours</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_9">
+            <item row="0" column="0">
+             <widget class="QTableView" name="cLabTV"/>
             </item>
            </layout>
           </widget>

@@ -9,7 +9,7 @@ class dwarfTableModel : public QAbstractTableModel
 	Q_OBJECT
 
 public:
-	dwarfTableModel(QObject *parent = 0, int nCols = 4);
+	dwarfTableModel(QObject *parent = 0, int nColCount = 4);
 	~dwarfTableModel(void);
 	virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
 	int columnCount(const QModelIndex &parent = QModelIndex()) const;

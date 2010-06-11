@@ -3,27 +3,28 @@
 
 #include <QAbstractTableModel>
 #include "DFInterface.h"
-#define STM_COL_COUNT 3
 
 class skillsTableModel : public QAbstractTableModel
 {
 	Q_OBJECT
 
 public:
-	skillsTableModel(QObject *parent = 0);
+	skillsTableModel(QObject *parent = 0, int nColCount = 3);
 	virtual ~skillsTableModel(void);
-	int rowCount(const QModelIndex &parent = QModelIndex()) const;
+	virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
 	int columnCount(const QModelIndex &parent = QModelIndex()) const;
-	QVariant data(const QModelIndex &index, int role) const;
-	QVariant headerData(int section,
+	virtual QVariant data(const QModelIndex &index, int role) const;
+	virtual QVariant headerData(int section,
 		Qt::Orientation orientation,
 		int role = Qt::DisplayRole) const;
-	void setCreature(DFInterface *nDFI, const DFHack::t_creature *nCreature);
+	virtual void setCreature(DFInterface *nDFI, const DFHack::t_creature *nCreature);
 	void clear();
+	int getNumCols();
 
 protected:
 	const DFHack::t_creature *creature;
 	DFInterface *DFI;
+	const int colCount;
 };
 
 #endif

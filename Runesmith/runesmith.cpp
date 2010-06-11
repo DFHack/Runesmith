@@ -11,7 +11,8 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 : QMainWindow(parent, flags), DFI(NULL)
 {
 	ui.setupUi(this);
-	ui.skillsTV->setItemDelegateForColumn(2, &skillProgDele);	
+	ui.skillsTV->setItemDelegateForColumn(2, &skillProgDele);
+	ui.cSkillsTV->setItemDelegateForColumn(2, &cSkillProgDele);
 
 	if(!(dTM = new dwarfTableModel(this)))
 		throw RSException();
@@ -31,17 +32,27 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	if(!(caTM = new attrTableModel(this)))
 		throw RSException();
 
+	if(!(dlTM = new labTableModel(this)))
+		throw RSException();
+
+	if(!(clTM = new labTableModel(this)))
+		throw RSException();
+
 	ui.dwarvesTV->setModel(dTM);		
 	ui.skillsTV->setModel(dsTM);
 	ui.creaturesTV->setModel(cTM);
 	ui.cSkillsTV->setModel(csTM);
 	ui.cAttrTV->setModel(caTM);
 	ui.dAttrTV->setModel(daTM);
+	ui.dLabTV->setModel(dlTM);
+	ui.cLabTV->setModel(clTM);
 	//this wasn't working correctly in the designer...
-	ui.skillsTV->horizontalHeader()->setResizeMode(STM_COL_COUNT-1, QHeaderView::Stretch);
-	ui.cSkillsTV->horizontalHeader()->setResizeMode(STM_COL_COUNT-1, QHeaderView::Stretch);
-	ui.cAttrTV->horizontalHeader()->setResizeMode(STM_COL_COUNT-1, QHeaderView::Stretch);
-	ui.dAttrTV->horizontalHeader()->setResizeMode(STM_COL_COUNT-1, QHeaderView::Stretch);
+	ui.skillsTV->horizontalHeader()->setResizeMode(dsTM->getNumCols()-1, QHeaderView::Stretch);
+	ui.cSkillsTV->horizontalHeader()->setResizeMode(csTM->getNumCols()-1, QHeaderView::Stretch);
+	ui.dAttrTV->horizontalHeader()->setResizeMode(daTM->getNumCols()-1, QHeaderView::Stretch);
+	ui.cAttrTV->horizontalHeader()->setResizeMode(caTM->getNumCols()-1, QHeaderView::Stretch);	
+	ui.dLabTV->horizontalHeader()->setResizeMode(dlTM->getNumCols()-1, QHeaderView::Stretch);
+	ui.cLabTV->horizontalHeader()->setResizeMode(clTM->getNumCols()-1, QHeaderView::Stretch);
 
 	try
 	{
@@ -87,6 +98,12 @@ Runesmith::~Runesmith()
 
 	if(caTM)
 		delete caTM;
+
+	if(dlTM)
+		delete dlTM;
+
+	if(clTM)
+		delete clTM;
 
 	if(DFI)
 		delete DFI;
@@ -150,13 +167,17 @@ void Runesmith::dwarfSelected(const QModelIndex& index)
 	DFHack::t_creature *dwarf = DFI->getDwarf(index.row());
 	dsTM->setCreature(DFI, dwarf);
 	daTM->setCreature(DFI, dwarf);
+	dlTM->setCreature(DFI, dwarf);
 	skillProgDele.setCreature(dwarf);
 }
 
 void Runesmith::creatureSelected(const QModelIndex& index)
 {
-	csTM->setCreature(DFI, DFI->getCreature(index.row()));
-	caTM->setCreature(DFI, DFI->getCreature(index.row()));
+	DFHack::t_creature *creature = DFI->getCreature(index.row());
+	csTM->setCreature(DFI, creature);
+	caTM->setCreature(DFI, creature);
+	clTM->setCreature(DFI, creature);
+	cSkillProgDele.setCreature(creature);
 }
 
 void Runesmith::clean()
@@ -165,4 +186,6 @@ void Runesmith::clean()
 	csTM->clear();
 	daTM->clear();
 	caTM->clear();
+	dlTM->clear();
+	clTM->clear();
 }

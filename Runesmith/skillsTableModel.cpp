@@ -1,7 +1,7 @@
 #include "skillsTableModel.h"
 
-skillsTableModel::skillsTableModel(QObject *parent) 
-	: QAbstractTableModel(parent), creature(NULL)
+skillsTableModel::skillsTableModel(QObject *parent, int nColCount) 
+	: QAbstractTableModel(parent), creature(NULL), colCount(nColCount)
 {
 }
 
@@ -21,7 +21,7 @@ int skillsTableModel::rowCount(const QModelIndex &parent) const
 
 int skillsTableModel::columnCount(const QModelIndex &parent) const
 {
-	return STM_COL_COUNT;
+	return colCount;
 }
 
 QVariant skillsTableModel::data(const QModelIndex &index, int role) const
@@ -100,7 +100,7 @@ void skillsTableModel::setCreature(DFInterface *nDFI,
 	reset();
 	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
 			QAbstractItemModel::createIndex(
-			STM_COL_COUNT, rowCount()));
+			colCount, rowCount()));
 }
 
 void skillsTableModel::clear()
@@ -109,5 +109,10 @@ void skillsTableModel::clear()
 	reset();
 	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
 			QAbstractItemModel::createIndex(
-			STM_COL_COUNT, rowCount()));	
+			colCount, rowCount()));	
+}
+
+int skillsTableModel::getNumCols()
+{
+	return colCount;
 }

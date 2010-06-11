@@ -43,6 +43,7 @@ public:
 	QString translateSkill(const uint32_t skill);
 	QString translateProfession(const uint32_t prof);
 	QString translateRace(const uint32_t race);
+	QString translateLabour(const uint8_t labour);
 	uint32_t getRacialAverage(uint32_t race, uint32_t caste, RacialStat stat);
 	DFHack::t_level getLevelInfo(uint32_t level);
 

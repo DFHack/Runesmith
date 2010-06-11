@@ -22,7 +22,16 @@ DFInterface::~DFInterface(void)
 bool DFInterface::isAttached()
 {
 	if(DF)
-		return DF->isAttached();
+	{
+		try
+		{
+			return DF->isAttached();
+		}
+		catch(std::exception &e)
+		{
+			return false;
+		}
+	}
 	else
 		return false;
 }
@@ -300,4 +309,20 @@ DFHack::t_level DFInterface::getLevelInfo(uint32_t level)
 	tmpLvl.name = "Unknown";
 	tmpLvl.xpNxtLvl = 1;
 	return tmpLvl;	
+}
+
+QString DFInterface::translateLabour(const uint8_t labour)
+{
+	if(isAttached())
+	{
+		try
+		{
+			return mem->getLabor(labour).c_str();
+		}
+		catch(std::exception &e)
+		{
+		}
+	}
+	
+	return "";
 }
