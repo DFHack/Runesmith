@@ -184,6 +184,16 @@
             </item>
            </layout>
           </widget>
+          <widget class="QWidget" name="dFlagTab">
+           <attribute name="title">
+            <string>Flags</string>
+           </attribute>
+           <layout class="QGridLayout" name="gridLayout_10">
+            <item row="0" column="0">
+             <widget class="QTableView" name="dFlagTV"/>
+            </item>
+           </layout>
+          </widget>
          </widget>
         </item>
        </layout>
@@ -287,6 +297,11 @@
              <widget class="QTableView" name="cLabTV"/>
             </item>
            </layout>
+          </widget>
+          <widget class="QWidget" name="cFlagTab">
+           <attribute name="title">
+            <string>Flags</string>
+           </attribute>
           </widget>
          </widget>
         </item>
