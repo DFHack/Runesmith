@@ -197,6 +197,7 @@ void DFInterface::process()
 	{
 		DFHack::t_creature temp;
 		Creatures->ReadCreature(i,temp);
+		IDs[temp.id] = i;
 
 		if(QString(Materials->raceEx[temp.race].rawname) == "DWARF")
 		{

@@ -38,6 +38,9 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	if(!(clTM = new labTableModel(this)))
 		throw RSException();
 
+	if(!(dfTM = new flagTableModel(this)))
+		throw RSException();
+
 	ui.dwarvesTV->setModel(dTM);		
 	ui.skillsTV->setModel(dsTM);
 	ui.creaturesTV->setModel(cTM);
@@ -46,6 +49,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	ui.dAttrTV->setModel(daTM);
 	ui.dLabTV->setModel(dlTM);
 	ui.cLabTV->setModel(clTM);
+	ui.dFlagTV->setModel(dfTM);
 	//this wasn't working correctly in the designer...
 	ui.skillsTV->horizontalHeader()->setResizeMode(dsTM->getNumCols()-1, QHeaderView::Stretch);
 	ui.cSkillsTV->horizontalHeader()->setResizeMode(csTM->getNumCols()-1, QHeaderView::Stretch);
@@ -53,6 +57,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	ui.cAttrTV->horizontalHeader()->setResizeMode(caTM->getNumCols()-1, QHeaderView::Stretch);	
 	ui.dLabTV->horizontalHeader()->setResizeMode(dlTM->getNumCols()-1, QHeaderView::Stretch);
 	ui.cLabTV->horizontalHeader()->setResizeMode(clTM->getNumCols()-1, QHeaderView::Stretch);
+	ui.dFlagTV->horizontalHeader()->setResizeMode(dfTM->getNumCols()-1, QHeaderView::Stretch);
 
 	try
 	{
@@ -81,32 +86,16 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 
 Runesmith::~Runesmith()
 {	
-	if(dTM)
-		delete dTM;
-
-	if(dsTM)
-		delete dsTM;
-
-	if(cTM)
-		delete cTM;
-
-	if(csTM)
-		delete csTM;
-
-	if(daTM)
-		delete daTM;
-
-	if(caTM)
-		delete caTM;
-
-	if(dlTM)
-		delete dlTM;
-
-	if(clTM)
-		delete clTM;
-
-	if(DFI)
-		delete DFI;
+	if(dTM) delete dTM;
+	if(dsTM) delete dsTM;
+	if(cTM) delete cTM;
+	if(csTM) delete csTM;
+	if(daTM) delete daTM;
+	if(caTM) delete caTM;
+	if(dlTM) delete dlTM;
+	if(clTM) delete clTM;
+	if(dfTM) delete dfTM;
+	if(DFI) delete DFI;
 }
 
 void Runesmith::close()
@@ -168,6 +157,7 @@ void Runesmith::dwarfSelected(const QModelIndex& index)
 	dsTM->setCreature(DFI, dwarf);
 	daTM->setCreature(DFI, dwarf);
 	dlTM->setCreature(DFI, dwarf);
+	dfTM->setCreature(DFI, dwarf);
 	skillProgDele.setCreature(dwarf);
 }
 
@@ -188,4 +178,5 @@ void Runesmith::clean()
 	caTM->clear();
 	dlTM->clear();
 	clTM->clear();
+	dfTM->clear();
 }

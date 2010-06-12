@@ -1,6 +1,8 @@
 #ifndef DFINTERFACE_H
 #define DFINTERFACE_H
 
+#include <vector>
+#include <map>
 #include <QString>
 #include <DFHack.h>
 
@@ -56,6 +58,7 @@ private:
 private:
 	std::vector<DFHack::t_creature> creatures;
 	std::vector<DFHack::t_creature> dwarves;
+	std::map<int, int> IDs;
 	uint32_t numCreatures;
 
 	DFHack::ContextManager *DFMgr;

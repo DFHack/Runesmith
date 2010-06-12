@@ -10,6 +10,7 @@
 #include "attrTableModel.h"
 #include "progBarDelegate.h"
 #include "labTableModel.h"
+#include "flagTableModel.h"
 
 class Runesmith : public QMainWindow
 {
@@ -43,6 +44,7 @@ private:
 	attrTableModel *caTM;
 	labTableModel *dlTM;
 	labTableModel *clTM;
+	flagTableModel *dfTM;
 
 	DFInterface *DFI;
 };
