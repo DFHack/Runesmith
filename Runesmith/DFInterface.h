@@ -38,8 +38,8 @@ public:
 	void update();
 	void setProcessDead(bool state);
 	
-	std::vector<DFHack::t_creature>& getDwarves();
-	std::vector<DFHack::t_creature>& getCreatures();
+	std::vector<DFHack::t_creature *>& getDwarves();
+	std::vector<DFHack::t_creature *>& getCreatures();
 	DFHack::t_creature* getDwarf(int dwarf);
 	DFHack::t_creature* getCreature(int creature);
 	DFHack::t_level getLevelInfo(uint32_t level);
@@ -60,8 +60,13 @@ private:
 	void process();
 
 private:
-	std::vector<DFHack::t_creature> creatures;
-	std::vector<DFHack::t_creature> dwarves;
+	void cleanup();
+
+	std::vector<DFHack::t_creature *> creatures;
+	std::vector<DFHack::t_creature *> dwarves;
+	std::vector<DFHack::t_creature *> allCreatures;
+	std::vector<DFHack::t_creature *> allDwarves;
+
 	std::map<int, int> IDs;
 	uint32_t numCreatures;
 	bool processDead;

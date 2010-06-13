@@ -17,6 +17,7 @@ DFInterface::DFInterface(void) : DF(NULL), DFMgr(NULL), Materials(NULL), Tran(NU
 DFInterface::~DFInterface(void)
 {
 	detatch();
+	cleanup();	
 }
 
 bool DFInterface::isAttached()
@@ -97,8 +98,7 @@ void DFInterface::detatch()
 			suspend();
 			DF->Detach();
 			numCreatures = 0;
-			creatures.clear();
-			dwarves.clear();
+			cleanup();
 		}
 	}
 }
@@ -117,31 +117,34 @@ void DFInterface::update()
 	else
 	{
 		numCreatures = 0;
-		creatures.clear();
-		dwarves.clear();
+		cleanup();
 	}
 }
 
-std::vector<DFHack::t_creature>& DFInterface::getDwarves()
+std::vector<DFHack::t_creature *>& DFInterface::getDwarves()
 {
 	if(isAttached())
-		return dwarves;
+		if(!processDead)
+			return dwarves;
+		else
+			return allDwarves;
 	else
 	{
-		dwarves.clear();
-		creatures.clear();
+		cleanup();
 		return dwarves;
 	}
 }
 
-std::vector<DFHack::t_creature>& DFInterface::getCreatures()
+std::vector<DFHack::t_creature *>& DFInterface::getCreatures()
 {
 	if(isAttached())
-		return creatures;
+		if(!processDead)
+			return creatures;
+		else
+			return allCreatures;
 	else
 	{
-		dwarves.clear();
-		creatures.clear();
+		cleanup();
 		return creatures;
 	}
 }
@@ -149,7 +152,10 @@ std::vector<DFHack::t_creature>& DFInterface::getCreatures()
 DFHack::t_creature* DFInterface::getDwarf(int dwarf)
 {
 	if(isAttached())
-		return &dwarves[dwarf];
+		if(!processDead)
+			return dwarves[dwarf];
+		else
+			return allDwarves[dwarf];
 	else
 		return NULL;
 }
@@ -157,7 +163,10 @@ DFHack::t_creature* DFInterface::getDwarf(int dwarf)
 DFHack::t_creature* DFInterface::getCreature(int creature)
 {
 	if(isAttached())
-		return &creatures[creature];
+		if(!processDead)
+			return creatures[creature];
+		else
+			return allCreatures[creature];
 	else	
 		return NULL;
 }
@@ -190,26 +199,29 @@ void DFInterface::suspend()
 
 void DFInterface::process()
 {
-	creatures.clear();
-	dwarves.clear();
+	cleanup();
 
 	for(int i=0; i<numCreatures; i++)
 	{
-		DFHack::t_creature temp;
-		Creatures->ReadCreature(i,temp);
-		IDs[temp.id] = i;
+		DFHack::t_creature *temp = new DFHack::t_creature;
+		Creatures->ReadCreature(i,*temp);
+		IDs[temp->id] = i;
 
-		if(!temp.flags1.bits.dead || (temp.flags1.bits.dead && processDead))
-		{
-			if(QString(Materials->raceEx[temp.race].rawname) == "DWARF")
+		
+			if(QString(Materials->raceEx[temp->race].rawname) == "DWARF")
 			{
-				dwarves.push_back(temp);
+				if(!temp->flags1.bits.dead)
+					dwarves.push_back(temp);
+			
+				allDwarves.push_back(temp);
 			}
 			else
 			{
-				creatures.push_back(temp);
-			}
-		}
+				if(!temp->flags1.bits.dead)
+					creatures.push_back(temp);
+				
+				allCreatures.push_back(temp);
+			}	
 	}	
 }
 
@@ -217,34 +229,64 @@ QString DFInterface::translateName(const DFHack::t_name &name)
 {
 	if(isAttached())
 	{
-		return Tran->TranslateName(name, false).c_str();		 
+		try
+		{
+			return Tran->TranslateName(name, false).c_str();
+		}
+		catch(std::exception &e)
+		{
+		}
 	}
-	else
-		return "";
+	
+	return "";
 }
 
 QString DFInterface::translateSkill(const uint32_t skill)
 {
 	if(isAttached())
-		return mem->getSkill(skill).c_str();
-	else
-		return "";
+	{
+		try
+		{
+			return mem->getSkill(skill).c_str();
+		}
+		catch(std::exception &e)
+		{
+		}
+	}
+	
+	return "";
 }
 
 QString DFInterface::translateProfession(const uint32_t prof)
 {
 	if(isAttached())
-		return mem->getProfession(prof).c_str();
-	else
-		return "";
+	{
+		try
+		{
+			return mem->getProfession(prof).c_str();
+		}
+		catch(std::exception &e)
+		{
+		}
+	}
+	
+	return "";
 }
 
 QString DFInterface::translateRace(const uint32_t race)
 {
 	if(isAttached())
-		return Materials->raceEx[race].rawname;
-	else
-		return "";
+	{
+		try
+		{
+			return Materials->raceEx[race].rawname;
+		}
+		catch(std::exception &e)
+		{
+		}
+	}
+	
+	return "";
 }
 
 uint32_t DFInterface::getRacialAverage(uint32_t race, uint32_t caste, RacialStat stat)
@@ -311,7 +353,7 @@ DFHack::t_level DFInterface::getLevelInfo(uint32_t level)
 	DFHack::t_level tmpLvl;
 	tmpLvl.level = level;
 	tmpLvl.name = "Unknown";
-	tmpLvl.xpNxtLvl = 1;
+	tmpLvl.xpNxtLvl = 0;
 	return tmpLvl;	
 }
 
@@ -350,4 +392,19 @@ QString DFInterface::getVersion()
 	}
 	
 	return "";
+}
+
+void DFInterface::cleanup()
+{
+	for(int i=0; i<allCreatures.size(); i++)	
+		if(allCreatures[i])
+			delete allCreatures[i];
+	allCreatures.clear();
+	creatures.clear();
+
+	for(int i=0; i<allDwarves.size(); i++)	
+		if(allDwarves[i])
+			delete allDwarves[i];
+	allDwarves.clear();
+	dwarves.clear();
 }

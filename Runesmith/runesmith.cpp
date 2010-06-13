@@ -68,6 +68,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	{
 		DFI = new DFInterface();
 		skillProgDele.setDFI(DFI);
+		cSkillProgDele.setDFI(DFI);
 	}
 	catch (std::exception& e)
 	{
@@ -118,6 +119,7 @@ void Runesmith::attach()
 		{
 			DFI = new DFInterface();
 			skillProgDele.setDFI(DFI);
+			cSkillProgDele.setDFI(DFI);
 		}
 		DFI->attach();
 	}
@@ -195,5 +197,4 @@ void Runesmith::clean()
 void Runesmith::showDead(bool state)
 {
 	DFI->setProcessDead(state);
-	update();
 }

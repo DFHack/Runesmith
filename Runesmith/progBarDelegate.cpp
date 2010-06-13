@@ -29,13 +29,30 @@ void progBarDelegate::paint(QPainter * painter, const QStyleOptionViewItem  & op
 		levelinfo = DFI->getLevelInfo(creature->defaultSoul.skills[index.row()].rating);
 		opt.minimum = 0;
 		opt.maximum = 100;
-		opt.progress = (index.data().toInt()*100)/levelinfo.xpNxtLvl;
-		opt.text = QString("%1%").arg(opt.progress);
+
+		if(levelinfo.xpNxtLvl)
+		{
+			opt.progress = (index.data().toInt()*100)/levelinfo.xpNxtLvl;
+			opt.text = QString("%1%").arg(opt.progress);
+		}
 	}
 
 	opt.textVisible = true;
 	opt.rect = option.rect;
-	QApplication::style()->drawControl(QStyle::CE_ProgressBar, &opt, painter, (QWidget*)parent());
+	painter->save();
+
+	if (option.state & QStyle::State_Selected)
+	{
+		painter->fillRect(option.rect, option.palette.highlight());
+		painter->setPen(Qt::white);//option.palette.highlightedText());		
+	}
+
+	painter->setRenderHint(QPainter::Antialiasing, true);
+	if(levelinfo.xpNxtLvl)
+		QApplication::style()->drawControl(QStyle::CE_ProgressBar, &opt, painter, (QWidget*)parent());
+	else
+		QApplication::style()->drawItemText(painter, option.rect, Qt::AlignCenter, option.palette, true, index.data().toString());
+	painter->restore();
 }
 
 void progBarDelegate::setDFI(DFInterface *nDFI)
