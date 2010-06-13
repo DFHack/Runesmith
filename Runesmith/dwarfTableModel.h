@@ -3,7 +3,7 @@
 
 #include <QAbstractTableModel>
 #include "DFInterface.h"
-#define HAPPINESS_WEIGHT 50
+#define HAPPINESS_WEIGHT 30
 
 class dwarfTableModel : public QAbstractTableModel
 {

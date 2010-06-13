@@ -75,6 +75,9 @@ QVariant dwarfTableModel::data(const QModelIndex &index, int role) const
 
 		case 3:
 			//TODO make this general status instead of just mood
+			if(dwarves[index.row()].flags1.bits.dead)
+				return "Dead";
+
 			switch(dwarves[index.row()].mood)
 			{
 			case -1: return QVariant();

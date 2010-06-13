@@ -36,18 +36,22 @@ public:
 	bool attach();
 	void detatch();
 	void update();
+	void setProcessDead(bool state);
+	
 	std::vector<DFHack::t_creature>& getDwarves();
 	std::vector<DFHack::t_creature>& getCreatures();
 	DFHack::t_creature* getDwarf(int dwarf);
 	DFHack::t_creature* getCreature(int creature);
-	
+	DFHack::t_level getLevelInfo(uint32_t level);
+
+	QString getVersion();
 	QString translateName(const DFHack::t_name &name);
 	QString translateSkill(const uint32_t skill);
 	QString translateProfession(const uint32_t prof);
 	QString translateRace(const uint32_t race);
 	QString translateLabour(const uint8_t labour);
 	uint32_t getRacialAverage(uint32_t race, uint32_t caste, RacialStat stat);
-	DFHack::t_level getLevelInfo(uint32_t level);
+	
 
 private:
 	bool isContextValid();
@@ -60,6 +64,7 @@ private:
 	std::vector<DFHack::t_creature> dwarves;
 	std::map<int, int> IDs;
 	uint32_t numCreatures;
+	bool processDead;
 
 	DFHack::ContextManager *DFMgr;
     DFHack::Context *DF;

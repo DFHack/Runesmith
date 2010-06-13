@@ -72,24 +72,18 @@ QVariant creatureTableModel::data(const QModelIndex &index, int role) const
 
 		case 4:
 			//TODO make this general status instead of just mood
+			if(creatures[index.row()].flags1.bits.dead)
+				return "Dead";
+
 			switch(creatures[index.row()].mood)
 			{
-			case -1:
-				return QVariant();
-
-			case 0:
-				return QString("Fey");
-
-			case 1:
-				return QString("Possesed");
-
+			case -1: return QVariant();
+			case 0: return QString("Fey");
+			case 1: return QString("Possesed");
 			case 2:
 			case 3:
-			case 4:
-				return QVariant();
-
-			case 5:
-				return QString("Melancholy/Beserk");
+			case 4: return QVariant();
+			case 5:	return QString("Melancholy/Beserk");
 			}		
 
 		default:

@@ -1,8 +1,8 @@
 #include "DFInterface.h"
 #include "rsException.h"
 
-DFInterface::DFInterface(void) : DF(NULL),
-	DFMgr(NULL), Materials(NULL), Tran(NULL), Creatures(NULL), mem(NULL)
+DFInterface::DFInterface(void) : DF(NULL), DFMgr(NULL), Materials(NULL), Tran(NULL),
+	Creatures(NULL), mem(NULL), processDead(false)
 {
 	try
 	{
@@ -199,13 +199,16 @@ void DFInterface::process()
 		Creatures->ReadCreature(i,temp);
 		IDs[temp.id] = i;
 
-		if(QString(Materials->raceEx[temp.race].rawname) == "DWARF")
+		if(!temp.flags1.bits.dead || (temp.flags1.bits.dead && processDead))
 		{
-			dwarves.push_back(temp);
-		}
-		else
-		{
-			creatures.push_back(temp);
+			if(QString(Materials->raceEx[temp.race].rawname) == "DWARF")
+			{
+				dwarves.push_back(temp);
+			}
+			else
+			{
+				creatures.push_back(temp);
+			}
 		}
 	}	
 }
@@ -319,6 +322,27 @@ QString DFInterface::translateLabour(const uint8_t labour)
 		try
 		{
 			return mem->getLabor(labour).c_str();
+		}
+		catch(std::exception &e)
+		{
+		}
+	}
+	
+	return "";
+}
+
+void DFInterface::setProcessDead(bool state)
+{
+	processDead = state;
+}
+
+QString DFInterface::getVersion()
+{
+	if(isAttached())
+	{
+		try
+		{
+			return mem->getVersion().c_str();
 		}
 		catch(std::exception &e)
 		{

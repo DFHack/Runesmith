@@ -2,6 +2,7 @@
 #define RUNESMITH_H
 
 #include <QtGui/QMainWindow>
+#include <QLabel>
 #include "DFInterface.H"
 #include "ui_runesmith.h"
 #include "dwarfTableModel.h"
@@ -26,6 +27,7 @@ public slots:
 	void close();
 	void update();
 	void aboutSlot();
+	void showDead(bool state);
 	void dwarfSelected(const QModelIndex& index);
 	void creatureSelected(const QModelIndex& index);
 
@@ -35,6 +37,7 @@ private:
 	Ui::RunesmithClass ui;
 	progBarDelegate skillProgDele;
 	progBarDelegate cSkillProgDele;
+	QLabel temp;
 
 	dwarfTableModel *dTM;
 	skillsTableModel *dsTM;

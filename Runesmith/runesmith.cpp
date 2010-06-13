@@ -87,6 +87,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 		SLOT(dwarfSelected(const QModelIndex&)));
 	QApplication::connect(ui.creaturesTV, SIGNAL(clicked(const QModelIndex&)), this,
 		SLOT(creatureSelected(const QModelIndex&)));
+	QApplication::connect(ui.actionShow_Dead, SIGNAL(triggered(bool)), this, SLOT(showDead(bool)));
 }
 
 Runesmith::~Runesmith()
@@ -130,7 +131,9 @@ void Runesmith::attach()
 		msgBox.exec();
 		return;
 	}
-
+	
+	temp.setText("Connected to " + DFI->getVersion());
+	ui.statusBar->addPermanentWidget(&temp);
 	dTM->update(DFI);
 	cTM->update(DFI);	
 }
@@ -187,4 +190,10 @@ void Runesmith::clean()
 	clTM->clear();
 	dfTM->clear();
 	cfTM->clear();
+}
+
+void Runesmith::showDead(bool state)
+{
+	DFI->setProcessDead(state);
+	update();
 }
