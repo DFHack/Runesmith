@@ -49,29 +49,41 @@
             <height>0</height>
            </size>
           </property>
+          <property name="alternatingRowColors">
+           <bool>false</bool>
+          </property>
           <property name="selectionMode">
            <enum>QAbstractItemView::SingleSelection</enum>
           </property>
           <property name="selectionBehavior">
            <enum>QAbstractItemView::SelectRows</enum>
           </property>
+          <property name="textElideMode">
+           <enum>Qt::ElideRight</enum>
+          </property>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>110</number>
+          </attribute>
           <attribute name="horizontalHeaderStretchLastSection">
            <bool>true</bool>
           </attribute>
           <attribute name="verticalHeaderVisible">
-           <bool>true</bool>
+           <bool>false</bool>
           </attribute>
           <attribute name="verticalHeaderStretchLastSection">
            <bool>false</bool>
           </attribute>
           <attribute name="verticalHeaderVisible">
-           <bool>true</bool>
+           <bool>false</bool>
           </attribute>
           <attribute name="horizontalHeaderStretchLastSection">
            <bool>true</bool>
           </attribute>
           <attribute name="verticalHeaderStretchLastSection">
            <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>110</number>
           </attribute>
          </widget>
         </item>
@@ -127,10 +139,10 @@
                <bool>false</bool>
               </attribute>
               <attribute name="verticalHeaderVisible">
-               <bool>true</bool>
+               <bool>false</bool>
               </attribute>
               <attribute name="verticalHeaderVisible">
-               <bool>true</bool>
+               <bool>false</bool>
               </attribute>
               <attribute name="horizontalHeaderStretchLastSection">
                <bool>false</bool>
@@ -234,7 +246,7 @@
            </sizepolicy>
           </property>
           <property name="currentIndex">
-           <number>3</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="cSkillsTab">
            <attribute name="title">
@@ -302,6 +314,11 @@
            <attribute name="title">
             <string>Flags</string>
            </attribute>
+           <layout class="QGridLayout" name="gridLayout_11">
+            <item row="0" column="0">
+             <widget class="QTableView" name="cFlagTV"/>
+            </item>
+           </layout>
           </widget>
          </widget>
         </item>

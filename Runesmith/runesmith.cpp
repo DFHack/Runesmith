@@ -41,6 +41,9 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	if(!(dfTM = new flagTableModel(this)))
 		throw RSException();
 
+	if(!(cfTM = new flagTableModel(this)))
+		throw RSException();
+
 	ui.dwarvesTV->setModel(dTM);		
 	ui.skillsTV->setModel(dsTM);
 	ui.creaturesTV->setModel(cTM);
@@ -50,6 +53,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	ui.dLabTV->setModel(dlTM);
 	ui.cLabTV->setModel(clTM);
 	ui.dFlagTV->setModel(dfTM);
+	ui.cFlagTV->setModel(cfTM);
 	//this wasn't working correctly in the designer...
 	ui.skillsTV->horizontalHeader()->setResizeMode(dsTM->getNumCols()-1, QHeaderView::Stretch);
 	ui.cSkillsTV->horizontalHeader()->setResizeMode(csTM->getNumCols()-1, QHeaderView::Stretch);
@@ -58,6 +62,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	ui.dLabTV->horizontalHeader()->setResizeMode(dlTM->getNumCols()-1, QHeaderView::Stretch);
 	ui.cLabTV->horizontalHeader()->setResizeMode(clTM->getNumCols()-1, QHeaderView::Stretch);
 	ui.dFlagTV->horizontalHeader()->setResizeMode(dfTM->getNumCols()-1, QHeaderView::Stretch);
+	ui.cFlagTV->horizontalHeader()->setResizeMode(cfTM->getNumCols()-1, QHeaderView::Stretch);
 
 	try
 	{
@@ -95,6 +100,7 @@ Runesmith::~Runesmith()
 	if(dlTM) delete dlTM;
 	if(clTM) delete clTM;
 	if(dfTM) delete dfTM;
+	if(cfTM) delete cfTM;
 	if(DFI) delete DFI;
 }
 
@@ -167,6 +173,7 @@ void Runesmith::creatureSelected(const QModelIndex& index)
 	csTM->setCreature(DFI, creature);
 	caTM->setCreature(DFI, creature);
 	clTM->setCreature(DFI, creature);
+	cfTM->setCreature(DFI, creature);
 	cSkillProgDele.setCreature(creature);
 }
 
@@ -179,4 +186,5 @@ void Runesmith::clean()
 	dlTM->clear();
 	clTM->clear();
 	dfTM->clear();
+	cfTM->clear();
 }

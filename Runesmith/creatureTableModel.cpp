@@ -1,7 +1,9 @@
+#include <string>
+#include <QColor>
 #include "creatureTableModel.h"
 
 creatureTableModel::creatureTableModel(QObject *parent) 
-	: dwarfTableModel(parent, 5)
+: dwarfTableModel(parent, 5)
 {
 }
 
@@ -25,56 +27,84 @@ QVariant creatureTableModel::data(const QModelIndex &index, int role) const
 
 	if(!DFI->isAttached())
 		return QVariant();
-	
+
 	std::vector<DFHack::t_creature>& creatures = DFI->getCreatures();
 
-	if((index.row() >= creatures.size()) || (role != Qt::DisplayRole))
+	if(index.row() >= creatures.size())
 		return QVariant();
-	
+
 	QString transName;
 
-	switch(index.column())
+	if(role == Qt::DisplayRole)
 	{
-	case 0:
-		return QString(DFI->translateRace(creatures[index.row()].race));
-
-	case 1:		
-		transName = creatures[index.row()].name.first_name;
-		transName.append(" ");
-		transName.append(DFI->translateName(creatures[index.row()].name));
-		return transName;
-
-	case 2:
-		return QString(DFI->translateProfession(creatures[index.row()].profession));
-
-	case 3:
-		return QString(QString::number(creatures[index.row()].happiness));
-
-	case 4:
-		//TODO make this general status instead of just mood
-		switch(creatures[index.row()].mood)
+		switch(index.column())
 		{
-		case -1:
-			return QVariant();
-
 		case 0:
-			return QString("Fey");
+			return QString(DFI->translateRace(creatures[index.row()].race));
 
-		case 1:
-			return QString("Possesed");
+		case 1:		
+			transName = creatures[index.row()].name.first_name;
+			transName.append(" ");
+			transName.append(DFI->translateName(creatures[index.row()].name));
+			return transName;
 
 		case 2:
-		case 3:
-		case 4:
-			return QVariant();
+			return QString(DFI->translateProfession(creatures[index.row()].profession));
 
-		case 5:
-			return QString("Melancholy/Beserk");
-		}		
-		 
-	default:
-		return QVariant();
+		case 3:
+			if (creatures[index.row()].happiness < 1)
+				transName = "Miserable";
+			else if (creatures[index.row()].happiness <= 25)
+				transName = "Very Unhappy";
+			else if (creatures[index.row()].happiness <= 50)
+				transName = "Unhappy";
+			else if (creatures[index.row()].happiness <= 75)
+				transName = "Fine";
+			else if (creatures[index.row()].happiness <= 125)
+				transName = "Content";
+			else if (creatures[index.row()].happiness <= 150)
+				transName = "Happy";
+			else
+				transName = "Ecstatic";
+			transName.append(" [");
+			transName.append(QString::number(creatures[index.row()].happiness));
+			return transName.append("]");
+
+		case 4:
+			//TODO make this general status instead of just mood
+			switch(creatures[index.row()].mood)
+			{
+			case -1:
+				return QVariant();
+
+			case 0:
+				return QString("Fey");
+
+			case 1:
+				return QString("Possesed");
+
+			case 2:
+			case 3:
+			case 4:
+				return QVariant();
+
+			case 5:
+				return QString("Melancholy/Beserk");
+			}		
+
+		default:
+			return QVariant();
+		}
 	}
+	else if((role == Qt::BackgroundColorRole) && (index.column() == 3))
+	{
+		int green = creatures[index.row()].happiness + HAPPINESS_WEIGHT;
+		if(green > 255)
+			green = 255;		
+		return QColor(255-green, green, 0);
+	}
+	else
+		return QVariant();
 }
 
 QVariant creatureTableModel::headerData(int section,

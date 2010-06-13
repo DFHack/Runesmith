@@ -177,7 +177,7 @@ void DFInterface::suspend()
 
 	DF->Suspend();	
 	Materials->ReadAllMaterials();    
-
+//FIXME detatch from df aswell/instead of throw
 	if(!Creatures->Start(numCreatures))
 		throw RSException();    
 

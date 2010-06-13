@@ -45,6 +45,7 @@ private:
 	labTableModel *dlTM;
 	labTableModel *clTM;
 	flagTableModel *dfTM;
+	flagTableModel *cfTM;
 
 	DFInterface *DFI;
 };
