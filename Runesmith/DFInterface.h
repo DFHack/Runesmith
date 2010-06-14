@@ -45,12 +45,13 @@ public:
 	DFHack::t_level getLevelInfo(uint32_t level);
 
 	QString getVersion();
-	QString translateName(const DFHack::t_name &name);
+	QString translateName(const DFHack::t_name &name, bool english = false);
 	QString translateSkill(const uint32_t skill);
 	QString translateProfession(const uint32_t prof);
 	QString translateRace(const uint32_t race);
 	QString translateLabour(const uint8_t labour);
 	uint32_t getRacialAverage(uint32_t race, uint32_t caste, RacialStat stat);
+	uint32_t getCurrentYear();
 	
 
 private:
@@ -69,6 +70,7 @@ private:
 
 	std::map<int, int> IDs;
 	uint32_t numCreatures;
+	uint32_t currentYear;
 	bool processDead;
 
 	DFHack::ContextManager *DFMgr;
@@ -77,6 +79,7 @@ private:
 	DFHack::Translation *Tran;
 	DFHack::Creatures *Creatures;
 	DFHack::memory_info *mem;
+	DFHack::World * world;
 };
 
 #endif

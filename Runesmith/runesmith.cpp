@@ -44,6 +44,12 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	if(!(cfTM = new flagTableModel(this)))
 		throw RSException();
 
+	if(!(dmTM = new miscTableModel(this)))
+		throw RSException();
+
+	if(!(cmTM = new miscTableModel(this)))
+		throw RSException();
+
 	ui.dwarvesTV->setModel(dTM);		
 	ui.skillsTV->setModel(dsTM);
 	ui.creaturesTV->setModel(cTM);
@@ -54,6 +60,8 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	ui.cLabTV->setModel(clTM);
 	ui.dFlagTV->setModel(dfTM);
 	ui.cFlagTV->setModel(cfTM);
+	ui.dMiscTV->setModel(dmTM);
+	ui.cMiscTV->setModel(cmTM);
 	//this wasn't working correctly in the designer...
 	ui.skillsTV->horizontalHeader()->setResizeMode(dsTM->getNumCols()-1, QHeaderView::Stretch);
 	ui.cSkillsTV->horizontalHeader()->setResizeMode(csTM->getNumCols()-1, QHeaderView::Stretch);
@@ -63,6 +71,8 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	ui.cLabTV->horizontalHeader()->setResizeMode(clTM->getNumCols()-1, QHeaderView::Stretch);
 	ui.dFlagTV->horizontalHeader()->setResizeMode(dfTM->getNumCols()-1, QHeaderView::Stretch);
 	ui.cFlagTV->horizontalHeader()->setResizeMode(cfTM->getNumCols()-1, QHeaderView::Stretch);
+	ui.dMiscTV->horizontalHeader()->setResizeMode(dmTM->getNumCols()-1, QHeaderView::Stretch);
+	ui.cMiscTV->horizontalHeader()->setResizeMode(cmTM->getNumCols()-1, QHeaderView::Stretch);
 
 	try
 	{
@@ -103,6 +113,8 @@ Runesmith::~Runesmith()
 	if(clTM) delete clTM;
 	if(dfTM) delete dfTM;
 	if(cfTM) delete cfTM;
+	if(dmTM) delete dmTM;
+	if(cmTM) delete cmTM;
 	if(DFI) delete DFI;
 }
 
@@ -131,11 +143,12 @@ void Runesmith::attach()
 		QMessageBox msgBox(QMessageBox::Critical,
 			"Error!", temp, QMessageBox::Ok, this);			
 		msgBox.exec();
+		connectLbl.setText("Disconnected");
 		return;
 	}
 	
-	temp.setText("Connected to " + DFI->getVersion());
-	ui.statusBar->addPermanentWidget(&temp);
+	connectLbl.setText("Connected to " + DFI->getVersion());
+	ui.statusBar->addPermanentWidget(&connectLbl);
 	dTM->update(DFI);
 	cTM->update(DFI);	
 }
@@ -146,6 +159,7 @@ void Runesmith::detatch()
 	dTM->update(DFI);
 	cTM->update(DFI);
 	clean();
+	connectLbl.setText("Disconnected");
 }
 
 void Runesmith::update()
@@ -169,6 +183,7 @@ void Runesmith::dwarfSelected(const QModelIndex& index)
 	daTM->setCreature(DFI, dwarf);
 	dlTM->setCreature(DFI, dwarf);
 	dfTM->setCreature(DFI, dwarf);
+	dmTM->setCreature(DFI, dwarf);
 	skillProgDele.setCreature(dwarf);
 }
 
@@ -179,6 +194,7 @@ void Runesmith::creatureSelected(const QModelIndex& index)
 	caTM->setCreature(DFI, creature);
 	clTM->setCreature(DFI, creature);
 	cfTM->setCreature(DFI, creature);
+	cmTM->setCreature(DFI, creature);
 	cSkillProgDele.setCreature(creature);
 }
 
@@ -192,6 +208,8 @@ void Runesmith::clean()
 	clTM->clear();
 	dfTM->clear();
 	cfTM->clear();
+	dmTM->clear();
+	cmTM->clear();
 }
 
 void Runesmith::showDead(bool state)

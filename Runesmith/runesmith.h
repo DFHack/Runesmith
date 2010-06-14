@@ -12,6 +12,7 @@
 #include "progBarDelegate.h"
 #include "labTableModel.h"
 #include "flagTableModel.h"
+#include "miscTableModel.h"
 
 class Runesmith : public QMainWindow
 {
@@ -37,7 +38,7 @@ private:
 	Ui::RunesmithClass ui;
 	progBarDelegate skillProgDele;
 	progBarDelegate cSkillProgDele;
-	QLabel temp;
+	QLabel connectLbl;
 
 	dwarfTableModel *dTM;
 	skillsTableModel *dsTM;
@@ -49,6 +50,8 @@ private:
 	labTableModel *clTM;
 	flagTableModel *dfTM;
 	flagTableModel *cfTM;
+	miscTableModel *dmTM;
+	miscTableModel *cmTM;
 
 	DFInterface *DFI;
 };

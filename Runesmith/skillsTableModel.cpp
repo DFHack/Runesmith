@@ -29,7 +29,7 @@ QVariant skillsTableModel::data(const QModelIndex &index, int role) const
 	if((!creature) || (!DFI) || (role != Qt::DisplayRole))
 		return QVariant();	
 	
-	QString temp;int lo;
+	QString temp;
 
 	switch(index.column())
 	{

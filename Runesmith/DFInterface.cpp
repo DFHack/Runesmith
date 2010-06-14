@@ -83,6 +83,7 @@ bool DFInterface::attach()
 		Creatures = DF->getCreatures();
 		Materials = DF->getMaterials();
 		Tran = DF->getTranslation();
+		world = DF->getWorld();
 		suspend();	
 		process();
 		resume();
@@ -109,7 +110,7 @@ void DFInterface::update()
 	{
 		if(isAttached())
 		{
-			suspend();
+			suspend();			
 			process();
 			resume();
 		}
@@ -200,6 +201,7 @@ void DFInterface::suspend()
 void DFInterface::process()
 {
 	cleanup();
+	currentYear = world->ReadCurrentYear();
 
 	for(int i=0; i<numCreatures; i++)
 	{
@@ -225,13 +227,13 @@ void DFInterface::process()
 	}	
 }
 
-QString DFInterface::translateName(const DFHack::t_name &name)
+QString DFInterface::translateName(const DFHack::t_name &name, bool english)
 {
 	if(isAttached())
 	{
 		try
 		{
-			return Tran->TranslateName(name, false).c_str();
+			return Tran->TranslateName(name, english).c_str();
 		}
 		catch(std::exception &e)
 		{
@@ -392,6 +394,11 @@ QString DFInterface::getVersion()
 	}
 	
 	return "";
+}
+
+uint32_t DFInterface::getCurrentYear()
+{
+	return currentYear;
 }
 
 void DFInterface::cleanup()
