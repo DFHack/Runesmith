@@ -126,3 +126,8 @@ QVariant attrTableModel::headerData(int section,
 	else
 		return QVariant();
 }
+
+bool attrTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+	return false;
+}

@@ -200,13 +200,8 @@ Qt::ItemFlags flagTableModel::flags(const QModelIndex & index) const
 {
 	if (!index.isValid())
 		return Qt::ItemFlag::NoItemFlags;
-
-	//if (index.column() == 0)
-	//{
-	return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemFlag::ItemIsUserCheckable;
-	//}
-	//else
-	//	return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+	
+	return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemFlag::ItemIsUserCheckable;	
 }
 
 bool flagTableModel::setData(const QModelIndex &index, const QVariant &value, int role)

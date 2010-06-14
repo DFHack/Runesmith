@@ -181,3 +181,21 @@ void dwarfTableModel::update(DFInterface *nDFI)
 	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
 		QAbstractItemModel::createIndex(colCount, rowCount()));
 }
+
+Qt::ItemFlags dwarfTableModel::flags(const QModelIndex & index) const
+{
+	if (!index.isValid())
+		return Qt::ItemFlag::NoItemFlags;
+
+	if (index.column() == 2)
+	{
+		return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemFlag::ItemIsEditable;
+	}
+	else
+		return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+}
+
+bool dwarfTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+	return false;
+}

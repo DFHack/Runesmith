@@ -19,6 +19,8 @@ public:
 		Qt::Orientation orientation,
 		int role = Qt::DisplayRole) const;
 	void update(DFInterface *nDFI);
+	virtual Qt::ItemFlags flags(const QModelIndex &index) const;
+	virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 
 protected:
 	DFInterface *DFI;

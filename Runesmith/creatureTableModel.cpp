@@ -175,3 +175,21 @@ QVariant creatureTableModel::headerData(int section,
 	else
 		return QVariant();
 }
+
+Qt::ItemFlags creatureTableModel::flags(const QModelIndex & index) const
+{
+	if (!index.isValid())
+		return Qt::ItemFlag::NoItemFlags;
+
+	if (index.column() == 3)
+	{
+		return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemFlag::ItemIsEditable;
+	}
+	else
+		return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+}
+
+bool creatureTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+	return false;
+}

@@ -116,3 +116,21 @@ int skillsTableModel::getNumCols()
 {
 	return colCount;
 }
+
+Qt::ItemFlags skillsTableModel::flags(const QModelIndex & index) const
+{
+	if (!index.isValid())
+		return Qt::ItemFlag::NoItemFlags;
+
+	if (index.column() == 1)
+	{
+		return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemFlag::ItemIsEditable;
+	}
+	else
+		return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+}
+
+bool skillsTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+	return false;
+}
