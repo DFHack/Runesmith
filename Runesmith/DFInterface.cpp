@@ -207,7 +207,7 @@ void DFInterface::process()
 	{
 		DFHack::t_creature *temp = new DFHack::t_creature;
 		Creatures->ReadCreature(i,*temp);
-		IDs[temp->id] = i;
+		changeTracker[temp->id].id = i;
 
 		
 			if(QString(Materials->raceEx[temp->race].rawname) == "DWARF")

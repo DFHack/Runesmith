@@ -27,6 +27,17 @@ enum RacialStat
 	KINESTHETIC_SENSE_STAT
 };
 
+struct statusTracker
+{
+	statusTracker() : id(0), skillsChanged(false), attributesChanged(false),
+		flagsChanged(false), happinessChanged(false){}
+	uint32_t id;
+	bool skillsChanged;
+	bool attributesChanged;
+	bool flagsChanged;
+	bool happinessChanged;
+};
+
 class DFInterface
 {
 public:
@@ -69,7 +80,7 @@ private:
 	std::vector<DFHack::t_creature *> allCreatures;
 	std::vector<DFHack::t_creature *> allDwarves;
 
-	std::map<int, int> IDs;
+	std::map<uint32_t, statusTracker> changeTracker;
 	uint32_t numCreatures;
 	uint32_t currentYear;
 	bool processDead;
