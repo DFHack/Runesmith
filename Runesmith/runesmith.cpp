@@ -14,41 +14,20 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	ui.skillsTV->setItemDelegateForColumn(2, &skillProgDele);
 	ui.cSkillsTV->setItemDelegateForColumn(2, &cSkillProgDele);
 
-	if(!(dTM = new dwarfTableModel(this)))
-		throw RSException();
-
-	if(!(dsTM = new skillsTableModel(this)))
-		throw RSException();
-
-	if(!(cTM = new creatureTableModel(this)))
-		throw RSException();
-
-	if(!(csTM = new skillsTableModel(this)))
-		throw RSException();
-
-	if(!(daTM = new attrTableModel(this)))
-		throw RSException();
-
-	if(!(caTM = new attrTableModel(this)))
-		throw RSException();
-
-	if(!(dlTM = new labTableModel(this)))
-		throw RSException();
-
-	if(!(clTM = new labTableModel(this)))
-		throw RSException();
-
-	if(!(dfTM = new flagTableModel(this)))
-		throw RSException();
-
-	if(!(cfTM = new flagTableModel(this)))
-		throw RSException();
-
-	if(!(dmTM = new miscTableModel(this)))
-		throw RSException();
-
-	if(!(cmTM = new miscTableModel(this)))
-		throw RSException();
+	if(!(dTM = new dwarfTableModel(this))) throw RSException();
+	if(!(dsTM = new skillsTableModel(this))) throw RSException();
+	if(!(cTM = new creatureTableModel(this))) throw RSException();
+	if(!(csTM = new skillsTableModel(this))) throw RSException();
+	if(!(daTM = new attrTableModel(this))) throw RSException();
+	if(!(caTM = new attrTableModel(this))) throw RSException();
+	if(!(dlTM = new labTableModel(this))) throw RSException();
+	if(!(clTM = new labTableModel(this))) throw RSException();
+	if(!(dfTM = new flagTableModel(this))) throw RSException();
+	if(!(cfTM = new flagTableModel(this))) throw RSException();
+	if(!(dmTM = new miscTableModel(this))) throw RSException();
+	if(!(cmTM = new miscTableModel(this))) throw RSException();
+	if(!(dtTM = new traitsTableModel(this))) throw RSException();
+	if(!(ctTM = new traitsTableModel(this))) throw RSException();
 
 	ui.dwarvesTV->setModel(dTM);		
 	ui.skillsTV->setModel(dsTM);
@@ -62,6 +41,8 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	ui.cFlagTV->setModel(cfTM);
 	ui.dMiscTV->setModel(dmTM);
 	ui.cMiscTV->setModel(cmTM);
+	ui.dTraitsTV->setModel(dtTM);
+	ui.cTraitsTV->setModel(ctTM);
 	//this wasn't working correctly in the designer...
 	ui.skillsTV->horizontalHeader()->setResizeMode(dsTM->getNumCols()-1, QHeaderView::Stretch);
 	ui.cSkillsTV->horizontalHeader()->setResizeMode(csTM->getNumCols()-1, QHeaderView::Stretch);
@@ -73,6 +54,8 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	ui.cFlagTV->horizontalHeader()->setResizeMode(cfTM->getNumCols()-1, QHeaderView::Stretch);
 	ui.dMiscTV->horizontalHeader()->setResizeMode(dmTM->getNumCols()-1, QHeaderView::Stretch);
 	ui.cMiscTV->horizontalHeader()->setResizeMode(cmTM->getNumCols()-1, QHeaderView::Stretch);
+	ui.dTraitsTV->horizontalHeader()->setResizeMode(dtTM->getNumCols()-1, QHeaderView::Stretch);
+	ui.cTraitsTV->horizontalHeader()->setResizeMode(ctTM->getNumCols()-1, QHeaderView::Stretch);
 
 	try
 	{
@@ -115,6 +98,8 @@ Runesmith::~Runesmith()
 	if(cfTM) delete cfTM;
 	if(dmTM) delete dmTM;
 	if(cmTM) delete cmTM;
+	if(dtTM) delete dtTM;
+	if(ctTM) delete ctTM;
 	if(DFI) delete DFI;
 }
 
@@ -184,6 +169,7 @@ void Runesmith::dwarfSelected(const QModelIndex& index)
 	dlTM->setCreature(DFI, dwarf);
 	dfTM->setCreature(DFI, dwarf);
 	dmTM->setCreature(DFI, dwarf);
+	dtTM->setCreature(DFI, dwarf);
 	skillProgDele.setCreature(dwarf);
 }
 
@@ -195,6 +181,7 @@ void Runesmith::creatureSelected(const QModelIndex& index)
 	clTM->setCreature(DFI, creature);
 	cfTM->setCreature(DFI, creature);
 	cmTM->setCreature(DFI, creature);
+	ctTM->setCreature(DFI, creature);
 	cSkillProgDele.setCreature(creature);
 }
 
@@ -210,6 +197,8 @@ void Runesmith::clean()
 	cfTM->clear();
 	dmTM->clear();
 	cmTM->clear();
+	dtTM->clear();
+	ctTM->clear();
 }
 
 void Runesmith::showDead(bool state)

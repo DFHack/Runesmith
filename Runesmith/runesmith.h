@@ -13,6 +13,7 @@
 #include "labTableModel.h"
 #include "flagTableModel.h"
 #include "miscTableModel.h"
+#include "traitsTableModel.h"
 
 class Runesmith : public QMainWindow
 {
@@ -52,6 +53,8 @@ private:
 	flagTableModel *cfTM;
 	miscTableModel *dmTM;
 	miscTableModel *cmTM;
+	traitsTableModel *dtTM;
+	traitsTableModel *ctTM;
 
 	DFInterface *DFI;
 };

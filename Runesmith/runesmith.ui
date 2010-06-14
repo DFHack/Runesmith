@@ -182,7 +182,7 @@
            </attribute>
            <layout class="QGridLayout" name="gridLayout_12">
             <item row="0" column="0">
-             <widget class="QTextBrowser" name="dTraitsTxt"/>
+             <widget class="QTableView" name="dTraitsTV"/>
             </item>
            </layout>
           </widget>
@@ -375,7 +375,7 @@
            </attribute>
            <layout class="QGridLayout" name="gridLayout_15">
             <item row="0" column="0">
-             <widget class="QTextBrowser" name="cTraitsTxt"/>
+             <widget class="QTableView" name="cTraitsTV"/>
             </item>
            </layout>
           </widget>

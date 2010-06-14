@@ -375,6 +375,22 @@ QString DFInterface::translateLabour(const uint8_t labour)
 	return "";
 }
 
+QString DFInterface::translateTrait(uint32_t index, uint32_t value)
+{
+	if(isAttached())
+	{
+		try
+		{
+			return mem->getTrait(index, value).c_str();
+		}
+		catch(std::exception &e)
+		{
+		}
+	}
+	
+	return "";
+}
+
 void DFInterface::setProcessDead(bool state)
 {
 	processDead = state;

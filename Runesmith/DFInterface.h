@@ -50,6 +50,7 @@ public:
 	QString translateProfession(const uint32_t prof);
 	QString translateRace(const uint32_t race);
 	QString translateLabour(const uint8_t labour);
+	QString translateTrait(uint32_t index, uint32_t value);
 	uint32_t getRacialAverage(uint32_t race, uint32_t caste, RacialStat stat);
 	uint32_t getCurrentYear();
 	
