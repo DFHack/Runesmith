@@ -82,6 +82,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	QApplication::connect(ui.creaturesTV, SIGNAL(clicked(const QModelIndex&)), this,
 		SLOT(creatureSelected(const QModelIndex&)));
 	QApplication::connect(ui.actionShow_Dead, SIGNAL(triggered(bool)), this, SLOT(showDead(bool)));
+	QApplication::connect(ui.action_Write_Changes, SIGNAL(triggered()), this, SLOT(writeChanges()));
 }
 
 Runesmith::~Runesmith()
@@ -204,4 +205,16 @@ void Runesmith::clean()
 void Runesmith::showDead(bool state)
 {
 	DFI->setProcessDead(state);
+}
+
+void Runesmith::writeChanges()
+{
+	if(!DFI->writeAllChanges())
+	{
+		//error
+	}
+
+	dTM->update(DFI);
+	cTM->update(DFI);
+	clean();
 }

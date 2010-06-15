@@ -27,6 +27,14 @@ enum RacialStat
 	KINESTHETIC_SENSE_STAT
 };
 
+enum TrackedBlocks
+{
+	HAPPINESS_CHANGED,
+	FLAGS_CHANGED,
+	ATTRIBUTES_CHANGED,
+	SKILLS_CHANGED
+};
+
 struct statusTracker
 {
 	statusTracker() : id(0), skillsChanged(false), attributesChanged(false),
@@ -43,16 +51,20 @@ class DFInterface
 public:
 	DFInterface(void);
 	~DFInterface(void);
+
+	bool writeAllChanges();
+	bool changesPending();
 	bool isAttached();
 	bool attach();
 	void detatch();
 	void update();
 	void setProcessDead(bool state);
+	void setChanged(uint32_t id, TrackedBlocks changedBlock);
 	
 	std::vector<DFHack::t_creature *>& getDwarves();
 	std::vector<DFHack::t_creature *>& getCreatures();
-	DFHack::t_creature* getDwarf(int dwarf);
-	DFHack::t_creature* getCreature(int creature);
+	DFHack::t_creature* getDwarf(uint32_t dwarf);
+	DFHack::t_creature* getCreature(uint32_t creature);
 	DFHack::t_level getLevelInfo(uint32_t level);
 
 	QString getVersion();
@@ -63,18 +75,17 @@ public:
 	QString translateLabour(const uint8_t labour);
 	QString translateTrait(uint32_t index, uint32_t value);
 	uint32_t getRacialAverage(uint32_t race, uint32_t caste, RacialStat stat);
-	uint32_t getCurrentYear();
-	
+	uint32_t getCurrentYear();	
 
 private:
 	bool isContextValid();
 	void resume();
 	void suspend();
 	void process();
+	void cleanup();
+	bool internalWriteChanges();
 
 private:
-	void cleanup();
-
 	std::vector<DFHack::t_creature *> creatures;
 	std::vector<DFHack::t_creature *> dwarves;
 	std::vector<DFHack::t_creature *> allCreatures;
@@ -84,6 +95,7 @@ private:
 	uint32_t numCreatures;
 	uint32_t currentYear;
 	bool processDead;
+	bool dataChanged;
 
 	DFHack::ContextManager *DFMgr;
     DFHack::Context *DF;

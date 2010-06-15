@@ -2,7 +2,7 @@
 #include "rsException.h"
 
 DFInterface::DFInterface(void) : DF(NULL), DFMgr(NULL), Materials(NULL), Tran(NULL),
-	Creatures(NULL), mem(NULL), processDead(false)
+	Creatures(NULL), mem(NULL), processDead(false), dataChanged(false)
 {
 	try
 	{
@@ -150,7 +150,7 @@ std::vector<DFHack::t_creature *>& DFInterface::getCreatures()
 	}
 }
 
-DFHack::t_creature* DFInterface::getDwarf(int dwarf)
+DFHack::t_creature* DFInterface::getDwarf(uint32_t dwarf)
 {
 	if(isAttached())
 		if(!processDead)
@@ -161,7 +161,7 @@ DFHack::t_creature* DFInterface::getDwarf(int dwarf)
 		return NULL;
 }
 
-DFHack::t_creature* DFInterface::getCreature(int creature)
+DFHack::t_creature* DFInterface::getCreature(uint32_t creature)
 {
 	if(isAttached())
 		if(!processDead)
@@ -430,4 +430,112 @@ void DFInterface::cleanup()
 			delete allDwarves[i];
 	allDwarves.clear();
 	dwarves.clear();
+}
+
+void DFInterface::setChanged(uint32_t id, TrackedBlocks changedBlock)
+{
+	switch(changedBlock)
+	{
+	case HAPPINESS_CHANGED: 
+		changeTracker[id].happinessChanged = true; 
+		break;
+
+	case FLAGS_CHANGED:	
+		changeTracker[id].flagsChanged = true; 
+		break;
+
+	case ATTRIBUTES_CHANGED: 
+		changeTracker[id].attributesChanged = true;
+		break;
+
+	case SKILLS_CHANGED: 
+		changeTracker[id].skillsChanged = true;
+		break;
+	}
+
+	dataChanged = true;
+}
+
+bool DFInterface::changesPending()
+{
+	return dataChanged;
+}
+
+bool DFInterface::writeAllChanges()
+{
+	if(isContextValid())
+	{
+		if(isAttached())
+		{
+			suspend();
+
+			if(internalWriteChanges())
+			{
+				process();
+				resume();
+				return true;
+			}
+			else
+			{
+				process();
+				resume();
+				return false;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool DFInterface::internalWriteChanges()
+{
+	statusTracker temp;
+
+	for(int i=0; i<allDwarves.size(); i++)
+	{
+		temp = changeTracker[allDwarves[i]->id];
+
+		if(temp.happinessChanged)
+		{
+			if(!Creatures->WriteHappiness(temp.id, allDwarves[i]->happiness))
+				return false;
+		}
+
+		if(temp.skillsChanged)
+		{
+		}
+
+		if(temp.attributesChanged)
+		{
+		}
+
+		if(temp.flagsChanged)
+		{
+		}
+	}
+
+	for(int i=0; i<allCreatures.size(); i++)
+	{
+		temp = changeTracker[allCreatures[i]->id];
+
+		if(temp.happinessChanged)
+		{
+			if(!Creatures->WriteHappiness(temp.id, allCreatures[i]->happiness))
+				return false;
+		}
+
+		if(temp.skillsChanged)
+		{
+		}
+
+		if(temp.attributesChanged)
+		{
+		}
+
+		if(temp.flagsChanged)
+		{
+		}
+	}
+
+	return true;
 }

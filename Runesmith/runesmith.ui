@@ -402,7 +402,9 @@
     </property>
     <addaction name="action_Connect"/>
     <addaction name="action_Disconnect"/>
+    <addaction name="separator"/>
     <addaction name="action_Refresh"/>
+    <addaction name="action_Write_Changes"/>
     <addaction name="separator"/>
     <addaction name="actionE_xit"/>
    </widget>
@@ -432,6 +434,7 @@
    <addaction name="action_Connect"/>
    <addaction name="action_Disconnect"/>
    <addaction name="action_Refresh"/>
+   <addaction name="action_Write_Changes"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionE_xit">
@@ -487,6 +490,15 @@
    </property>
    <property name="statusTip">
     <string/>
+   </property>
+  </action>
+  <action name="action_Write_Changes">
+   <property name="icon">
+    <iconset resource="runesmith.qrc">
+     <normaloff>:/Runesmith/Icons/save.png</normaloff>:/Runesmith/Icons/save.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Write Changes</string>
    </property>
   </action>
  </widget>

@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="Runesmith">
+    <file>Icons/save.png</file>
     <file>Runesmith.bmp</file>
     <file>Icons/Help-icon.png</file>
     <file>Resources/Runesmith.png</file>

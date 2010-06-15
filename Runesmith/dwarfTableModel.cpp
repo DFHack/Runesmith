@@ -1,4 +1,5 @@
 #include <string>
+#include <limits>
 #include <QColor>
 #include "dwarfTableModel.h"
 
@@ -197,5 +198,26 @@ Qt::ItemFlags dwarfTableModel::flags(const QModelIndex & index) const
 
 bool dwarfTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-	return false;
+	if(index.column() != 2)
+		return false;
+
+	if(!DFI)
+		return false;
+
+	if(!DFI->isAttached())
+		return false;
+	
+	std::vector<DFHack::t_creature *>& dwarves = DFI->getDwarves();	
+
+	if(index.row() >= dwarves.size())
+		return false;
+
+	uint32_t temp = value.toUInt();
+
+	if(temp > std::numeric_limits<uint32_t>::max())
+		return false;
+	
+	dwarves[index.row()]->happiness = temp;
+	DFI->setChanged(dwarves[index.row()]->id, HAPPINESS_CHANGED);
+	return true;
 }
