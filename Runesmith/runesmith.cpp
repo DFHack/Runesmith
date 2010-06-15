@@ -150,6 +150,17 @@ void Runesmith::detatch()
 
 void Runesmith::update()
 {
+	if(DFI->changesPending())
+	{
+		QMessageBox msgBox(QMessageBox::Warning,
+			"Warning!",
+			"Would you like to write pending chnages first?",
+			QMessageBox::Yes | QMessageBox::No, this);
+
+		if(msgBox.exec() == QMessageBox::Yes)
+			writeChanges();
+	}
+
 	DFI->update();
 	dTM->update(DFI);
 	cTM->update(DFI);
@@ -211,7 +222,12 @@ void Runesmith::writeChanges()
 {
 	if(!DFI->writeAllChanges())
 	{
-		//error
+		QMessageBox msgBox(QMessageBox::Critical,
+			"Error!", "Could not write changes!",
+			QMessageBox::Ok, this);			
+		msgBox.exec();
+		update();
+		return;
 	}
 
 	dTM->update(DFI);

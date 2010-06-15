@@ -99,6 +99,7 @@ void DFInterface::detatch()
 			suspend();
 			DF->Detach();
 			numCreatures = 0;
+			dataChanged = false;
 			cleanup();
 		}
 	}
@@ -117,6 +118,7 @@ void DFInterface::update()
 	}
 	else
 	{
+		dataChanged = false;
 		numCreatures = 0;
 		cleanup();
 	}
@@ -503,6 +505,8 @@ bool DFInterface::internalWriteChanges()
 
 		if(temp.skillsChanged)
 		{
+			if(!Creatures->WriteSkills(temp.id, allDwarves[i]->defaultSoul))
+				return false;
 		}
 
 		if(temp.attributesChanged)
@@ -528,6 +532,8 @@ bool DFInterface::internalWriteChanges()
 
 		if(temp.skillsChanged)
 		{
+			if(!Creatures->WriteSkills(temp.id, allCreatures[i]->defaultSoul))
+				return false;
 		}
 
 		if(temp.attributesChanged)
@@ -541,5 +547,6 @@ bool DFInterface::internalWriteChanges()
 		}
 	}
 
+	dataChanged = false;
 	return true;
 }

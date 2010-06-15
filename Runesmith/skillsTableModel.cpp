@@ -1,3 +1,4 @@
+#include <limits>
 #include "skillsTableModel.h"
 
 skillsTableModel::skillsTableModel(QObject *parent, int nColCount) 
@@ -132,5 +133,23 @@ Qt::ItemFlags skillsTableModel::flags(const QModelIndex & index) const
 
 bool skillsTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-	return false;
+	if(!DFI)
+		return false;
+
+	if(!DFI->isAttached())
+		return false;
+
+	if(index.column() == 1)
+	{
+		uint32_t temp = value.toUInt();
+
+		if(temp > std::numeric_limits<uint8_t>::max())
+			temp = std::numeric_limits<uint8_t>::max();
+
+		creature->defaultSoul.skills[index.row()].rating = temp;
+		DFI->setChanged(creature->id, SKILLS_CHANGED);
+		return true;
+	}		
+	else
+		return false;
 }
