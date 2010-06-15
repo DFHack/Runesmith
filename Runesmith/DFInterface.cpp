@@ -511,6 +511,8 @@ bool DFInterface::internalWriteChanges()
 
 		if(temp.attributesChanged)
 		{
+			if(!Creatures->WriteAttributes(temp.id, *allDwarves[i]))
+				return false;
 		}
 
 		if(temp.flagsChanged)
@@ -538,6 +540,8 @@ bool DFInterface::internalWriteChanges()
 
 		if(temp.attributesChanged)
 		{
+			if(!Creatures->WriteAttributes(temp.id, *allCreatures[i]))
+				return false;
 		}
 
 		if(temp.flagsChanged)
