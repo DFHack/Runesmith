@@ -206,5 +206,85 @@ Qt::ItemFlags flagTableModel::flags(const QModelIndex & index) const
 
 bool flagTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-	return false;
+	if(index.column())
+		return false;
+
+	if(!DFI)
+		return false;
+
+	if(!DFI->isAttached())
+		return false;
+
+	uint32_t temp = value.toUInt();
+
+	switch(index.row())
+	{
+	case 0: creature->flags1.bits.active_invader = temp ? 1 : 0; break;
+	case 1: creature->flags2.bits.breathing_good = temp ? 1 : 0; break;
+	case 2: creature->flags2.bits.breathing_problem = temp ? 1 : 0; break;
+	case 3: creature->flags1.bits.caged = temp ? 1 : 0; break;
+	case 4: creature->flags2.bits.calculated_bodyparts = temp ? 1 : 0; break;
+	case 5: creature->flags2.bits.calculated_insulation = temp ? 1 : 0; break;
+	case 6: creature->flags2.bits.calculated_inventory = temp ? 1 : 0; break;
+	case 7: creature->flags2.bits.calculated_nerves = temp ? 1 : 0; break;
+	case 8: creature->flags1.bits.can_swap = temp ? 1 : 0; break;
+	case 9: creature->flags1.bits.chained = temp ? 1 : 0; break;
+	case 10: creature->flags1.bits.check_flows = temp ? 1 : 0; break;
+	case 11: creature->flags2.bits.circulatory_spray = temp ? 1 : 0; break;
+	case 12: creature->flags1.bits.coward = temp ? 1 : 0; break;
+	case 13: creature->flags1.bits.dead = temp ? 1 : 0; break;
+	case 14: creature->flags1.bits.diplomat = temp ? 1 : 0; break;
+	case 15: creature->flags1.bits.drowning = temp ? 1 : 0; break;
+	case 16: creature->flags2.bits.for_trade = temp ? 1 : 0; break;
+	case 17: creature->flags1.bits.forest = temp ? 1 : 0; break;
+	case 18: creature->flags1.bits.fortress_guard = temp ? 1 : 0; break;
+	case 19: creature->flags2.bits.gutted = temp ? 1 : 0; break;
+	case 20: creature->flags1.bits.had_mood = temp ? 1 : 0; break;
+	case 21: creature->flags2.bits.has_breaks = temp ? 1 : 0; break;
+	case 22: creature->flags1.bits.has_mood = temp ? 1 : 0; break;
+	case 23: creature->flags1.bits.hidden_ambusher = temp ? 1 : 0; break;
+	case 24: creature->flags1.bits.hidden_in_ambush = temp ? 1 : 0; break;
+	case 25: creature->flags1.bits.important_historical_figure = temp ? 1 : 0; break;
+	case 26: creature->flags2.bits.important_historical_figure = temp ? 1 : 0; break;
+	case 27: creature->flags1.bits.incoming = temp ? 1 : 0; break;
+	case 28: creature->flags1.bits.invader_origin = temp ? 1 : 0; break;
+	case 29: creature->flags1.bits.invades = temp ? 1 : 0; break;
+	case 30: creature->flags2.bits.killed = temp ? 1 : 0; break;
+	case 31: creature->flags1.bits.left = temp ? 1 : 0; break;
+	case 32: creature->flags2.bits.locked_in_for_trading = temp ? 1 : 0; break;
+	case 33: creature->flags1.bits.marauder = temp ? 1 : 0; break;
+	case 34: creature->flags1.bits.merchant = temp ? 1 : 0; break;
+	case 35: creature->flags1.bits.move_state = temp ? 1 : 0; break;
+	case 36: creature->flags2.bits.no_notify = temp ? 1 : 0; break;
+	case 37: creature->flags1.bits.on_ground = temp ? 1 : 0; break;
+	case 38: creature->flags1.bits.projectile = temp ? 1 : 0; break;
+	case 39: creature->flags2.bits.resident = temp ? 1 : 0; break;
+	case 40: creature->flags1.bits.ridden = temp ? 1 : 0; break;
+	case 41: creature->flags1.bits.rider = temp ? 1 : 0; break;
+	case 42: creature->flags2.bits.roaming_wilderness_population_source = temp ? 1 : 0; break;
+	case 43: creature->flags2.bits.roaming_wilderness_population_source_not_a_map_feature = temp ? 1 : 0; break;
+	case 44: creature->flags1.bits.royal_guard = temp ? 1 : 0; break;
+	case 45: creature->flags1.bits.skeleton = temp ? 1 : 0; break;
+	case 46: creature->flags2.bits.slaughter = temp ? 1 : 0; break;
+	case 47: creature->flags2.bits.sparring = temp ? 1 : 0; break;
+	case 48: creature->flags1.bits.suppress_wield = temp ? 1 : 0; break;
+	case 49: creature->flags2.bits.swimming = temp ? 1 : 0; break;
+	case 50: creature->flags1.bits.tame = temp ? 1 : 0; break;
+	case 51: creature->flags2.bits.trade_resolved = temp ? 1 : 0; break;
+	case 52: creature->flags2.bits.underworld = temp ? 1 : 0; break;
+	case 53: creature->flags2.bits.vision_damaged = temp ? 1 : 0; break;
+	case 54: creature->flags2.bits.vision_good = temp ? 1 : 0; break;
+	case 55: creature->flags2.bits.vision_missing = temp ? 1 : 0; break;
+	case 56: creature->flags2.bits.visitor = temp ? 1 : 0; break;
+	case 57: creature->flags2.bits.visitor_uninvited = temp ? 1 : 0; break;
+	case 58: creature->flags1.bits.zombie = temp ? 1 : 0; break;
+	case 59: creature->flags2.bits.cleanup_1 = temp ? 1 : 0; break;
+	case 60: creature->flags2.bits.cleanup_2 = temp ? 1 : 0; break;
+	case 61: creature->flags2.bits.cleanup_3 = temp ? 1 : 0; break;
+	case 62: creature->flags2.bits.cleanup_4 = temp ? 1 : 0; break;
+	default: return false;
+	}
+
+	DFI->setChanged(creature->id, FLAGS_CHANGED);
+	return true;
 }

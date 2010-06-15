@@ -59,7 +59,7 @@ QVariant traitsTableModel::headerData(int section,
 }
 
 void traitsTableModel::setCreature(DFInterface *nDFI,
-								   const DFHack::t_creature *nCreature)
+								   DFHack::t_creature *nCreature)
 {
 	DFI = nDFI;
 	

@@ -57,7 +57,7 @@ QVariant labTableModel::headerData(int section,
 		return QVariant();
 }
 
-void labTableModel::setCreature(DFInterface *nDFI, const DFHack::t_creature *nCreature)
+void labTableModel::setCreature(DFInterface *nDFI, DFHack::t_creature *nCreature)
 {
 	DFI = nDFI;	
 

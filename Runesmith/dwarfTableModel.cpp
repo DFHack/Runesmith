@@ -212,11 +212,7 @@ bool dwarfTableModel::setData(const QModelIndex &index, const QVariant &value, i
 	if(index.row() >= dwarves.size())
 		return false;
 
-	uint32_t temp = value.toUInt();
-
-	if(temp > std::numeric_limits<uint32_t>::max())
-		return false;
-	
+	uint32_t temp = value.toUInt();	
 	dwarves[index.row()]->happiness = temp;
 	DFI->setChanged(dwarves[index.row()]->id, HAPPINESS_CHANGED);
 	return true;

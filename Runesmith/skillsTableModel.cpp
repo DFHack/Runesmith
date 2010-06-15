@@ -85,7 +85,7 @@ QVariant skillsTableModel::headerData(int section,
 }
 
 void skillsTableModel::setCreature(DFInterface *nDFI,
-								   const DFHack::t_creature *nCreature)
+								   DFHack::t_creature *nCreature)
 {
 	DFI = nDFI;
 	

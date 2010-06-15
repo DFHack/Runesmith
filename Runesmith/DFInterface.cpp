@@ -511,6 +511,8 @@ bool DFInterface::internalWriteChanges()
 
 		if(temp.flagsChanged)
 		{
+			if(!Creatures->WriteFlags(temp.id, allDwarves[i]->flags1.whole, allDwarves[i]->flags2.whole))
+				return false;
 		}
 	}
 
@@ -534,6 +536,8 @@ bool DFInterface::internalWriteChanges()
 
 		if(temp.flagsChanged)
 		{
+			if(!Creatures->WriteFlags(temp.id, allCreatures[i]->flags1.whole, allCreatures[i]->flags2.whole))
+				return false;
 		}
 	}
 

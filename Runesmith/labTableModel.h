@@ -16,7 +16,7 @@ public:
 	QVariant headerData(int section,
 		Qt::Orientation orientation,
 		int role = Qt::DisplayRole) const;
-	void setCreature(DFInterface *nDFI, const DFHack::t_creature *nCreature);
+	void setCreature(DFInterface *nDFI, DFHack::t_creature *nCreature);
 
 private:
 	std::vector<uint8_t> labours;
