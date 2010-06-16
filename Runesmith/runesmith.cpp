@@ -13,6 +13,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	ui.setupUi(this);
 	ui.skillsTV->setItemDelegateForColumn(2, &skillProgDele);
 	ui.cSkillsTV->setItemDelegateForColumn(2, &cSkillProgDele);
+	ui.dMiscTV->setItemDelegateForColumn(1, &sCD);
 
 	if(!(dTM = new dwarfTableModel(this))) throw RSException();
 	if(!(dsTM = new skillsTableModel(this))) throw RSException();
@@ -83,6 +84,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 		SLOT(creatureSelected(const QModelIndex&)));
 	QApplication::connect(ui.actionShow_Dead, SIGNAL(triggered(bool)), this, SLOT(showDead(bool)));
 	QApplication::connect(ui.action_Write_Changes, SIGNAL(triggered()), this, SLOT(writeChanges()));
+	QApplication::connect(ui.action_Force_Resume, SIGNAL(triggered()), this, SLOT(forceResume()));
 }
 
 Runesmith::~Runesmith()
@@ -146,6 +148,23 @@ void Runesmith::detatch()
 	cTM->update(DFI);
 	clean();
 	connectLbl.setText("Disconnected");
+}
+
+void Runesmith::forceResume()
+{
+	try
+	{
+		DFI->forceResume();
+	}
+	catch(std::exception &e)
+	{
+		QString temp(e.what()[0]);
+		temp = temp.toUpper();
+		temp.append(e.what()+1);		
+		QMessageBox msgBox(QMessageBox::Critical,
+			"Error!", temp, QMessageBox::Ok, this);			
+		msgBox.exec();
+	}
 }
 
 void Runesmith::update()

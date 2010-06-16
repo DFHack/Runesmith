@@ -105,6 +105,24 @@ void DFInterface::detatch()
 	}
 }
 
+void DFInterface::forceResume()
+{
+	if(isContextValid())
+	{
+		if(isAttached())
+		{
+			try
+			{
+				DF->ForceResume();
+			}
+			catch(std::exception &e)
+			{
+				throw;
+			}
+		}
+	}
+}
+
 void DFInterface::update()
 {
 	if(isContextValid())
@@ -453,6 +471,10 @@ void DFInterface::setChanged(uint32_t id, TrackedBlocks changedBlock)
 	case SKILLS_CHANGED: 
 		changeTracker[id].skillsChanged = true;
 		break;
+
+	case SEX_CHANGED:
+		changeTracker[id].sexChanged = true;
+		break;
 	}
 
 	dataChanged = true;
@@ -471,17 +493,23 @@ bool DFInterface::writeAllChanges()
 		{
 			suspend();
 
-			if(internalWriteChanges())
+			try
 			{
-				process();
-				resume();
-				return true;
+				if(internalWriteChanges())
+				{
+					process();
+					resume();
+					return true;
+				}
+				else
+				{
+					process();
+					resume();
+					return false;
+				}
 			}
-			else
+			catch(std::exception &e)
 			{
-				process();
-				resume();
-				return false;
 			}
 		}
 	}
@@ -491,66 +519,52 @@ bool DFInterface::writeAllChanges()
 
 bool DFInterface::internalWriteChanges()
 {
-	statusTracker temp;
+	if(!writeLoop(allDwarves))
+		return false;
 
-	for(int i=0; i<allDwarves.size(); i++)
-	{
-		temp = changeTracker[allDwarves[i]->id];
-
-		if(temp.happinessChanged)
-		{
-			if(!Creatures->WriteHappiness(temp.id, allDwarves[i]->happiness))
-				return false;
-		}
-
-		if(temp.skillsChanged)
-		{
-			if(!Creatures->WriteSkills(temp.id, allDwarves[i]->defaultSoul))
-				return false;
-		}
-
-		if(temp.attributesChanged)
-		{
-			if(!Creatures->WriteAttributes(temp.id, *allDwarves[i]))
-				return false;
-		}
-
-		if(temp.flagsChanged)
-		{
-			if(!Creatures->WriteFlags(temp.id, allDwarves[i]->flags1.whole, allDwarves[i]->flags2.whole))
-				return false;
-		}
-	}
-
-	for(int i=0; i<allCreatures.size(); i++)
-	{
-		temp = changeTracker[allCreatures[i]->id];
-
-		if(temp.happinessChanged)
-		{
-			if(!Creatures->WriteHappiness(temp.id, allCreatures[i]->happiness))
-				return false;
-		}
-
-		if(temp.skillsChanged)
-		{
-			if(!Creatures->WriteSkills(temp.id, allCreatures[i]->defaultSoul))
-				return false;
-		}
-
-		if(temp.attributesChanged)
-		{
-			if(!Creatures->WriteAttributes(temp.id, *allCreatures[i]))
-				return false;
-		}
-
-		if(temp.flagsChanged)
-		{
-			if(!Creatures->WriteFlags(temp.id, allCreatures[i]->flags1.whole, allCreatures[i]->flags2.whole))
-				return false;
-		}
-	}
+	if(!writeLoop(allCreatures))
+		return false;
 
 	dataChanged = false;
 	return true;
+}
+
+bool DFInterface::writeLoop(std::vector<DFHack::t_creature *> &data)
+{
+	statusTracker temp;
+
+	for(int i=0; i<data.size(); i++)
+	{
+		temp = changeTracker[data[i]->id];
+
+		if(temp.happinessChanged)
+		{
+			if(!Creatures->WriteHappiness(temp.id, data[i]->happiness))
+				return false;
+		}
+
+		if(temp.skillsChanged)
+		{
+			if(!Creatures->WriteSkills(temp.id, data[i]->defaultSoul))
+				return false;
+		}
+
+		if(temp.attributesChanged)
+		{
+			if(!Creatures->WriteAttributes(temp.id, *data[i]))
+				return false;
+		}
+
+		if(temp.flagsChanged)
+		{
+			if(!Creatures->WriteFlags(temp.id, data[i]->flags1.whole, data[i]->flags2.whole))
+				return false;
+		}
+
+		if(temp.sexChanged)
+		{
+			if(!Creatures->WriteSex(temp.id, data[i]->sex))
+				return false;
+		}
+	}
 }

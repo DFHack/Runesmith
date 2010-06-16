@@ -166,6 +166,12 @@
            <layout class="QGridLayout" name="gridLayout_13">
             <item row="0" column="0">
              <widget class="QTableView" name="dMiscTV">
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectRows</enum>
+              </property>
               <attribute name="horizontalHeaderDefaultSectionSize">
                <number>115</number>
               </attribute>
@@ -359,6 +365,12 @@
            <layout class="QGridLayout" name="gridLayout_14">
             <item row="0" column="0">
              <widget class="QTableView" name="cMiscTV">
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectRows</enum>
+              </property>
               <attribute name="horizontalHeaderDefaultSectionSize">
                <number>115</number>
               </attribute>
@@ -402,6 +414,7 @@
     </property>
     <addaction name="action_Connect"/>
     <addaction name="action_Disconnect"/>
+    <addaction name="action_Force_Resume"/>
     <addaction name="separator"/>
     <addaction name="action_Refresh"/>
     <addaction name="action_Write_Changes"/>
@@ -433,6 +446,7 @@
    </attribute>
    <addaction name="action_Connect"/>
    <addaction name="action_Disconnect"/>
+   <addaction name="action_Force_Resume"/>
    <addaction name="action_Refresh"/>
    <addaction name="action_Write_Changes"/>
   </widget>
@@ -499,6 +513,15 @@
    </property>
    <property name="text">
     <string>&amp;Write Changes</string>
+   </property>
+  </action>
+  <action name="action_Force_Resume">
+   <property name="icon">
+    <iconset resource="runesmith.qrc">
+     <normaloff>:/Runesmith/Icons/redredo.png</normaloff>:/Runesmith/Icons/redredo.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Force Resume</string>
    </property>
   </action>
  </widget>

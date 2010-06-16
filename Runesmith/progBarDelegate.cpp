@@ -67,3 +67,9 @@ void progBarDelegate::setCreature(DFHack::t_creature *nCreature)
 	else	
 		creature = NULL;
 }
+
+void progBarDelegate::updateEditorGeometry(QWidget *editor,
+     const QStyleOptionViewItem &option, const QModelIndex &/* index */) const
+ {
+     editor->setGeometry(option.rect);
+ }

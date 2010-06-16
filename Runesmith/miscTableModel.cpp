@@ -89,3 +89,35 @@ QString miscTableModel::calcDob() const
 	temp.append(QString::number(creature->birth_year));
 	return temp;
 }
+
+Qt::ItemFlags miscTableModel::flags(const QModelIndex & index) const
+{
+	if (!index.isValid())
+		return Qt::ItemFlag::NoItemFlags;
+
+	if((index.column() == 1) && (index.row() == 2))
+	{
+		return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemFlag::ItemIsEditable;
+	}
+	else
+		return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+}
+
+bool miscTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+	if(!DFI)
+		return false;
+
+	if(!DFI->isAttached())
+		return false;
+
+	if((index.column() == 1) && (index.row() == 2))
+	{
+		int temp = value.toInt();
+		creature->sex = temp;
+		DFI->setChanged(creature->id, SEX_CHANGED);
+		return true;
+	}	
+	else
+		return false;
+}

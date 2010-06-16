@@ -32,18 +32,20 @@ enum TrackedBlocks
 	HAPPINESS_CHANGED,
 	FLAGS_CHANGED,
 	ATTRIBUTES_CHANGED,
-	SKILLS_CHANGED
+	SKILLS_CHANGED,
+	SEX_CHANGED
 };
 
 struct statusTracker
 {
 	statusTracker() : id(0), skillsChanged(false), attributesChanged(false),
-		flagsChanged(false), happinessChanged(false){}
+		flagsChanged(false), happinessChanged(false), sexChanged(false){}
 	uint32_t id;
 	bool skillsChanged;
 	bool attributesChanged;
 	bool flagsChanged;
 	bool happinessChanged;
+	bool sexChanged;
 };
 
 class DFInterface
@@ -57,6 +59,7 @@ public:
 	bool isAttached();
 	bool attach();
 	void detatch();
+	void forceResume();
 	void update();
 	void setProcessDead(bool state);
 	void setChanged(uint32_t id, TrackedBlocks changedBlock);
@@ -84,6 +87,7 @@ private:
 	void process();
 	void cleanup();
 	bool internalWriteChanges();
+	bool writeLoop(std::vector<DFHack::t_creature *> &data);
 
 private:
 	std::vector<DFHack::t_creature *> creatures;

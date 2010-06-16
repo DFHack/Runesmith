@@ -14,6 +14,7 @@
 #include "flagTableModel.h"
 #include "miscTableModel.h"
 #include "traitsTableModel.h"
+#include "sexComboDelegate.h"
 
 class Runesmith : public QMainWindow
 {
@@ -26,6 +27,7 @@ public:
 public slots:
 	void attach();
 	void detatch();
+	void forceResume();
 	void close();
 	void update();
 	void aboutSlot();
@@ -40,6 +42,7 @@ private:
 	Ui::RunesmithClass ui;
 	progBarDelegate skillProgDele;
 	progBarDelegate cSkillProgDele;
+	sexComboDelegate sCD;
 	QLabel connectLbl;
 
 	dwarfTableModel *dTM;
