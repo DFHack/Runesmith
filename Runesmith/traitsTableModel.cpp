@@ -141,3 +141,37 @@ void traitsTableModel::updateCache()
 			traits.push_back(temp);
 	}
 }
+
+DFHack::t_creature *traitsTableModel::getCreature()
+{
+	return creature;
+}
+
+bool traitsTableModel::addTrait(int index1, int index2)
+{
+	if(!DFI)
+		return false;
+
+	if(!DFI->isAttached())
+		return false;
+
+	if((index1 >= 0) && (index2 >= 0))
+	{
+		switch(index2)
+		{
+		case 0: creature->defaultSoul.traits[index1] = 9; break;
+		case 1: creature->defaultSoul.traits[index1] = 24; break;
+		case 2: creature->defaultSoul.traits[index1] = 60; break;
+		case 3: creature->defaultSoul.traits[index1] = 75; break;
+		case 4: creature->defaultSoul.traits[index1] = 90; break;
+		case 5: creature->defaultSoul.traits[index1] = 100; break;
+		default: return false;
+		}
+
+		DFI->setChanged(creature->id, TRAITS_CHANGED);
+		updateCache();
+		return true;
+	}
+	else
+		return false;
+}

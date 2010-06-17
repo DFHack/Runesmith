@@ -6,6 +6,7 @@
 #include "runesmith.h"
 #include "rsException.h"
 #include "about.h"
+#include "addTrait.h"
 
 Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 : QMainWindow(parent, flags), DFI(NULL)
@@ -87,6 +88,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	QApplication::connect(ui.actionShow_Dead, SIGNAL(triggered(bool)), this, SLOT(showDead(bool)));
 	QApplication::connect(ui.action_Write_Changes, SIGNAL(triggered()), this, SLOT(writeChanges()));
 	QApplication::connect(ui.action_Force_Resume, SIGNAL(triggered()), this, SLOT(forceResume()));
+	QApplication::connect(ui.dAddTraitBtn, SIGNAL(clicked()), this, SLOT(addTraitWrap()));
 }
 
 Runesmith::~Runesmith()
@@ -256,4 +258,19 @@ void Runesmith::writeChanges()
 	dTM->update(DFI);
 	cTM->update(DFI);
 	clean();
+}
+
+void Runesmith::addTraitWrap()
+{
+	addTrait temp(this, 0, dtTM->getCreature(), DFI);
+	temp.setModal(true);
+	temp.exec();
+
+	if(!dtTM->addTrait(temp.getIndex1(), temp.getIndex2()))
+	{
+		QMessageBox msgBox(QMessageBox::Critical,
+			"Error!", "Could not add trait!",
+			QMessageBox::Ok, this);			
+		msgBox.exec();
+	}
 }

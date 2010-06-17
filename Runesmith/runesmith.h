@@ -36,6 +36,7 @@ public slots:
 	void dwarfSelected(const QModelIndex& index);
 	void creatureSelected(const QModelIndex& index);
 	void writeChanges();
+	void addTraitWrap();
 
 private:
 	void clean();
