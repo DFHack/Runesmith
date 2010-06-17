@@ -475,6 +475,10 @@ void DFInterface::setChanged(uint32_t id, TrackedBlocks changedBlock)
 	case SEX_CHANGED:
 		changeTracker[id].sexChanged = true;
 		break;
+
+	case TRAITS_CHANGED:
+		changeTracker[id].traitsChanged = true;
+		break;
 	}
 
 	dataChanged = true;
@@ -531,40 +535,61 @@ bool DFInterface::internalWriteChanges()
 
 bool DFInterface::writeLoop(std::vector<DFHack::t_creature *> &data)
 {
-	statusTracker temp;
-
 	for(int i=0; i<data.size(); i++)
 	{
-		temp = changeTracker[data[i]->id];
+		statusTracker &temp = changeTracker[data[i]->id];
 
 		if(temp.happinessChanged)
 		{
 			if(!Creatures->WriteHappiness(temp.id, data[i]->happiness))
 				return false;
+
+			temp.happinessChanged = false;
 		}
 
 		if(temp.skillsChanged)
 		{
 			if(!Creatures->WriteSkills(temp.id, data[i]->defaultSoul))
 				return false;
+
+			temp.skillsChanged = false;
 		}
 
 		if(temp.attributesChanged)
 		{
 			if(!Creatures->WriteAttributes(temp.id, *data[i]))
 				return false;
+
+			temp.attributesChanged = false;
 		}
 
 		if(temp.flagsChanged)
 		{
 			if(!Creatures->WriteFlags(temp.id, data[i]->flags1.whole, data[i]->flags2.whole))
 				return false;
+
+			temp.flagsChanged = false;
 		}
 
 		if(temp.sexChanged)
 		{
 			if(!Creatures->WriteSex(temp.id, data[i]->sex))
 				return false;
+
+			temp.sexChanged = false;
+		}
+
+		if(temp.traitsChanged)
+		{
+			if(!Creatures->WriteTraits(temp.id, data[i]->defaultSoul))
+				return false;
+
+			temp.traitsChanged = false;
 		}
 	}
+}
+
+std::vector< std::vector<std::string>> const& DFInterface::getAllTraits()
+{
+	return mem->getAllTraits();
 }

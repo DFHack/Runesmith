@@ -44,7 +44,7 @@
            </sizepolicy>
           </property>
           <property name="currentIndex">
-           <number>0</number>
+           <number>6</number>
           </property>
           <widget class="QWidget" name="dSkillsTab">
            <attribute name="title">
@@ -189,6 +189,34 @@
            <layout class="QGridLayout" name="gridLayout_12">
             <item row="0" column="0">
              <widget class="QTableView" name="dTraitsTV"/>
+            </item>
+            <item row="1" column="0">
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <item>
+               <spacer name="horizontalSpacer">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="dAddTraitBtn">
+                <property name="text">
+                 <string>Add Trait</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="runesmith.qrc">
+                  <normaloff>:/Runesmith/Icons/plus.png</normaloff>:/Runesmith/Icons/plus.png</iconset>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </widget>

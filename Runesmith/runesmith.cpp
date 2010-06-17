@@ -14,6 +14,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	ui.skillsTV->setItemDelegateForColumn(2, &skillProgDele);
 	ui.cSkillsTV->setItemDelegateForColumn(2, &cSkillProgDele);
 	ui.dMiscTV->setItemDelegateForColumn(1, &sCD);
+	ui.dTraitsTV->setItemDelegate(&tCD);
 
 	if(!(dTM = new dwarfTableModel(this))) throw RSException();
 	if(!(dsTM = new skillsTableModel(this))) throw RSException();
@@ -63,6 +64,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 		DFI = new DFInterface();
 		skillProgDele.setDFI(DFI);
 		cSkillProgDele.setDFI(DFI);
+		tCD.setDFI(DFI);
 	}
 	catch (std::exception& e)
 	{
@@ -120,6 +122,7 @@ void Runesmith::attach()
 			DFI = new DFInterface();
 			skillProgDele.setDFI(DFI);
 			cSkillProgDele.setDFI(DFI);
+			tCD.setDFI(DFI);
 		}
 		DFI->attach();
 	}
@@ -146,6 +149,7 @@ void Runesmith::detatch()
 	DFI->detatch();
 	dTM->update(DFI);
 	cTM->update(DFI);
+	tCD.setDFI(NULL);
 	clean();
 	connectLbl.setText("Disconnected");
 }

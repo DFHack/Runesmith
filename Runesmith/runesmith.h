@@ -15,6 +15,7 @@
 #include "miscTableModel.h"
 #include "traitsTableModel.h"
 #include "sexComboDelegate.h"
+#include "traitsComboDelegate.h"
 
 class Runesmith : public QMainWindow
 {
@@ -43,6 +44,7 @@ private:
 	progBarDelegate skillProgDele;
 	progBarDelegate cSkillProgDele;
 	sexComboDelegate sCD;
+	traitsComboDelegate tCD;
 	QLabel connectLbl;
 
 	dwarfTableModel *dTM;
