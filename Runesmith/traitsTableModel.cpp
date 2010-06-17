@@ -105,12 +105,12 @@ bool traitsTableModel::setData(const QModelIndex &index, const QVariant &value, 
 
 		switch(temp)
 		{
-		case 0: creature->defaultSoul.traits[traits[index.row()].index] = 100; break;
-		case 1: creature->defaultSoul.traits[traits[index.row()].index] = 90; break;
-		case 2: creature->defaultSoul.traits[traits[index.row()].index] = 75; break;
-		case 3: creature->defaultSoul.traits[traits[index.row()].index] = 60; break;
-		case 4: creature->defaultSoul.traits[traits[index.row()].index] = 24; break;
-		case 5: creature->defaultSoul.traits[traits[index.row()].index] = 9; break;
+		case 0: creature->defaultSoul.traits[traits[index.row()].index] = 9; break;
+		case 1: creature->defaultSoul.traits[traits[index.row()].index] = 24; break;
+		case 2: creature->defaultSoul.traits[traits[index.row()].index] = 60; break;
+		case 3: creature->defaultSoul.traits[traits[index.row()].index] = 75; break;
+		case 4: creature->defaultSoul.traits[traits[index.row()].index] = 90; break;
+		case 5: creature->defaultSoul.traits[traits[index.row()].index] = 100; break;
 		default: return false;
 		}
 
@@ -129,6 +129,8 @@ unsigned int traitsTableModel::getTraitIndex(unsigned int id)
 
 void traitsTableModel::updateCache()
 {
+	traits.clear();
+
 	for(unsigned int i=0; i<NUM_TRAITS; i++)
 	{
 		TraitIndexItem temp;
