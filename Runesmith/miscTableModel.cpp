@@ -12,7 +12,7 @@ int miscTableModel::rowCount(const QModelIndex &parent) const
 {
 	if(creature)
 	{
-		return 11;
+		return 10;
 	}
 	else
 		return 0;

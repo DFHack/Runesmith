@@ -187,5 +187,22 @@ Qt::ItemFlags creatureTableModel::flags(const QModelIndex & index) const
 
 bool creatureTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-	return false;
+	if(index.column() != 3)
+		return false;
+
+	if(!DFI)
+		return false;
+
+	if(!DFI->isAttached())
+		return false;
+	
+	std::vector<DFHack::t_creature *>& creatures = DFI->getCreatures();	
+
+	if(index.row() >= creatures.size())
+		return false;
+
+	uint32_t temp = value.toUInt();	
+	creatures[index.row()]->happiness = temp;
+	DFI->setChanged(creatures[index.row()]->id, HAPPINESS_CHANGED);
+	return true;
 }

@@ -12,7 +12,7 @@ int traitsTableModel::rowCount(const QModelIndex &parent) const
 {
 	if(creature)
 	{
-		traits.size();
+		return traits.size();
 	}
 	else
 		return 0;
@@ -72,10 +72,6 @@ void traitsTableModel::setCreature(DFInterface *nDFI,
 	}	
 
 	updateCache();
-	reset();
-	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
-			QAbstractItemModel::createIndex(
-			colCount, rowCount()));
 }
 
 Qt::ItemFlags traitsTableModel::flags(const QModelIndex & index) const
@@ -140,6 +136,11 @@ void traitsTableModel::updateCache()
 		if(temp.text != "")
 			traits.push_back(temp);
 	}
+
+	reset();
+	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
+			QAbstractItemModel::createIndex(
+			colCount, rowCount()));
 }
 
 DFHack::t_creature *traitsTableModel::getCreature()

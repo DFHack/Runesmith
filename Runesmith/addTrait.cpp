@@ -50,7 +50,7 @@ void addTrait::populateLevel(int index)
 
 		for(int i=0; i<6; i++)
 		{
-			atD.levelCB->addItem(traits[index][i].c_str());
+			atD.levelCB->addItem(traits[IDs[index]][i].c_str());
 		}
 	}
 }

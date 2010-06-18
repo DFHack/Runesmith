@@ -12,7 +12,7 @@ int labTableModel::rowCount(const QModelIndex &parent) const
 {
 	if(creature)
 	{
-		labours.size();
+		return labours.size();
 	}
 	else
 		return 0;
@@ -23,16 +23,13 @@ QVariant labTableModel::data(const QModelIndex &index, int role) const
 	if((!creature) || (!DFI) || (role != Qt::DisplayRole))
 		return QVariant();	
 
-	if(index.row() >= labours.size())
+	if(index.row() > labours.size())
 		return QVariant();
 
-	switch(index.column())
-	{
-	case 0:
-		return DFI->translateLabour(labours[index.row()]);
-	default:
+	if(index.column())
 		return QVariant();
-	}
+	else
+		return DFI->translateLabour(labours[index.row()]);
 }
 
 QVariant labTableModel::headerData(int section,
@@ -44,14 +41,10 @@ QVariant labTableModel::headerData(int section,
 
 	if(orientation == Qt::Horizontal)
 	{
-		switch(section)
-		{
-		case 0:
-			return QString("Labours");	
-
-		default:
+		if(section)
 			return QVariant();
-		}
+		else
+			return "Labours";
 	}
 	else
 		return QVariant();

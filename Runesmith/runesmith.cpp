@@ -15,7 +15,9 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	ui.skillsTV->setItemDelegateForColumn(2, &skillProgDele);
 	ui.cSkillsTV->setItemDelegateForColumn(2, &cSkillProgDele);
 	ui.dMiscTV->setItemDelegateForColumn(1, &sCD);
+	ui.cMiscTV->setItemDelegateForColumn(1, &sCD);
 	ui.dTraitsTV->setItemDelegate(&tCD);
+	ui.cTraitsTV->setItemDelegate(&tCD);
 	ui.dMoodTV->setItemDelegate(&mCD);
 
 	if(!(dTM = new dwarfTableModel(this))) throw RSException();
@@ -49,6 +51,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	ui.dTraitsTV->setModel(dtTM);
 	ui.cTraitsTV->setModel(ctTM);
 	ui.dMoodTV->setModel(dmooTM);
+
 	//this wasn't working correctly in the designer...
 	ui.skillsTV->horizontalHeader()->setResizeMode(dsTM->getNumCols()-1, QHeaderView::Stretch);
 	ui.cSkillsTV->horizontalHeader()->setResizeMode(csTM->getNumCols()-1, QHeaderView::Stretch);
