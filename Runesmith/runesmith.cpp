@@ -16,6 +16,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	ui.cSkillsTV->setItemDelegateForColumn(2, &cSkillProgDele);
 	ui.dMiscTV->setItemDelegateForColumn(1, &sCD);
 	ui.dTraitsTV->setItemDelegate(&tCD);
+	ui.dMoodTV->setItemDelegate(&mCD);
 
 	if(!(dTM = new dwarfTableModel(this))) throw RSException();
 	if(!(dsTM = new skillsTableModel(this))) throw RSException();
@@ -31,6 +32,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	if(!(cmTM = new miscTableModel(this))) throw RSException();
 	if(!(dtTM = new traitsTableModel(this))) throw RSException();
 	if(!(ctTM = new traitsTableModel(this))) throw RSException();
+	if(!(dmooTM = new moodTableModel(this))) throw RSException();
 
 	ui.dwarvesTV->setModel(dTM);		
 	ui.skillsTV->setModel(dsTM);
@@ -46,6 +48,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	ui.cMiscTV->setModel(cmTM);
 	ui.dTraitsTV->setModel(dtTM);
 	ui.cTraitsTV->setModel(ctTM);
+	ui.dMoodTV->setModel(dmooTM);
 	//this wasn't working correctly in the designer...
 	ui.skillsTV->horizontalHeader()->setResizeMode(dsTM->getNumCols()-1, QHeaderView::Stretch);
 	ui.cSkillsTV->horizontalHeader()->setResizeMode(csTM->getNumCols()-1, QHeaderView::Stretch);
@@ -59,6 +62,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	ui.cMiscTV->horizontalHeader()->setResizeMode(cmTM->getNumCols()-1, QHeaderView::Stretch);
 	ui.dTraitsTV->horizontalHeader()->setResizeMode(dtTM->getNumCols()-1, QHeaderView::Stretch);
 	ui.cTraitsTV->horizontalHeader()->setResizeMode(ctTM->getNumCols()-1, QHeaderView::Stretch);
+	ui.dMoodTV->horizontalHeader()->setResizeMode(dmooTM->getNumCols()-1, QHeaderView::Stretch);
 
 	try
 	{
@@ -88,7 +92,8 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	QApplication::connect(ui.actionShow_Dead, SIGNAL(triggered(bool)), this, SLOT(showDead(bool)));
 	QApplication::connect(ui.action_Write_Changes, SIGNAL(triggered()), this, SLOT(writeChanges()));
 	QApplication::connect(ui.action_Force_Resume, SIGNAL(triggered()), this, SLOT(forceResume()));
-	QApplication::connect(ui.dAddTraitBtn, SIGNAL(clicked()), this, SLOT(addTraitWrap()));
+	QApplication::connect(ui.dAddTraitBtn, SIGNAL(clicked()), this, SLOT(dAddTraitWrap()));
+	QApplication::connect(ui.cAddTraitBtn, SIGNAL(clicked()), this, SLOT(cAddTraitWrap()));
 }
 
 Runesmith::~Runesmith()
@@ -107,6 +112,7 @@ Runesmith::~Runesmith()
 	if(cmTM) delete cmTM;
 	if(dtTM) delete dtTM;
 	if(ctTM) delete ctTM;
+	if(dmooTM) delete dmooTM;
 	if(DFI) delete DFI;
 }
 
@@ -207,6 +213,7 @@ void Runesmith::dwarfSelected(const QModelIndex& index)
 	dfTM->setCreature(DFI, dwarf);
 	dmTM->setCreature(DFI, dwarf);
 	dtTM->setCreature(DFI, dwarf);
+	dmooTM->setCreature(DFI, dwarf);
 	skillProgDele.setCreature(dwarf);
 }
 
@@ -236,6 +243,7 @@ void Runesmith::clean()
 	cmTM->clear();
 	dtTM->clear();
 	ctTM->clear();
+	dmooTM->clear();
 }
 
 void Runesmith::showDead(bool state)
@@ -260,13 +268,28 @@ void Runesmith::writeChanges()
 	clean();
 }
 
-void Runesmith::addTraitWrap()
+void Runesmith::dAddTraitWrap()
 {
 	addTrait temp(this, 0, dtTM->getCreature(), DFI);
 	temp.setModal(true);
 	temp.exec();
 
 	if(!dtTM->addTrait(temp.getIndex1(), temp.getIndex2()))
+	{
+		QMessageBox msgBox(QMessageBox::Critical,
+			"Error!", "Could not add trait!",
+			QMessageBox::Ok, this);			
+		msgBox.exec();
+	}
+}
+
+void Runesmith::cAddTraitWrap()
+{
+	addTrait temp(this, 0, ctTM->getCreature(), DFI);
+	temp.setModal(true);
+	temp.exec();
+
+	if(!ctTM->addTrait(temp.getIndex1(), temp.getIndex2()))
 	{
 		QMessageBox msgBox(QMessageBox::Critical,
 			"Error!", "Could not add trait!",

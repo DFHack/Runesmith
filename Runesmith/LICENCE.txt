@@ -1,0 +1,17 @@
+Copyright © 2010 Simon Jackson
+
+This software is still in development, and this means that there are
+going to be problems, including serious problems that, however unlikely,
+might damage your system or the information stored on it.  Please be
+aware of this before use.
+
+All rights are retained by Simon Jackson, save the following:  
+you may redistribute the binary and accompanying files, 
+unmodified, provided you do so free of charge.
+
+Runesmith uses the LGPL version of Qt (http://qt.nokia.com/downloads/downloads#lgpl) 
+to provide a robust cross platfrom GUI. 
+
+This Application is made possible by Toady One for making such an
+AWESOME game (http://www.bay12games.com/dwarves/) and also by the 
+great team of contributors to the DFHack library (http://github.com/peterix/dfhack).

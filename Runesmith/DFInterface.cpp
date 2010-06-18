@@ -479,6 +479,9 @@ void DFInterface::setChanged(uint32_t id, TrackedBlocks changedBlock)
 	case TRAITS_CHANGED:
 		changeTracker[id].traitsChanged = true;
 		break;
+
+	case MOOD_CHANGED:
+		changeTracker[id].moodChanged = true;
 	}
 
 	dataChanged = true;
@@ -586,10 +589,76 @@ bool DFInterface::writeLoop(std::vector<DFHack::t_creature *> &data)
 
 			temp.traitsChanged = false;
 		}
+
+		if(temp.moodChanged)
+		{
+			if(!Creatures->WriteMood(temp.id, data[i]->mood))
+				return false;
+
+			temp.moodChanged = false;
+		}
 	}
 }
 
 std::vector< std::vector<std::string>> const& DFInterface::getAllTraits()
 {
 	return mem->getAllTraits();
+}
+
+bool DFInterface::readMats(DFHack::t_creature *creature, std::vector<DFHack::t_material> &mats)
+{
+	if(isContextValid())
+	{
+		if(isAttached())
+		{
+			suspend();
+
+			try
+			{
+				Creatures->ReadJob(creature, mats);
+			}
+			catch(std::exception &e)
+			{
+				resume();
+				return false;
+			}
+			
+			resume();
+			return true;			
+		}
+	}
+
+	return false;
+}
+
+QString DFInterface::getMatDescription(DFHack::t_material &mat)
+{
+	if(isAttached())
+	{
+		try
+		{
+			return Materials->getDescription(mat).c_str();
+		}
+		catch(std::exception &e)
+		{
+		}
+	}
+	
+	return "";
+}
+
+QString DFInterface::getMood(uint32_t mood)
+{
+	if(isAttached())
+	{
+		try
+		{
+			return mem->getMood(mood).c_str();
+		}
+		catch(std::exception &e)
+		{
+		}
+	}
+	
+	return "";
 }

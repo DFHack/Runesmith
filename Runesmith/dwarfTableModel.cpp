@@ -74,37 +74,33 @@ QVariant dwarfTableModel::data(const QModelIndex &index, int role) const
 			return transName.append("]");
 
 		case 3:
-			//TODO finish moods
 			if(dwarves[index.row()]->flags1.bits.dead)
 				return "Dead";
 			
-			switch(dwarves[index.row()]->mood)
+			if(dwarves[index.row()]->mood >= 0)
 			{
-			case 0: transName = "( Fey ) "; break;
-			case 1: transName = "( Possesed ) "; break;
-			//case 2:
-			//case 3:
-			//case 4: 
-			case 5:	transName = "( Melancholy/Beserk ) "; break;
+				transName = "( ";
+				transName.append(DFI->getMood(dwarves[index.row()]->mood));
+				transName.append(" ) ");
 			}
 
 			if(dwarves[index.row()]->flags1.bits.drowning)
 				transName.append("( Drowning ) ");
 
 			if(dwarves[index.row()]->flags2.bits.for_trade)
-				transName.append("( For Trade )");
+				transName.append("( For Trade ) ");
 
 			if(dwarves[index.row()]->flags2.bits.slaughter)
-				transName.append("( For Slaughter )");
+				transName.append("( For Slaughter ) ");
 
 			if(dwarves[index.row()]->flags2.bits.breathing_problem)
-				transName.append("( Breathing Problem )");
+				transName.append("( Breathing Problem ) ");
 
 			if(dwarves[index.row()]->flags2.bits.vision_damaged)
-				transName.append("( Vision Damaged )");
+				transName.append("( Vision Damaged ) ");
 
 			if(dwarves[index.row()]->flags2.bits.vision_missing)
-				transName.append("( Vision Missing )");
+				transName.append("( Vision Missing ) ");
 
 			if(dwarves[index.row()]->flags1.bits.chained)
 				transName.append("( Chanined ) ");
@@ -113,20 +109,20 @@ QVariant dwarfTableModel::data(const QModelIndex &index, int role) const
 				transName.append("( Caged ) ");
 
 			if(dwarves[index.row()]->flags1.bits.invades)
-				transName.append("( Invading )");
+				transName.append("( Invading ) ");
 
 			if(dwarves[index.row()]->flags1.bits.hidden_in_ambush)
-				transName.append("( Hidden in Ambush )");
+				transName.append("( Hidden in Ambush ) ");
 
 			if(dwarves[index.row()]->flags2.bits.sparring)
-				transName.append("( Sparring )");
+				transName.append("( Sparring ) ");
 
 			if(dwarves[index.row()]->flags2.bits.swimming)
-				transName.append("( Swimming )");
+				transName.append("( Swimming ) ");
 
 			if(dwarves[index.row()]->flags2.bits.visitor || 
 				dwarves[index.row()]->flags2.bits.visitor_uninvited)
-				transName.append("( Visitor )");
+				transName.append("( Visitor ) ");
 
 			return transName;
 

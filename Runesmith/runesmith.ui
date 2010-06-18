@@ -44,7 +44,7 @@
            </sizepolicy>
           </property>
           <property name="currentIndex">
-           <number>6</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="dSkillsTab">
            <attribute name="title">
@@ -158,6 +158,11 @@
            <attribute name="title">
             <string>Mood</string>
            </attribute>
+           <layout class="QGridLayout" name="gridLayout_16">
+            <item row="0" column="0">
+             <widget class="QTableView" name="dMoodTV"/>
+            </item>
+           </layout>
           </widget>
           <widget class="QWidget" name="dMiscTab">
            <attribute name="title">
@@ -416,6 +421,34 @@
            <layout class="QGridLayout" name="gridLayout_15">
             <item row="0" column="0">
              <widget class="QTableView" name="cTraitsTV"/>
+            </item>
+            <item row="2" column="0">
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <spacer name="horizontalSpacer_2">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="cAddTraitBtn">
+                <property name="text">
+                 <string>Add Trait</string>
+                </property>
+                <property name="icon">
+                 <iconset resource="runesmith.qrc">
+                  <normaloff>:/Runesmith/Icons/plus.png</normaloff>:/Runesmith/Icons/plus.png</iconset>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </item>
            </layout>
           </widget>

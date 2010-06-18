@@ -34,7 +34,8 @@ enum TrackedBlocks
 	ATTRIBUTES_CHANGED,
 	SKILLS_CHANGED,
 	SEX_CHANGED,
-	TRAITS_CHANGED
+	TRAITS_CHANGED,
+	MOOD_CHANGED
 };
 
 struct statusTracker
@@ -48,6 +49,7 @@ struct statusTracker
 	bool happinessChanged;
 	bool sexChanged;
 	bool traitsChanged;
+	bool moodChanged;
 };
 
 class DFInterface
@@ -55,9 +57,7 @@ class DFInterface
 public:
 	DFInterface(void);
 	~DFInterface(void);
-
-	bool writeAllChanges();
-	bool changesPending();
+	
 	bool isAttached();
 	bool attach();
 	void detatch();
@@ -65,6 +65,10 @@ public:
 	void update();
 	void setProcessDead(bool state);
 	void setChanged(uint32_t id, TrackedBlocks changedBlock);
+
+	bool writeAllChanges();
+	bool changesPending();
+	bool readMats(DFHack::t_creature *creature, std::vector<DFHack::t_material> &mats);
 	
 	std::vector< std::vector<std::string>> const& getAllTraits();
 	std::vector<DFHack::t_creature *>& getDwarves();
@@ -81,6 +85,8 @@ public:
 	QString translateRace(const uint32_t race);
 	QString translateLabour(const uint8_t labour);
 	QString translateTrait(uint32_t index, uint32_t value);
+	QString getMatDescription(DFHack::t_material &mat);
+	QString getMood(uint32_t mood);
 	
 	uint32_t getRacialAverage(uint32_t race, uint32_t caste, RacialStat stat);
 	uint32_t getCurrentYear();	

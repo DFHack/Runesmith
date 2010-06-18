@@ -16,6 +16,8 @@
 #include "traitsTableModel.h"
 #include "sexComboDelegate.h"
 #include "traitsComboDelegate.h"
+#include "moodTableModel.h"
+#include "moodComboDelegate.h"
 
 class Runesmith : public QMainWindow
 {
@@ -36,7 +38,8 @@ public slots:
 	void dwarfSelected(const QModelIndex& index);
 	void creatureSelected(const QModelIndex& index);
 	void writeChanges();
-	void addTraitWrap();
+	void dAddTraitWrap();
+	void cAddTraitWrap();
 
 private:
 	void clean();
@@ -46,6 +49,7 @@ private:
 	progBarDelegate cSkillProgDele;
 	sexComboDelegate sCD;
 	traitsComboDelegate tCD;
+	moodComboDelegate mCD;
 	QLabel connectLbl;
 
 	dwarfTableModel *dTM;
@@ -62,6 +66,7 @@ private:
 	miscTableModel *cmTM;
 	traitsTableModel *dtTM;
 	traitsTableModel *ctTM;
+	moodTableModel *dmooTM;
 
 	DFInterface *DFI;
 };
