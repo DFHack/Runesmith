@@ -45,8 +45,10 @@ QVariant dwarfTableModel::data(const QModelIndex &index, int role) const
 	{
 		switch(index.column())
 		{
-		case 0:		
-			transName = dwarves[index.row()]->name.first_name;
+		case 0:
+			transName = dwarves[index.row()]->name.first_name[0];
+			transName = transName.toUpper();
+			transName.append(dwarves[index.row()]->name.first_name+1);
 			transName.append(" ");
 			transName.append(DFI->translateName(dwarves[index.row()]->name));
 			return transName;

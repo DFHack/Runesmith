@@ -42,8 +42,13 @@ QVariant creatureTableModel::data(const QModelIndex &index, int role) const
 		case 0:
 			return QString(DFI->translateRace(creatures[index.row()]->race));
 
-		case 1:		
-			transName = creatures[index.row()]->name.first_name;
+		case 1:	
+			if(creatures[index.row()]->name.first_name[0])
+			{
+				transName = creatures[index.row()]->name.first_name[0];
+				transName = transName.toUpper();
+				transName.append(creatures[index.row()]->name.first_name+1);
+			}
 			transName.append(" ");
 			transName.append(DFI->translateName(creatures[index.row()]->name));
 			return transName;

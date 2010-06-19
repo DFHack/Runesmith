@@ -41,7 +41,8 @@ enum TrackedBlocks
 struct statusTracker
 {
 	statusTracker() : id(0), skillsChanged(false), attributesChanged(false),
-		flagsChanged(false), happinessChanged(false), sexChanged(false){}
+		flagsChanged(false), happinessChanged(false), sexChanged(false),
+		traitsChanged(false), moodChanged(false){}
 	uint32_t id;
 	bool skillsChanged;
 	bool attributesChanged;

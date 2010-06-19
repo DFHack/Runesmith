@@ -463,6 +463,10 @@ void DFInterface::cleanup()
 			delete allDwarves[i];
 	allDwarves.clear();
 	dwarves.clear();
+
+	changeTracker.clear();
+	moods.clear();
+	dataChanged = false();
 }
 
 void DFInterface::setChanged(uint32_t id, TrackedBlocks changedBlock)
@@ -495,6 +499,7 @@ void DFInterface::setChanged(uint32_t id, TrackedBlocks changedBlock)
 
 	case MOOD_CHANGED:
 		changeTracker[id].moodChanged = true;
+		break;
 	}
 
 	dataChanged = true;
@@ -507,6 +512,9 @@ bool DFInterface::changesPending()
 
 bool DFInterface::writeAllChanges()
 {
+	if(!dataChanged)
+		return true;
+
 	if(isContextValid())
 	{
 		if(isAttached())
@@ -534,7 +542,7 @@ bool DFInterface::writeAllChanges()
 		}
 	}
 
-	return false;
+	return true;
 }
 
 bool DFInterface::internalWriteChanges()
@@ -634,7 +642,7 @@ bool DFInterface::readMats(const DFHack::t_creature *creature, std::vector<DFHac
 			}
 			catch(std::exception &e)
 			{
-				resume();
+				//resume();
 				return false;
 			}
 			
