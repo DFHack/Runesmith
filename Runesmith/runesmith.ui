@@ -494,8 +494,15 @@
     </property>
     <addaction name="action_About"/>
    </widget>
+   <widget class="QMenu" name="menu_Options">
+    <property name="title">
+     <string>&amp;Options</string>
+    </property>
+    <addaction name="action_Set_Main_Race"/>
+   </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_View"/>
+   <addaction name="menu_Options"/>
    <addaction name="menu_Help"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
@@ -583,6 +590,11 @@
    </property>
    <property name="text">
     <string>&amp;Force Resume</string>
+   </property>
+  </action>
+  <action name="action_Set_Main_Race">
+   <property name="text">
+    <string>&amp;Set Main Race</string>
    </property>
   </action>
  </widget>

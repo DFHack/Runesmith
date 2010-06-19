@@ -3,7 +3,7 @@
 
 #include <QtGui/QMainWindow>
 #include <QLabel>
-#include "DFInterface.H"
+#include "DFInterface.h"
 #include "ui_runesmith.h"
 #include "dwarfTableModel.h"
 #include "skillsTableModel.h"
@@ -18,6 +18,7 @@
 #include "traitsComboDelegate.h"
 #include "moodTableModel.h"
 #include "moodComboDelegate.h"
+#include "setMainRaceDialog.h"
 
 class Runesmith : public QMainWindow
 {
@@ -40,6 +41,7 @@ public slots:
 	void writeChanges();
 	void dAddTraitWrap();
 	void cAddTraitWrap();
+	void setRace();
 
 private:
 	void clean();

@@ -12,7 +12,13 @@ int moodTableModel::rowCount(const QModelIndex &parent) const
 {
 	if(creature)
 	{
-		return mats.size()+2;
+		if(creature->mood != -1)
+		{
+			std::vector<DFHack::t_material> &mats = DFI->getMoodMats(creature->id);
+			return mats.size()+2;
+		}
+		else
+			return 0;
 	}
 	else
 		return 0;
@@ -45,11 +51,18 @@ QVariant moodTableModel::data(const QModelIndex &index, int role) const
 			return "Mood Skill:";
 		else
 		{
-			if(index.row()-2 < mats.size())
+			if(creature->mood != -1)
 			{
-				QString temp("Material ");
-				temp.append(QString::number(index.row()-2));
-				return temp;
+				std::vector<DFHack::t_material> &mats = DFI->getMoodMats(creature->id);
+
+				if(index.row()-2 < mats.size())
+				{
+					QString temp("Material ");
+					temp.append(QString::number(index.row()-2));
+					return temp;
+				}
+				else
+					return QVariant();
 			}
 			else
 				return QVariant();
@@ -67,9 +80,16 @@ QVariant moodTableModel::data(const QModelIndex &index, int role) const
 			return DFI->translateSkill(creature->mood_skill);
 		else
 		{
-			if(index.row()-2 < mats.size())
+			if(creature->mood != -1)
 			{
-				return DFI->getMatDescription((DFHack::t_material&)mats[(index.row()-2)]);
+				std::vector<DFHack::t_material> &mats = DFI->getMoodMats(creature->id);
+
+				if(index.row()-2 < mats.size())
+				{
+					return DFI->getMatDescription((DFHack::t_material&)mats[(index.row()-2)]);
+				}
+				else
+					return QVariant();
 			}
 			else
 				return QVariant();
@@ -105,7 +125,7 @@ Qt::ItemFlags moodTableModel::flags(const QModelIndex & index) const
 	if (!index.isValid())
 		return Qt::ItemFlag::NoItemFlags;
 
-	if((index.column() == 1) && (index.row() == 0))
+	if((index.column() == 1) && (index.row() > 0))
 	{
 		return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemFlag::ItemIsEditable;
 	}
@@ -138,8 +158,8 @@ bool moodTableModel::setData(const QModelIndex &index, const QVariant &value, in
 				creature->flags1.bits.has_mood = 1;
 			DFI->setChanged(creature->id, FLAGS_CHANGED);
 
-			//if(creature->mood != -1)
-			//	DFI->readMats(creature, mats);
+			if(creature->mood != -1)
+				std::vector<DFHack::t_material> &mats = DFI->getMoodMats(creature->id);
 		}
 
 		DFI->setChanged(creature->id, MOOD_CHANGED);
@@ -162,8 +182,8 @@ void moodTableModel::setCreature(DFInterface *nDFI,
 		return;
 	}	
 
-	//if(creature->mood != -1)
-	//	DFI->readMats(creature, mats);
+	if(creature->mood != -1)
+		std::vector<DFHack::t_material> &mats = DFI->getMoodMats(creature->id);
 	reset();
 	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
 		QAbstractItemModel::createIndex(

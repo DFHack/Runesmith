@@ -4,6 +4,8 @@
 DFInterface::DFInterface(void) : DF(NULL), DFMgr(NULL), Materials(NULL), Tran(NULL),
 	Creatures(NULL), mem(NULL), processDead(false), dataChanged(false)
 {
+	mainRace = "DWARF";
+
 	try
 	{
 		DFMgr = new DFHack::ContextManager("Memory.xml");   
@@ -228,23 +230,34 @@ void DFInterface::process()
 		DFHack::t_creature *temp = new DFHack::t_creature;
 		Creatures->ReadCreature(i,*temp);
 		changeTracker[temp->id].id = i;
-
 		
-			if(QString(Materials->raceEx[temp->race].rawname) == "DWARF")
-			{
-				if(!temp->flags1.bits.dead)
-					dwarves.push_back(temp);
+		if((temp->mood > -1) && (temp->mood < 6))
+		{
+			std::vector<DFHack::t_material> tmats;
+			readMats(temp, tmats);
+			moods[temp->id] = tmats;
+		}
+
+		if(QString(Materials->raceEx[temp->race].rawname) == mainRace)
+		{
+			if(!temp->flags1.bits.dead)
+				dwarves.push_back(temp);
+		
+			allDwarves.push_back(temp);
+		}
+		else
+		{
+			if(!temp->flags1.bits.dead)
+				creatures.push_back(temp);
 			
-				allDwarves.push_back(temp);
-			}
-			else
-			{
-				if(!temp->flags1.bits.dead)
-					creatures.push_back(temp);
-				
-				allCreatures.push_back(temp);
-			}	
+			allCreatures.push_back(temp);
+		}	
 	}	
+}
+
+std::vector<DFHack::t_material>& DFInterface::getMoodMats(uint32_t id)
+{
+	return moods[id];
 }
 
 QString DFInterface::translateName(const DFHack::t_name &name, bool english)
@@ -598,6 +611,8 @@ bool DFInterface::writeLoop(std::vector<DFHack::t_creature *> &data)
 			temp.moodChanged = false;
 		}
 	}
+
+	return true;
 }
 
 std::vector< std::vector<std::string>> const& DFInterface::getAllTraits()
@@ -605,13 +620,13 @@ std::vector< std::vector<std::string>> const& DFInterface::getAllTraits()
 	return mem->getAllTraits();
 }
 
-bool DFInterface::readMats(DFHack::t_creature *creature, std::vector<DFHack::t_material> &mats)
+bool DFInterface::readMats(const DFHack::t_creature *creature, std::vector<DFHack::t_material> &mats)
 {
 	if(isContextValid())
 	{
 		if(isAttached())
 		{
-			suspend();
+			//suspend();
 
 			try
 			{
@@ -623,7 +638,7 @@ bool DFInterface::readMats(DFHack::t_creature *creature, std::vector<DFHack::t_m
 				return false;
 			}
 			
-			resume();
+			//resume();
 			return true;			
 		}
 	}
@@ -661,4 +676,19 @@ QString DFInterface::getMood(uint32_t mood)
 	}
 	
 	return "";
+}
+
+std::vector<DFHack::t_matgloss> const& DFInterface::getOrganicMats()
+{
+	return Materials->organic;
+}
+
+std::vector<DFHack::t_matgloss> const& DFInterface::getInorgaincMats()
+{
+	return Materials->inorganic;
+}
+
+void DFInterface::setMainRace(QString nMainRace)
+{
+	mainRace = nMainRace.toUpper();
 }

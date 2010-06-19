@@ -97,6 +97,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	QApplication::connect(ui.action_Force_Resume, SIGNAL(triggered()), this, SLOT(forceResume()));
 	QApplication::connect(ui.dAddTraitBtn, SIGNAL(clicked()), this, SLOT(dAddTraitWrap()));
 	QApplication::connect(ui.cAddTraitBtn, SIGNAL(clicked()), this, SLOT(cAddTraitWrap()));
+	QApplication::connect(ui.action_Set_Main_Race, SIGNAL(triggered()), this, SLOT(setRace()));
 }
 
 Runesmith::~Runesmith()
@@ -262,7 +263,7 @@ void Runesmith::writeChanges()
 			"Error!", "Could not write changes!",
 			QMessageBox::Ok, this);			
 		msgBox.exec();
-		update();
+		//update();
 		return;
 	}
 
@@ -299,4 +300,15 @@ void Runesmith::cAddTraitWrap()
 			QMessageBox::Ok, this);			
 		msgBox.exec();
 	}
+}
+
+void Runesmith::setRace()
+{
+	SetMainRaceDialog temp;
+	temp.setModal(true);
+	temp.exec();
+	QString tString = temp.getRaceName();
+	DFI->setMainRace(tString);
+	ui.tabWidget->setTabText(0, tString);
+	update();
 }

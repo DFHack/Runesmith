@@ -18,9 +18,6 @@ public:
 	Qt::ItemFlags flags(const QModelIndex &index) const;
 	bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 	void setCreature(DFInterface *nDFI, DFHack::t_creature *nCreature);
-
-private:
-	std::vector<DFHack::t_material> mats;
 };
 
 #endif

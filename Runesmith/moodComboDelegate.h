@@ -23,6 +23,12 @@ public:
 		const QModelIndex &index) const;
 	void updateEditorGeometry(QWidget *editor,
 		const QStyleOptionViewItem &option, const QModelIndex &index) const;
+	void setDFI(DFInterface *nDFI);
+	void setCreature(DFHack::t_creature *nCreature);
+
+private:
+	DFHack::t_creature *creature;
+	DFInterface *DFI;
 };
 
 #endif

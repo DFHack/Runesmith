@@ -8,7 +8,7 @@ addTrait::addTrait(QWidget *parent,
 {
 	atD.setupUi(this);
 	DFI = nDFI;
-	unsigned int first = 0;
+	int first = -1;
 	unsigned int indexCount = 0;
 
 	if(DFI && creature)
@@ -19,7 +19,7 @@ addTrait::addTrait(QWidget *parent,
 		{			
 			if(DFI->translateTrait(i, creature->defaultSoul.traits[i]) == "")
 			{
-				if(!first)
+				if(first == -1)
 					first = i;
 				atD.categoryCB->addItem(traits[i][6].c_str());
 				IDs[indexCount] = i;

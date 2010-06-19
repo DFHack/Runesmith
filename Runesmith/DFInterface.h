@@ -65,11 +65,14 @@ public:
 	void update();
 	void setProcessDead(bool state);
 	void setChanged(uint32_t id, TrackedBlocks changedBlock);
+	void setMainRace(QString nMainRace);
 
 	bool writeAllChanges();
 	bool changesPending();
-	bool readMats(DFHack::t_creature *creature, std::vector<DFHack::t_material> &mats);
 	
+	std::vector<DFHack::t_matgloss> const& getOrganicMats();
+	std::vector<DFHack::t_matgloss> const& getInorgaincMats();
+	std::vector<DFHack::t_material>& getMoodMats(uint32_t id);
 	std::vector< std::vector<std::string>> const& getAllTraits();
 	std::vector<DFHack::t_creature *>& getDwarves();
 	std::vector<DFHack::t_creature *>& getCreatures();
@@ -99,6 +102,7 @@ private:
 	void cleanup();
 	bool internalWriteChanges();
 	bool writeLoop(std::vector<DFHack::t_creature *> &data);
+	bool readMats(const DFHack::t_creature *creature, std::vector<DFHack::t_material> &mats);
 
 private:
 	std::vector<DFHack::t_creature *> creatures;
@@ -106,11 +110,13 @@ private:
 	std::vector<DFHack::t_creature *> allCreatures;
 	std::vector<DFHack::t_creature *> allDwarves;
 
+	std::map<uint32_t, std::vector<DFHack::t_material>> moods;
 	std::map<uint32_t, statusTracker> changeTracker;
 	uint32_t numCreatures;
 	uint32_t currentYear;
 	bool processDead;
 	bool dataChanged;
+	QString mainRace;
 
 	DFHack::ContextManager *DFMgr;
     DFHack::Context *DF;
