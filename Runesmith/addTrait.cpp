@@ -27,9 +27,12 @@ addTrait::addTrait(QWidget *parent,
 			}
 		}
 
-		for(int i=0; i<6; i++)
+		if(first > -1)
 		{
-			atD.levelCB->addItem(traits[first][i].c_str());
+			for(int i=0; i<6; i++)
+			{
+				atD.levelCB->addItem(traits[first][i].c_str());
+			}
 		}
 	}
 
