@@ -16,7 +16,7 @@ QWidget *moodComboDelegate::createEditor(QWidget *parent,
 {
 	QComboBox *editor = new QComboBox(parent);
 	
-	if(index.row() == 1)
+	if(index.row() == 0)
 	{
 	editor->addItem("None");
 	editor->addItem("Fey");

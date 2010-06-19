@@ -18,7 +18,7 @@ int moodTableModel::rowCount(const QModelIndex &parent) const
 			return mats.size()+2;
 		}
 		else
-			return 0;
+			return 2;
 	}
 	else
 		return 0;
@@ -125,7 +125,7 @@ Qt::ItemFlags moodTableModel::flags(const QModelIndex & index) const
 	if (!index.isValid())
 		return Qt::ItemFlag::NoItemFlags;
 
-	if((index.column() == 1) && (index.row() > 0))
+	if((index.column() == 1) && (index.row() == 0))
 	{
 		return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemFlag::ItemIsEditable;
 	}
