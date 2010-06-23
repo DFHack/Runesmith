@@ -110,7 +110,7 @@ bool traitsTableModel::setData(const QModelIndex &index, const QVariant &value, 
 		default: return false;
 		}
 
-		DFI->setChanged(creature->id, TRAITS_CHANGED);
+		DFI->setTraitsChanged(creature->id);
 		updateCache();
 		return true;
 	}
@@ -169,7 +169,7 @@ bool traitsTableModel::addTrait(int index1, int index2)
 		default: return false;
 		}
 
-		DFI->setChanged(creature->id, TRAITS_CHANGED);
+		DFI->setTraitsChanged(creature->id);
 		updateCache();
 		return true;
 	}

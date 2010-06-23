@@ -474,47 +474,57 @@ void DFInterface::cleanup()
 	dataChanged = false;
 }
 
-void DFInterface::setChanged(uint32_t id, TrackedBlocks changedBlock)
+void DFInterface::setHappinessChanged(uint32_t id)
 {
-	switch(changedBlock)
-	{
-	case HAPPINESS_CHANGED: 
-		changeTracker[id].happinessChanged = true; 
-		break;
+	changeTracker[id].happinessChanged = true;
+	dataChanged = true;
+}
 
-	case FLAGS_CHANGED:	
-		changeTracker[id].flagsChanged = true; 
-		break;
+void DFInterface::setFlagsChanged(uint32_t id)
+{
+	changeTracker[id].flagsChanged = true;
+	dataChanged = true;
+}
 
-	case ATTRIBUTES_CHANGED: 
-		changeTracker[id].attributesChanged = true;
-		break;
+void DFInterface::setAttrsChanged(uint32_t id)
+{
+	changeTracker[id].attributesChanged = true;
+	dataChanged = true;
+}
 
-	case SKILLS_CHANGED: 
-		changeTracker[id].skillsChanged = true;
-		break;
+void DFInterface::setSkillsChanged(uint32_t id)
+{
+	changeTracker[id].skillsChanged = true;
+	dataChanged = true;
+}
 
-	case SEX_CHANGED:
-		changeTracker[id].sexChanged = true;
-		break;
+void DFInterface::setSexChanged(uint32_t id)
+{
+	changeTracker[id].sexChanged = true;
+	dataChanged = true;
+}
 
-	case TRAITS_CHANGED:
-		changeTracker[id].traitsChanged = true;
-		break;
+void DFInterface::setTraitsChanged(uint32_t id)
+{
+	changeTracker[id].traitsChanged = true;
+	dataChanged = true;
+}
 
-	case MOOD_CHANGED:
-		changeTracker[id].moodChanged = true;
-		break;
+void DFInterface::setMoodChanged(uint32_t id)
+{
+	changeTracker[id].moodChanged = true;
+	dataChanged = true;
+}
 
-	case POS_CHANGED:
-		changeTracker[id].posChanged = true;
-		break;
+void DFInterface::setPosChanged(uint32_t id)
+{
+	changeTracker[id].posChanged = true;
+	dataChanged = true;
+}
 
-	case CIV_CHANGED:
-		changeTracker[id].civChanged = true;
-		break;
-	}
-
+void DFInterface::setCivChanged(uint32_t id)
+{
+	changeTracker[id].civChanged = true;
 	dataChanged = true;
 }
 

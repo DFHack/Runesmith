@@ -145,25 +145,25 @@ bool moodTableModel::setData(const QModelIndex &index, const QVariant &value, in
 			{
 				if(creature->flags1.bits.has_mood)
 					creature->flags1.bits.has_mood = 0;
-				DFI->setChanged(creature->id, FLAGS_CHANGED);
+				DFI->setFlagsChanged(creature->id);
 			}
 			else
 			{
 				if(!creature->flags1.bits.has_mood)
 					creature->flags1.bits.has_mood = 1;
-				DFI->setChanged(creature->id, FLAGS_CHANGED);
+				DFI->setFlagsChanged(creature->id);
 
 				if(creature->mood != -1)
 					std::vector<DFHack::t_material> &mats = DFI->getMoodMats(creature->id);
 			}
 
-			DFI->setChanged(creature->id, MOOD_CHANGED);
+			DFI->setMoodChanged(creature->id);
 			return true;
 		}	
 		else if(index.row() == 1)
 		{
 			creature->mood_skill = creature->defaultSoul.skills[temp].id;
-			DFI->setChanged(creature->id, MOOD_CHANGED);
+			DFI->setMoodChanged(creature->id);
 		}
 		else
 			return false;

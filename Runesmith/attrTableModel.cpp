@@ -156,15 +156,17 @@ bool attrTableModel::setData(const QModelIndex &index, const QVariant &value, in
 	case 8: creature->defaultSoul.focus.level = temp; break;
 	case 9: creature->defaultSoul.intuition.level = temp; break;
 	case 10: creature->defaultSoul.patience.level = temp; break;
-	case 11: creature->defaultSoul.creativity.level = temp; break;
-	case 12: creature->defaultSoul.musicality.level = temp; break;
-	case 13: creature->defaultSoul.analytical_ability.level = temp; break;
-	case 14: creature->defaultSoul.linguistic_ability.level = temp; break;
-	case 15: creature->defaultSoul.spatial_sense.level = temp; break;
-	case 16: creature->defaultSoul.kinesthetic_sense.level = temp; break;		
+	case 11: creature->defaultSoul.empathy.level = temp; break;
+	case 12: creature->defaultSoul.social_awareness.level = temp; break;
+	case 13: creature->defaultSoul.creativity.level = temp; break;
+	case 14: creature->defaultSoul.musicality.level = temp; break;
+	case 15: creature->defaultSoul.analytical_ability.level = temp; break;
+	case 16: creature->defaultSoul.linguistic_ability.level = temp; break;
+	case 17: creature->defaultSoul.spatial_sense.level = temp; break;
+	case 18: creature->defaultSoul.kinesthetic_sense.level = temp; break;		
 	default: return false;
 	}
 
-	DFI->setChanged(creature->id, ATTRIBUTES_CHANGED);
+	DFI->setAttrsChanged(creature->id);
 	return true;
 }

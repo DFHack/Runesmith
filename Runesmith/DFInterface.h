@@ -29,19 +29,6 @@ enum RacialStat
 	KINESTHETIC_SENSE_STAT
 };
 
-enum TrackedBlocks
-{
-	HAPPINESS_CHANGED,
-	FLAGS_CHANGED,
-	ATTRIBUTES_CHANGED,
-	SKILLS_CHANGED,
-	SEX_CHANGED,
-	TRAITS_CHANGED,
-	MOOD_CHANGED,
-	POS_CHANGED,
-	CIV_CHANGED
-};
-
 struct statusTracker
 {
 	statusTracker() : id(0), skillsChanged(false), attributesChanged(false),
@@ -71,8 +58,17 @@ public:
 	void forceResume();
 	void update();
 	void setProcessDead(bool state);
-	void setChanged(uint32_t id, TrackedBlocks changedBlock);
 	void setMainRace(QString nMainRace);
+
+	void setHappinessChanged(uint32_t id);
+	void setFlagsChanged(uint32_t id);
+	void setAttrsChanged(uint32_t id);
+	void setSkillsChanged(uint32_t id);
+	void setSexChanged(uint32_t id);
+	void setTraitsChanged(uint32_t id);
+	void setMoodChanged(uint32_t id);
+	void setPosChanged(uint32_t id);
+	void setCivChanged(uint32_t id);
 
 	bool writeAllChanges();
 	bool changesPending();

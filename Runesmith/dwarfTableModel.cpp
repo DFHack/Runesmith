@@ -212,6 +212,6 @@ bool dwarfTableModel::setData(const QModelIndex &index, const QVariant &value, i
 
 	uint32_t temp = value.toUInt();	
 	dwarves[index.row()]->happiness = temp;
-	DFI->setChanged(dwarves[index.row()]->id, HAPPINESS_CHANGED);
+	DFI->setHappinessChanged(dwarves[index.row()]->id);
 	return true;
 }

@@ -152,27 +152,27 @@ bool miscTableModel::setData(const QModelIndex &index, const QVariant &value, in
 			else
 				creature->civ = -1;
 
-			DFI->setChanged(creature->id, CIV_CHANGED);
+			DFI->setCivChanged(creature->id);
 			return true;
 
 		case 3:
 			creature->sex = temp;
-			DFI->setChanged(creature->id, SEX_CHANGED);
+			DFI->setSexChanged(creature->id);
 			return true;
 
 		case 8:
 			creature->x = temp;
-			DFI->setChanged(creature->id, POS_CHANGED);
+			DFI->setPosChanged(creature->id);
 			return true;
 
 		case 9:
 			creature->y = temp;
-			DFI->setChanged(creature->id, POS_CHANGED);
+			DFI->setPosChanged(creature->id);
 			return true;
 
 		case 10:
 			creature->z = temp;
-			DFI->setChanged(creature->id, POS_CHANGED);
+			DFI->setPosChanged(creature->id);
 			return true;
 
 		default: return false;

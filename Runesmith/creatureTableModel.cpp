@@ -208,6 +208,6 @@ bool creatureTableModel::setData(const QModelIndex &index, const QVariant &value
 
 	uint32_t temp = value.toUInt();	
 	creatures[index.row()]->happiness = temp;
-	DFI->setChanged(creatures[index.row()]->id, HAPPINESS_CHANGED);
+	DFI->setHappinessChanged(creatures[index.row()]->id);
 	return true;
 }

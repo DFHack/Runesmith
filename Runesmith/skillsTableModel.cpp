@@ -147,7 +147,7 @@ bool skillsTableModel::setData(const QModelIndex &index, const QVariant &value, 
 			temp = std::numeric_limits<uint8_t>::max();
 
 		creature->defaultSoul.skills[index.row()].rating = temp;
-		DFI->setChanged(creature->id, SKILLS_CHANGED);
+		DFI->setSkillsChanged(creature->id);
 		return true;
 	}		
 	else if(index.column() == 2)
@@ -158,7 +158,7 @@ bool skillsTableModel::setData(const QModelIndex &index, const QVariant &value, 
 			temp = std::numeric_limits<uint16_t>::max();
 
 		creature->defaultSoul.skills[index.row()].experience = temp;
-		DFI->setChanged(creature->id, SKILLS_CHANGED);
+		DFI->setSkillsChanged(creature->id);
 		return true;
 	}
 	else

@@ -285,6 +285,6 @@ bool flagTableModel::setData(const QModelIndex &index, const QVariant &value, in
 	default: return false;
 	}
 
-	DFI->setChanged(creature->id, FLAGS_CHANGED);
+	DFI->setFlagsChanged(creature->id);
 	return true;
 }
