@@ -39,12 +39,14 @@ QVariant attrTableModel::data(const QModelIndex &index, int role) const
 		case 8: return QString("Focus");
 		case 9: return QString("Intuition");
 		case 10: return QString("Patience");
-		case 11: return QString("Creatvity");
-		case 12: return QString("Musicality");
-		case 13: return QString("Analytical Ability");
-		case 14: return QString("Linguistic Ability");
-		case 15: return QString("Spatial Sense");
-		case 16: return QString("Kinesthetic Sense");		
+		case 11: return QString("Empathy");
+		case 12: return QString("Social Awareness");
+		case 13: return QString("Creatvity");
+		case 14: return QString("Musicality");
+		case 15: return QString("Analytical Ability");
+		case 16: return QString("Linguistic Ability");
+		case 17: return QString("Spatial Sense");
+		case 18: return QString("Kinaesthetic Sense");		
 		default: return QVariant();
 		}
 
@@ -62,12 +64,14 @@ QVariant attrTableModel::data(const QModelIndex &index, int role) const
 		case 8: return QString(QString::number(creature->defaultSoul.focus.level));
 		case 9: return QString(QString::number(creature->defaultSoul.intuition.level));
 		case 10: return QString(QString::number(creature->defaultSoul.patience.level));
-		case 11: return QString(QString::number(creature->defaultSoul.creativity.level));
-		case 12: return QString(QString::number(creature->defaultSoul.musicality.level));
-		case 13: return QString(QString::number(creature->defaultSoul.analytical_ability.level));
-		case 14: return QString(QString::number(creature->defaultSoul.linguistic_ability.level));
-		case 15: return QString(QString::number(creature->defaultSoul.spatial_sense.level));
-		case 16: return QString(QString::number(creature->defaultSoul.kinesthetic_sense.level));		
+		case 11: return QString(QString::number(creature->defaultSoul.empathy.level));
+		case 12: return QString(QString::number(creature->defaultSoul.social_awareness.level));
+		case 13: return QString(QString::number(creature->defaultSoul.creativity.level));
+		case 14: return QString(QString::number(creature->defaultSoul.musicality.level));
+		case 15: return QString(QString::number(creature->defaultSoul.analytical_ability.level));
+		case 16: return QString(QString::number(creature->defaultSoul.linguistic_ability.level));
+		case 17: return QString(QString::number(creature->defaultSoul.spatial_sense.level));
+		case 18: return QString(QString::number(creature->defaultSoul.kinesthetic_sense.level));
 		default: return QVariant();
 		}
 
@@ -85,12 +89,14 @@ QVariant attrTableModel::data(const QModelIndex &index, int role) const
 		case 8: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, FOCUS_STAT)));
 		case 9: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, INTUITION_STAT)));
 		case 10: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, PATIENCE_STAT)));
-		case 11: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, CREATVITY_STAT)));
-		case 12: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, MUSICALITY_STAT)));
-		case 13: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, ANALYTICAL_ABILITY_STAT)));
-		case 14: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, LINGUISTIC_ABILITY_STAT)));
-		case 15: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, SPATIAL_SENSE_STAT)));
-		case 16: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, KINESTHETIC_SENSE_STAT)));		
+		case 11: return QString("-");//QString::number(DFI->getRacialAverage(creature->race, creature->caste, EMPATHY_STAT)));
+		case 12: return QString("-");//QString::number(DFI->getRacialAverage(creature->race, creature->caste, SOCIAL_AWARENESS_STAT)));
+		case 13: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, CREATVITY_STAT)));
+		case 14: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, MUSICALITY_STAT)));
+		case 15: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, ANALYTICAL_ABILITY_STAT)));
+		case 16: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, LINGUISTIC_ABILITY_STAT)));
+		case 17: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, SPATIAL_SENSE_STAT)));
+		case 18: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, KINESTHETIC_SENSE_STAT)));		
 		default: return QVariant();
 		}
 

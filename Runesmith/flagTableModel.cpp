@@ -199,9 +199,9 @@ QVariant flagTableModel::headerData(int section,
 Qt::ItemFlags flagTableModel::flags(const QModelIndex & index) const
 {
 	if (!index.isValid())
-		return Qt::ItemFlag::NoItemFlags;
+		return Qt::NoItemFlags;
 	
-	return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemFlag::ItemIsUserCheckable;	
+	return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsUserCheckable;	
 }
 
 bool flagTableModel::setData(const QModelIndex &index, const QVariant &value, int role)

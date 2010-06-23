@@ -1,4 +1,4 @@
-#include "SetMainRaceDialog.h"
+#include "setMainRaceDialog.h"
 
 SetMainRaceDialog::SetMainRaceDialog(QWidget *parent, Qt::WFlags flags)
 {

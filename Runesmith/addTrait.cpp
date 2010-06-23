@@ -13,7 +13,7 @@ addTrait::addTrait(QWidget *parent,
 
 	if(DFI && creature)
 	{
-		std::vector< std::vector<std::string>> const& traits = DFI->getAllTraits();
+		std::vector< std::vector<std::string> > const& traits = DFI->getAllTraits();
 
 		for(unsigned int i=0; i<NUM_TRAITS; i++)
 		{			
@@ -48,7 +48,7 @@ void addTrait::populateLevel(int index)
 {
 	if(DFI)
 	{
-		std::vector< std::vector<std::string>> const& traits = DFI->getAllTraits();
+		std::vector< std::vector<std::string> > const& traits = DFI->getAllTraits();
 		atD.levelCB->clear();
 
 		for(int i=0; i<6; i++)

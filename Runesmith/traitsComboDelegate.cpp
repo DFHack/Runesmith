@@ -20,7 +20,7 @@ QWidget *traitsComboDelegate::createEditor(QWidget *parent,
 
 	if(DFI)
 	{
-		std::vector< std::vector<std::string>> const& traits = DFI->getAllTraits();
+		std::vector< std::vector<std::string> > const& traits = DFI->getAllTraits();
 		
 		for(int j=0; j<traits[id].size()-1; j++)
 		{

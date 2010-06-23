@@ -36,8 +36,8 @@ public slots:
 	void update();
 	void aboutSlot();
 	void showDead(bool state);
-	void dwarfSelected(const QModelIndex& index);
-	void creatureSelected(const QModelIndex& index);
+	void dwarfSelected(const QModelIndex& index, const QModelIndex&);
+	void creatureSelected(const QModelIndex& index, const QModelIndex&);
 	void writeChanges();
 	void dAddTraitWrap();
 	void cAddTraitWrap();

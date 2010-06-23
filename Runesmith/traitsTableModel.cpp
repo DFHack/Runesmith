@@ -77,11 +77,11 @@ void traitsTableModel::setCreature(DFInterface *nDFI,
 Qt::ItemFlags traitsTableModel::flags(const QModelIndex & index) const
 {
 	if (!index.isValid())
-		return Qt::ItemFlag::NoItemFlags;
+		return Qt::NoItemFlags;
 
 	if(!index.column())
 	{
-		return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemFlag::ItemIsEditable;
+		return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable;
 	}
 	else
 		return Qt::ItemIsSelectable | Qt::ItemIsEnabled;

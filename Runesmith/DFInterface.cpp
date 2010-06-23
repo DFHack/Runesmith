@@ -224,6 +224,7 @@ void DFInterface::process()
 {
 	cleanup();
 	currentYear = world->ReadCurrentYear();
+	dwarfCivID = Creatures->GetDwarfCivId();
 
 	for(int i=0; i<numCreatures; i++)
 	{
@@ -352,6 +353,10 @@ uint32_t DFInterface::getRacialAverage(uint32_t race, uint32_t caste, RacialStat
 			return Materials->raceEx[race].castes[caste].intuition.level;
 		case PATIENCE_STAT:
 			return Materials->raceEx[race].castes[caste].patience.level;
+		case EMPATHY_STAT:
+			return 0;//Materials->raceEx[race].castes[caste].empathy.level;
+		case SOCIAL_AWARENESS_STAT:
+			return 0;//Materials->raceEx[race].castes[caste].social_awareness.level;
 		case CREATVITY_STAT:
 			return Materials->raceEx[race].castes[caste].creativity.level;
 		case MUSICALITY_STAT:
@@ -466,7 +471,7 @@ void DFInterface::cleanup()
 
 	changeTracker.clear();
 	moods.clear();
-	dataChanged = false();
+	dataChanged = false;
 }
 
 void DFInterface::setChanged(uint32_t id, TrackedBlocks changedBlock)
@@ -499,6 +504,14 @@ void DFInterface::setChanged(uint32_t id, TrackedBlocks changedBlock)
 
 	case MOOD_CHANGED:
 		changeTracker[id].moodChanged = true;
+		break;
+
+	case POS_CHANGED:
+		changeTracker[id].posChanged = true;
+		break;
+
+	case CIV_CHANGED:
+		changeTracker[id].civChanged = true;
 		break;
 	}
 
@@ -616,14 +629,33 @@ bool DFInterface::writeLoop(std::vector<DFHack::t_creature *> &data)
 			if(!Creatures->WriteMood(temp.id, data[i]->mood))
 				return false;
 
+			if(!Creatures->WriteMoodSkill(temp.id, data[i]->mood_skill))
+				return false;
+
 			temp.moodChanged = false;
+		}
+
+		if(temp.posChanged)
+		{
+			if(!Creatures->WritePos(temp.id, *data[i]))
+				return false;
+
+			temp.posChanged = false;
+		}
+
+		if(temp.civChanged)
+		{
+			if(!Creatures->WriteCiv(temp.id, data[i]->civ))
+				return false;
+
+			temp.civChanged = false;
 		}
 	}
 
 	return true;
 }
 
-std::vector< std::vector<std::string>> const& DFInterface::getAllTraits()
+std::vector< std::vector<std::string> > const& DFInterface::getAllTraits()
 {
 	return mem->getAllTraits();
 }
@@ -699,4 +731,9 @@ std::vector<DFHack::t_matgloss> const& DFInterface::getInorgaincMats()
 void DFInterface::setMainRace(QString nMainRace)
 {
 	mainRace = nMainRace.toUpper();
+}
+
+int32_t DFInterface::getDwarfCiv()
+{
+	return dwarfCivID;
 }

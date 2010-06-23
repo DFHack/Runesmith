@@ -2,7 +2,7 @@
 #include "traitsTableModel.h"
 
 moodComboDelegate::moodComboDelegate(QObject *parent) 
-: QItemDelegate(parent)
+: QItemDelegate(parent), creature(NULL), DFI(NULL)
 {
 }
 
@@ -18,13 +18,23 @@ QWidget *moodComboDelegate::createEditor(QWidget *parent,
 	
 	if(index.row() == 0)
 	{
-	editor->addItem("None");
-	editor->addItem("Fey");
-	editor->addItem("Secretive");
-	editor->addItem("Possesed");
-	editor->addItem("Macabre");
-	editor->addItem("Fell");
-	editor->addItem("Melancholy");
+		editor->addItem("None");
+		editor->addItem("Fey");
+		editor->addItem("Secretive");
+		editor->addItem("Possesed");
+		editor->addItem("Macabre");
+		editor->addItem("Fell");
+		editor->addItem("Melancholy");
+	}
+	else if(index.row() == 1)
+	{
+		if(DFI && creature)
+		{
+			for(int i=0; i<creature->defaultSoul.numSkills; i++)
+			{
+				editor->addItem(DFI->translateSkill(creature->defaultSoul.skills[i].id));
+			}
+		}
 	}
 	/*else
 	{

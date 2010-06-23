@@ -184,11 +184,11 @@ void dwarfTableModel::update(DFInterface *nDFI)
 Qt::ItemFlags dwarfTableModel::flags(const QModelIndex & index) const
 {
 	if (!index.isValid())
-		return Qt::ItemFlag::NoItemFlags;
+		return Qt::NoItemFlags;
 
 	if (index.column() == 2)
 	{
-		return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemFlag::ItemIsEditable;
+		return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable;
 	}
 	else
 		return Qt::ItemIsSelectable | Qt::ItemIsEnabled;

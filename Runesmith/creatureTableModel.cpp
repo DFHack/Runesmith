@@ -180,11 +180,11 @@ QVariant creatureTableModel::headerData(int section,
 Qt::ItemFlags creatureTableModel::flags(const QModelIndex & index) const
 {
 	if (!index.isValid())
-		return Qt::ItemFlag::NoItemFlags;
+		return Qt::NoItemFlags;
 
 	if (index.column() == 3)
 	{
-		return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemFlag::ItemIsEditable;
+		return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable;
 	}
 	else
 		return Qt::ItemIsSelectable | Qt::ItemIsEnabled;

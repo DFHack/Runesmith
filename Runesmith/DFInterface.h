@@ -19,6 +19,8 @@ enum RacialStat
 	FOCUS_STAT,
 	INTUITION_STAT,
 	PATIENCE_STAT,
+	EMPATHY_STAT,
+	SOCIAL_AWARENESS_STAT,
 	CREATVITY_STAT,
 	MUSICALITY_STAT,
 	ANALYTICAL_ABILITY_STAT,
@@ -35,14 +37,16 @@ enum TrackedBlocks
 	SKILLS_CHANGED,
 	SEX_CHANGED,
 	TRAITS_CHANGED,
-	MOOD_CHANGED
+	MOOD_CHANGED,
+	POS_CHANGED,
+	CIV_CHANGED
 };
 
 struct statusTracker
 {
 	statusTracker() : id(0), skillsChanged(false), attributesChanged(false),
 		flagsChanged(false), happinessChanged(false), sexChanged(false),
-		traitsChanged(false), moodChanged(false){}
+		traitsChanged(false), moodChanged(false), posChanged(false), civChanged(false){}
 	uint32_t id;
 	bool skillsChanged;
 	bool attributesChanged;
@@ -51,6 +55,8 @@ struct statusTracker
 	bool sexChanged;
 	bool traitsChanged;
 	bool moodChanged;
+	bool posChanged;
+	bool civChanged;
 };
 
 class DFInterface
@@ -74,7 +80,7 @@ public:
 	std::vector<DFHack::t_matgloss> const& getOrganicMats();
 	std::vector<DFHack::t_matgloss> const& getInorgaincMats();
 	std::vector<DFHack::t_material>& getMoodMats(uint32_t id);
-	std::vector< std::vector<std::string>> const& getAllTraits();
+	std::vector< std::vector<std::string> > const& getAllTraits();
 	std::vector<DFHack::t_creature *>& getDwarves();
 	std::vector<DFHack::t_creature *>& getCreatures();
 	
@@ -93,7 +99,8 @@ public:
 	QString getMood(uint32_t mood);
 	
 	uint32_t getRacialAverage(uint32_t race, uint32_t caste, RacialStat stat);
-	uint32_t getCurrentYear();	
+	uint32_t getCurrentYear();
+	int32_t getDwarfCiv();
 
 private:
 	bool isContextValid();
@@ -111,10 +118,11 @@ private:
 	std::vector<DFHack::t_creature *> allCreatures;
 	std::vector<DFHack::t_creature *> allDwarves;
 
-	std::map<uint32_t, std::vector<DFHack::t_material>> moods;
+	std::map<uint32_t, std::vector<DFHack::t_material> > moods;
 	std::map<uint32_t, statusTracker> changeTracker;
 	uint32_t numCreatures;
 	uint32_t currentYear;
+	int32_t dwarfCivID;
 	bool processDead;
 	bool dataChanged;
 	QString mainRace;

@@ -1,7 +1,5 @@
 #include <QMessageBox>
 #include <QFile>
-#include <QXmlInputSource>
-#include <QXmlSimpleReader>
 #include <DFHack.h>
 #include "runesmith.h"
 #include "rsException.h"
@@ -14,8 +12,8 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	ui.setupUi(this);
 	ui.skillsTV->setItemDelegateForColumn(2, &skillProgDele);
 	ui.cSkillsTV->setItemDelegateForColumn(2, &cSkillProgDele);
-	ui.dMiscTV->setItemDelegateForColumn(1, &sCD);
-	ui.cMiscTV->setItemDelegateForColumn(1, &sCD);
+	ui.dMiscTV->setItemDelegateForRow(3, &sCD);
+	ui.cMiscTV->setItemDelegateForRow(3, &sCD);
 	ui.dTraitsTV->setItemDelegate(&tCD);
 	ui.cTraitsTV->setItemDelegate(&tCD);
 	ui.dMoodTV->setItemDelegate(&mCD);
@@ -73,6 +71,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 		skillProgDele.setDFI(DFI);
 		cSkillProgDele.setDFI(DFI);
 		tCD.setDFI(DFI);
+		mCD.setDFI(DFI);
 	}
 	catch (std::exception& e)
 	{
@@ -88,10 +87,19 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	QApplication::connect(ui.action_Refresh, SIGNAL(triggered()), this, SLOT(update()));
 	QApplication::connect(ui.actionE_xit, SIGNAL(triggered()), this, SLOT(close()));
 	QApplication::connect(ui.action_About, SIGNAL(triggered()), this, SLOT(aboutSlot()));
-	QApplication::connect(ui.dwarvesTV, SIGNAL(clicked(const QModelIndex&)), this,
-		SLOT(dwarfSelected(const QModelIndex&)));
-	QApplication::connect(ui.creaturesTV, SIGNAL(clicked(const QModelIndex&)), this,
-		SLOT(creatureSelected(const QModelIndex&)));
+	
+	QApplication::connect(
+		ui.dwarvesTV->selectionModel(),
+		SIGNAL(currentChanged(const QModelIndex&, const QModelIndex&)),
+		this,
+		SLOT(dwarfSelected(const QModelIndex&, const QModelIndex&)));
+
+	QApplication::connect(
+		ui.creaturesTV->selectionModel(), 
+		SIGNAL(currentChanged(const QModelIndex&, const QModelIndex&)),
+		this,
+		SLOT(creatureSelected(const QModelIndex&, const QModelIndex&)));
+
 	QApplication::connect(ui.actionShow_Dead, SIGNAL(triggered(bool)), this, SLOT(showDead(bool)));
 	QApplication::connect(ui.action_Write_Changes, SIGNAL(triggered()), this, SLOT(writeChanges()));
 	QApplication::connect(ui.action_Force_Resume, SIGNAL(triggered()), this, SLOT(forceResume()));
@@ -135,6 +143,7 @@ void Runesmith::attach()
 			skillProgDele.setDFI(DFI);
 			cSkillProgDele.setDFI(DFI);
 			tCD.setDFI(DFI);
+			mCD.setDFI(DFI);
 		}
 		DFI->attach();
 	}
@@ -161,6 +170,7 @@ void Runesmith::detatch()
 	DFI->detatch();
 	dTM->update(DFI);
 	cTM->update(DFI);
+	tCD.setDFI(NULL);
 	tCD.setDFI(NULL);
 	clean();
 	connectLbl.setText("Disconnected");
@@ -208,7 +218,7 @@ void Runesmith::aboutSlot()
 	abDiaInstance.exec();
 }
 
-void Runesmith::dwarfSelected(const QModelIndex& index)
+void Runesmith::dwarfSelected(const QModelIndex& index, const QModelIndex&)
 {
 	DFHack::t_creature *dwarf = DFI->getDwarf(index.row());
 	dsTM->setCreature(DFI, dwarf);
@@ -219,9 +229,10 @@ void Runesmith::dwarfSelected(const QModelIndex& index)
 	dtTM->setCreature(DFI, dwarf);
 	dmooTM->setCreature(DFI, dwarf);
 	skillProgDele.setCreature(dwarf);
+	mCD.setCreature(dwarf);
 }
 
-void Runesmith::creatureSelected(const QModelIndex& index)
+void Runesmith::creatureSelected(const QModelIndex& index, const QModelIndex&)
 {
 	DFHack::t_creature *creature = DFI->getCreature(index.row());
 	csTM->setCreature(DFI, creature);
