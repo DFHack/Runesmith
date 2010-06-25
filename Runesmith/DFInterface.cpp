@@ -2,7 +2,7 @@
 #include "rsException.h"
 
 DFInterface::DFInterface(void) : DF(NULL), DFMgr(NULL), Materials(NULL), Tran(NULL),
-	Creatures(NULL), mem(NULL), processDead(false), dataChanged(false)
+	Creatures(NULL), mem(NULL), processDead(false), dataChanged(false), numCreatures(0)
 {
 	mainRace = "DWARF";
 
@@ -213,8 +213,8 @@ void DFInterface::suspend()
 	if(!Creatures->Start(numCreatures))
 		throw RSException();    
 
-	if(!numCreatures)
-		throw RSException();
+//	if(!numCreatures)
+//		throw RSException();
 
 	if(!Tran->Start())
 		throw RSException();
