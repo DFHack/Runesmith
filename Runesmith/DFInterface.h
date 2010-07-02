@@ -69,6 +69,8 @@ public:
 	void setMoodChanged(uint32_t id);
 	void setPosChanged(uint32_t id);
 	void setCivChanged(uint32_t id);
+	void setAllRaceSkills(uint8_t val);
+	void setAllRaceAttrs(uint16_t val);
 
 	bool writeAllChanges();
 	bool changesPending();

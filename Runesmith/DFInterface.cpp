@@ -747,3 +747,50 @@ int32_t DFInterface::getDwarfCiv()
 {
 	return dwarfCivID;
 }
+
+void DFInterface::setAllRaceSkills(uint8_t val)
+{
+	for(int i=0; i<dwarves.size(); i++)
+	{
+		for(int j=0; j<dwarves[i]->defaultSoul.numSkills; j++)
+		{
+			dwarves[i]->defaultSoul.skills[j].rating = val;
+			changeTracker[dwarves[i]->id].skillsChanged = true;
+		}
+	}
+
+	dataChanged = true;
+}
+
+void DFInterface::setAllRaceAttrs(uint16_t val)
+{
+	for(int i=0; i<dwarves.size(); i++)
+	{
+		for(int j=0; j<dwarves[i]->defaultSoul.numSkills; j++)
+		{
+			dwarves[i]->strength.level = val;
+			dwarves[i]->agility.level = val;
+			dwarves[i]->toughness.level = val;
+			dwarves[i]->endurance.level = val;
+			dwarves[i]->recuperation.level = val;
+			dwarves[i]->disease_resistance.level = val;
+			dwarves[i]->defaultSoul.willpower.level = val;
+			dwarves[i]->defaultSoul.memory.level = val;
+			dwarves[i]->defaultSoul.focus.level = val;
+			dwarves[i]->defaultSoul.intuition.level = val;
+			dwarves[i]->defaultSoul.patience.level = val;
+			dwarves[i]->defaultSoul.empathy.level = val;
+			dwarves[i]->defaultSoul.social_awareness.level = val;
+			dwarves[i]->defaultSoul.creativity.level = val;
+			dwarves[i]->defaultSoul.musicality.level = val;
+			dwarves[i]->defaultSoul.analytical_ability.level = val;
+			dwarves[i]->defaultSoul.linguistic_ability.level = val;
+			dwarves[i]->defaultSoul.spatial_sense.level = val;
+			dwarves[i]->defaultSoul.kinesthetic_sense.level = val;	
+			changeTracker[dwarves[i]->id].attributesChanged = true;
+		}
+	}
+
+	dataChanged = true;
+}
+	

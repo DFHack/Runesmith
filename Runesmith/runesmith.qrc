@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="Runesmith">
+    <file>Icons/A.png</file>
+    <file>Icons/S.png</file>
     <file>Icons/plus.png</file>
     <file>Icons/redredo.png</file>
     <file>Icons/save.png</file>

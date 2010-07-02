@@ -42,6 +42,8 @@ public slots:
 	void dAddTraitWrap();
 	void cAddTraitWrap();
 	void setRace();
+	void setRaceAttrs();
+	void setRaceSkills();
 
 private:
 	void clean();

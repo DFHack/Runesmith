@@ -1,10 +1,12 @@
 #include <QMessageBox>
 #include <QFile>
 #include <DFHack.h>
+#include <limits>
 #include "runesmith.h"
 #include "rsException.h"
 #include "about.h"
 #include "addTrait.h"
+#include "numInputDialog.h"
 
 Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 : QMainWindow(parent, flags), DFI(NULL)
@@ -106,6 +108,8 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	QApplication::connect(ui.dAddTraitBtn, SIGNAL(clicked()), this, SLOT(dAddTraitWrap()));
 	QApplication::connect(ui.cAddTraitBtn, SIGNAL(clicked()), this, SLOT(cAddTraitWrap()));
 	QApplication::connect(ui.action_Set_Main_Race, SIGNAL(triggered()), this, SLOT(setRace()));
+	QApplication::connect(ui.actionSet_Dwarves_Attributes, SIGNAL(triggered()), this, SLOT(setRaceAttrs()));
+	QApplication::connect(ui.actionSet_Dwarves_Skills, SIGNAL(triggered()), this, SLOT(setRaceSkills()));
 }
 
 Runesmith::~Runesmith()
@@ -324,4 +328,30 @@ void Runesmith::setRace()
 	DFI->setMainRace(tString);
 	ui.tabWidget->setTabText(0, tString);
 	update();
+}
+
+void Runesmith::setRaceSkills()
+{
+	NumInputDialog temp;
+	temp.setModal(true);
+	temp.exec();
+	unsigned int val = temp.getInputVal();
+
+	if(val > std::numeric_limits<uint8_t>::max())
+		val = std::numeric_limits<uint8_t>::max();
+
+	DFI->setAllRaceSkills(val);
+}
+
+void Runesmith::setRaceAttrs()
+{
+	NumInputDialog temp;
+	temp.setModal(true);
+	temp.exec();
+	unsigned int val = temp.getInputVal();
+
+	if(val > std::numeric_limits<uint16_t>::max())
+		val = std::numeric_limits<uint16_t>::max();
+
+	DFI->setAllRaceAttrs(val);
 }

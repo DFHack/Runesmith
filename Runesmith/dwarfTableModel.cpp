@@ -51,7 +51,11 @@ QVariant dwarfTableModel::data(const QModelIndex &index, int role) const
 			transName.append(dwarves[index.row()]->name.first_name+1);
 			transName.append(" ");
 			transName.append(DFI->translateName(dwarves[index.row()]->name));
-			return transName;
+
+			if(transName[0] != 0)
+				return transName;
+			else
+				return QVariant();
 
 		case 1:
 			return QString(DFI->translateProfession(dwarves[index.row()]->profession));
