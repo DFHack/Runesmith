@@ -100,6 +100,7 @@ public:
 	QString translateLabour(const uint8_t labour);
 	QString translateTrait(uint32_t index, uint32_t value);
 	QString getMatDescription(DFHack::t_material &mat);
+	QString getMaterialType(DFHack::t_material &mat);
 	QString getMood(uint32_t mood);
 	
 	uint32_t getRacialAverage(uint32_t race, uint32_t caste, RacialStat stat);
@@ -122,6 +123,8 @@ private:
 	std::vector<DFHack::t_creature *> allCreatures;
 	std::vector<DFHack::t_creature *> allDwarves;
 	std::vector<DFHack::t_creaturetype> raceExCache;
+	std::vector<DFHack::t_matgloss> organicMatCache;
+	std::vector<DFHack::t_matgloss> inorganicMatCache;
 
 	std::map<uint32_t, nameStore> nameCache;
 	std::map<uint32_t, std::vector<DFHack::t_material> > moods;

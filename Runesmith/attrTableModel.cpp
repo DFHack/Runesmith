@@ -170,3 +170,16 @@ bool attrTableModel::setData(const QModelIndex &index, const QVariant &value, in
 	DFI->setAttrsChanged(creature->id);
 	return true;
 }
+
+Qt::ItemFlags attrTableModel::flags(const QModelIndex & index) const
+{
+	if (!index.isValid())
+		return Qt::NoItemFlags;
+
+	if(index.column() == 1)
+	{
+		return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable;
+	}
+	else
+		return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+}

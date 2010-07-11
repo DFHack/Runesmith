@@ -36,7 +36,7 @@ QWidget *moodComboDelegate::createEditor(QWidget *parent,
 			}
 		}
 	}
-	/*else
+	else
 	{
 		if(DFI && creature)
 		{
@@ -44,9 +44,39 @@ QWidget *moodComboDelegate::createEditor(QWidget *parent,
 			std::vector<DFHack::t_matgloss> const& inorganic = DFI->getInorgaincMats();
 			std::vector<DFHack::t_material> &mats = DFI->getMoodMats(creature->id);
 
-			if(mats[index.row()-2].
+			QString type = DFI->getMaterialType(mats[index.row()-2]);
+			
+			if(type == "organic")
+			{
+				for(int i=0; i<organic.size(); i++)
+				{
+					editor->addItem(organic[i].id);
+				}
+			}
+			else if(type == "inorganic")
+			{
+				for(int i=0; i<inorganic.size(); i++)
+				{
+					editor->addItem(inorganic[i].id);
+				}
+			}
+			else if(type == "any")
+			{
+				for(int i=0; i<inorganic.size(); i++)
+				{
+					editor->addItem(inorganic[i].id);
+				}
+
+				for(int i=0; i<organic.size(); i++)
+				{
+					editor->addItem(organic[i].id);
+				}
+			}
+			else
+			{
+			}
 		}
-	}*/
+	}
 
 	return editor;
 }

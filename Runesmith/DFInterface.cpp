@@ -226,6 +226,8 @@ void DFInterface::process()
 	currentYear = world->ReadCurrentYear();
 	dwarfCivID = Creatures->GetDwarfCivId();
 	raceExCache =  Materials->raceEx;
+	organicMatCache = Materials->organic;
+	inorganicMatCache = Materials->inorganic;
 
 	for(int i=0; i<numCreatures; i++)
 	{
@@ -324,7 +326,7 @@ QString DFInterface::translateRace(const uint32_t race)
 }
 
 uint32_t DFInterface::getRacialAverage(uint32_t race, uint32_t caste, RacialStat stat)
-{//FIXME
+{
 	if(isAttached())
 	{
 		switch(stat)
@@ -476,6 +478,8 @@ void DFInterface::cleanup()
 	changeTracker.clear();
 	moods.clear();
 	raceExCache.clear();
+	organicMatCache.clear();
+	inorganicMatCache.clear();
 	dataChanged = false;
 }
 
@@ -734,13 +738,13 @@ QString DFInterface::getMood(uint32_t mood)
 }
 
 std::vector<DFHack::t_matgloss> const& DFInterface::getOrganicMats()
-{//TODO maybe fix
-	return Materials->organic;
+{
+	return organicMatCache;
 }
 
 std::vector<DFHack::t_matgloss> const& DFInterface::getInorgaincMats()
-{//TODO maybe fix
-	return Materials->inorganic;
+{
+	return inorganicMatCache;
 }
 
 void DFInterface::setMainRace(QString nMainRace)
@@ -797,5 +801,21 @@ void DFInterface::setAllRaceAttrs(uint16_t val)
 	}
 
 	dataChanged = true;
+}
+
+QString DFInterface::getMaterialType(DFHack::t_material &mat)
+{
+	if(isAttached())
+	{
+		try
+		{
+			return Materials->getType(mat).c_str();
+		}
+		catch(std::exception &e)
+		{
+		}
+	}
+	
+	return "";
 }
 	
