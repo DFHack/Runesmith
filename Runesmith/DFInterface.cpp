@@ -225,6 +225,7 @@ void DFInterface::process()
 	cleanup();
 	currentYear = world->ReadCurrentYear();
 	dwarfCivID = Creatures->GetDwarfCivId();
+	raceExCache =  Materials->raceEx;
 
 	for(int i=0; i<numCreatures; i++)
 	{
@@ -237,6 +238,15 @@ void DFInterface::process()
 			std::vector<DFHack::t_material> tmats;
 			readMats(temp, tmats);
 			moods[temp->id] = tmats;
+		}
+
+		QString sTemp = Tran->TranslateName(temp->name, false).c_str();
+		
+		if(sTemp != "")
+		{
+			nameCache[temp->id].dwarvish = sTemp;
+			sTemp = Tran->TranslateName(temp->name, true).c_str();
+			nameCache[temp->id].english = sTemp;
 		}
 
 		if(QString(Materials->raceEx[temp->race].rawname) == mainRace)
@@ -261,20 +271,19 @@ std::vector<DFHack::t_material>& DFInterface::getMoodMats(uint32_t id)
 	return moods[id];
 }
 
-QString DFInterface::translateName(const DFHack::t_name &name, bool english)
+QString DFInterface::translateName(const uint32_t id, bool english)
 {
-	if(isAttached())
+	std::map<uint32_t, nameStore>::iterator it = nameCache.find(id);
+
+	if(it == nameCache.end())
+		return "";
+	else
 	{
-		try
-		{
-			return Tran->TranslateName(name, english).c_str();
-		}
-		catch(std::exception &e)
-		{
-		}
+		if(english)
+			return it->second.english;
+		else
+			return it->second.dwarvish;
 	}
-	
-	return "";
 }
 
 QString DFInterface::translateSkill(const uint32_t skill)
@@ -311,64 +320,53 @@ QString DFInterface::translateProfession(const uint32_t prof)
 
 QString DFInterface::translateRace(const uint32_t race)
 {
-	if(isAttached())
-	{
-		try
-		{
-			return Materials->raceEx[race].rawname;
-		}
-		catch(std::exception &e)
-		{
-		}
-	}
-	
-	return "";
+	return raceExCache[race].rawname;
 }
 
 uint32_t DFInterface::getRacialAverage(uint32_t race, uint32_t caste, RacialStat stat)
-{
+{//FIXME
 	if(isAttached())
 	{
 		switch(stat)
 		{
 		case STRENGTH_STAT:
-			return Materials->raceEx[race].castes[caste].strength.level;
+			return raceExCache[race].castes[caste].strength.level;
 		case AGILITY_STAT:
-			return Materials->raceEx[race].castes[caste].agility.level;
+			return raceExCache[race].castes[caste].agility.level;
 		case TOUGHNESS_STAT:
-			return Materials->raceEx[race].castes[caste].toughness.level;
+			return raceExCache[race].castes[caste].toughness.level;
 		case ENDURANCE_STAT:
-			return Materials->raceEx[race].castes[caste].endurance.level;
+			return raceExCache[race].castes[caste].endurance.level;
 		case RECUPERATION_STAT:
-			return Materials->raceEx[race].castes[caste].recuperation.level;
+			return raceExCache[race].castes[caste].recuperation.level;
 		case DISEASE_RESISTANCE_STAT:
-			return Materials->raceEx[race].castes[caste].disease_resistance.level;
+			return raceExCache[race].castes[caste].disease_resistance.level;
 		case WILLPOWER_STAT:
-			return Materials->raceEx[race].castes[caste].willpower.level;
+			return raceExCache[race].castes[caste].willpower.level;
 		case MEMORY_STAT:
-			return Materials->raceEx[race].castes[caste].memory.level;
+			return raceExCache[race].castes[caste].memory.level;
 		case FOCUS_STAT:
-			return Materials->raceEx[race].castes[caste].focus.level;
+			return raceExCache[race].castes[caste].focus.level;
 		case INTUITION_STAT:
-			return Materials->raceEx[race].castes[caste].intuition.level;
+			return raceExCache[race].castes[caste].intuition.level;
 		case PATIENCE_STAT:
-			return Materials->raceEx[race].castes[caste].patience.level;
+			return raceExCache[race].castes[caste].patience.level;
 		case EMPATHY_STAT:
-			return 0;//Materials->raceEx[race].castes[caste].empathy.level;
+			return 0;//raceExCache[race].castes[caste].empathy.level;
 		case SOCIAL_AWARENESS_STAT:
-			return 0;//Materials->raceEx[race].castes[caste].social_awareness.level;
+			return 0;//raceExCache[race].castes[caste].social_awareness.level;
 		case CREATVITY_STAT:
-			return Materials->raceEx[race].castes[caste].creativity.level;
+			return raceExCache[race].castes[caste].creativity.level;
 		case MUSICALITY_STAT:
-			return Materials->raceEx[race].castes[caste].musicality.level;
+			return raceExCache[race].castes[caste].musicality.level;
 		case ANALYTICAL_ABILITY_STAT:
-			return Materials->raceEx[race].castes[caste].analytical_ability.level;
+			return raceExCache[race].castes[caste].analytical_ability.level;
 		case LINGUISTIC_ABILITY_STAT:
-			return Materials->raceEx[race].castes[caste].linguistic_ability.level;
+			return raceExCache[race].castes[caste].linguistic_ability.level;
 		case SPATIAL_SENSE_STAT:
-			return Materials->raceEx[race].castes[caste].spatial_sense.level;
+			return raceExCache[race].castes[caste].spatial_sense.level;
 		case KINESTHETIC_SENSE_STAT:
-			return Materials->raceEx[race].castes[caste].kinesthetic_sense.level;
+			return raceExCache[race].castes[caste].kinesthetic_sense.level;
 		default: 
 			return 0;
 		}
@@ -457,20 +455,27 @@ uint32_t DFInterface::getCurrentYear()
 
 void DFInterface::cleanup()
 {
-	for(int i=0; i<allCreatures.size(); i++)	
+	for(int i=0; i<allCreatures.size(); i++)
+	{
 		if(allCreatures[i])
 			delete allCreatures[i];
+	}
+
 	allCreatures.clear();
 	creatures.clear();
 
-	for(int i=0; i<allDwarves.size(); i++)	
+	for(int i=0; i<allDwarves.size(); i++)
+	{
 		if(allDwarves[i])
 			delete allDwarves[i];
+	}
+
 	allDwarves.clear();
 	dwarves.clear();
 
 	changeTracker.clear();
 	moods.clear();
+	raceExCache.clear();
 	dataChanged = false;
 }
 
@@ -729,12 +734,12 @@ QString DFInterface::getMood(uint32_t mood)
 }
 
 std::vector<DFHack::t_matgloss> const& DFInterface::getOrganicMats()
-{
+{//TODO maybe fix
 	return Materials->organic;
 }
 
 std::vector<DFHack::t_matgloss> const& DFInterface::getInorgaincMats()
-{
+{//TODO maybe fix
 	return Materials->inorganic;
 }
 

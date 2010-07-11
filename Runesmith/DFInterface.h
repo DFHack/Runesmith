@@ -46,6 +46,12 @@ struct statusTracker
 	bool civChanged;
 };
 
+struct nameStore
+{
+	QString english;
+	QString dwarvish;
+};
+
 class DFInterface
 {
 public:
@@ -87,7 +93,7 @@ public:
 	DFHack::t_level getLevelInfo(uint32_t level);
 
 	QString getVersion();
-	QString translateName(const DFHack::t_name &name, bool english = false);
+	QString translateName(const uint32_t id, bool english = false);
 	QString translateSkill(const uint32_t skill);
 	QString translateProfession(const uint32_t prof);
 	QString translateRace(const uint32_t race);
@@ -115,9 +121,12 @@ private:
 	std::vector<DFHack::t_creature *> dwarves;
 	std::vector<DFHack::t_creature *> allCreatures;
 	std::vector<DFHack::t_creature *> allDwarves;
+	std::vector<DFHack::t_creaturetype> raceExCache;
 
+	std::map<uint32_t, nameStore> nameCache;
 	std::map<uint32_t, std::vector<DFHack::t_material> > moods;
 	std::map<uint32_t, statusTracker> changeTracker;
+
 	uint32_t numCreatures;
 	uint32_t currentYear;
 	int32_t dwarfCivID;

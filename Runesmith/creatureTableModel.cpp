@@ -50,7 +50,7 @@ QVariant creatureTableModel::data(const QModelIndex &index, int role) const
 				transName.append(creatures[index.row()]->name.first_name+1);
 			}
 			transName.append(" ");
-			transName.append(DFI->translateName(creatures[index.row()]->name));
+			transName.append(DFI->translateName(creatures[index.row()]->id));
 			return transName;
 
 		case 2:

@@ -52,7 +52,7 @@ QVariant miscTableModel::data(const QModelIndex &index, int role) const
 			{
 			case 0: return (creature->civ == -1) ? "False" : "True";
 			case 1: return creature->name.nickname;
-			case 2: return DFI->translateName(creature->name, true);
+			case 2: return DFI->translateName(creature->id, true);
 			case 3: return creature->sex ? "Male" : "Female";
 			case 4: return calcDob();
 			case 5: return (DFI->getCurrentYear() - creature->birth_year);		
