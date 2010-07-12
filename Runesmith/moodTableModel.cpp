@@ -117,7 +117,10 @@ Qt::ItemFlags moodTableModel::flags(const QModelIndex & index) const
 	if (!index.isValid())
 		return Qt::NoItemFlags;
 	
-	return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable;	
+	if((index.row() == 0) || (index.row() == 1)) // turned off material editing with this & in delegate
+		return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable;
+	else
+		return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 }
 
 bool moodTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -132,8 +135,9 @@ bool moodTableModel::setData(const QModelIndex &index, const QVariant &value, in
 	{
 		int temp = value.toInt();
 
-		if(index.row() == 0)
-		{			
+		switch(index.row())
+		{
+		case 0:
 			creature->mood = temp-1;
 
 			if(creature->mood == -1)
@@ -153,15 +157,15 @@ bool moodTableModel::setData(const QModelIndex &index, const QVariant &value, in
 			}
 
 			DFI->setMoodChanged(creature->id);
-			return true;
-		}	
-		else if(index.row() == 1)
-		{
+			return true;			
+		
+		case 1:	
 			creature->mood_skill = creature->defaultSoul.skills[temp].id;
 			DFI->setMoodChanged(creature->id);
+			return true;
+	
+		default: return false;
 		}
-		else
-			return false;
 	}
 	else
 		return false;

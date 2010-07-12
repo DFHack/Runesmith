@@ -36,7 +36,7 @@ QWidget *moodComboDelegate::createEditor(QWidget *parent,
 			}
 		}
 	}
-	else
+	/*else
 	{
 		if(DFI && creature)
 		{
@@ -76,7 +76,7 @@ QWidget *moodComboDelegate::createEditor(QWidget *parent,
 			{
 			}
 		}
-	}
+	}*/
 
 	return editor;
 }
