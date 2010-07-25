@@ -29,23 +29,6 @@ enum RacialStat
 	KINESTHETIC_SENSE_STAT
 };
 
-struct statusTracker
-{
-	statusTracker() : id(0), skillsChanged(false), attributesChanged(false),
-		flagsChanged(false), happinessChanged(false), sexChanged(false),
-		traitsChanged(false), moodChanged(false), posChanged(false), civChanged(false){}
-	uint32_t id;
-	bool skillsChanged;
-	bool attributesChanged;
-	bool flagsChanged;
-	bool happinessChanged;
-	bool sexChanged;
-	bool traitsChanged;
-	bool moodChanged;
-	bool posChanged;
-	bool civChanged;
-};
-
 struct nameStore
 {
 	QString english;
@@ -106,6 +89,11 @@ public:
 	uint32_t getRacialAverage(uint32_t race, uint32_t caste, RacialStat stat);
 	uint32_t getCurrentYear();
 	int32_t getDwarfCiv();
+
+	/* Sorting (Dwarves)*/
+	void sortDwarvesByName(bool decending);
+	void sortDwarvesByProf(bool decending);
+	void sortDwarvesByHap(bool decending);
 
 private:
 	bool isContextValid();

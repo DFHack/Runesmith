@@ -44,7 +44,7 @@ QVariant skillsTableModel::data(const QModelIndex &index, int role) const
 		temp.append(" [");
 		temp.append(
 			QString::number(
-			DFI->getLevelInfo(creature->defaultSoul.skills[index.row()].rating).level));
+			creature->defaultSoul.skills[index.row()].rating));
 		temp.append("]");
 		return temp;
 

@@ -253,6 +253,9 @@
           <property name="textElideMode">
            <enum>Qt::ElideRight</enum>
           </property>
+          <property name="sortingEnabled">
+           <bool>true</bool>
+          </property>
           <attribute name="horizontalHeaderDefaultSectionSize">
            <number>110</number>
           </attribute>

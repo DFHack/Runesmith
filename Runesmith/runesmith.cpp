@@ -203,7 +203,7 @@ void Runesmith::update()
 	{
 		QMessageBox msgBox(QMessageBox::Warning,
 			"Warning!",
-			"Would you like to write pending chnages first?",
+			"Would you like to write pending changes first?",
 			QMessageBox::Yes | QMessageBox::No, this);
 
 		if(msgBox.exec() == QMessageBox::Yes)

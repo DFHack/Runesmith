@@ -1,5 +1,7 @@
+#include <algorithm>
 #include "DFInterface.h"
 #include "rsException.h"
+#include "creatureCmps.h"
 
 DFInterface::DFInterface(void) : DF(NULL), DFMgr(NULL), Materials(NULL), Tran(NULL),
 	Creatures(NULL), mem(NULL), processDead(false), dataChanged(false), numCreatures(0)
@@ -818,4 +820,30 @@ QString DFInterface::getMaterialType(DFHack::t_material &mat)
 	
 	return "";
 }
-	
+
+void DFInterface::sortDwarvesByName(bool decending)
+{
+	if(decending)
+	{
+		if(!processDead)
+			std::sort(dwarves.begin(), dwarves.end(), creatureDecNameCmp);
+		else
+			std::sort(dwarves.begin(), dwarves.end(), creatureDecNameCmp);	
+	}
+	else
+	{
+		if(!processDead)
+			std::sort(dwarves.begin(), dwarves.end(), creatureAscNameCmp);
+		else
+			std::sort(dwarves.begin(), dwarves.end(), creatureAscNameCmp);
+	}
+}
+
+void DFInterface::sortDwarvesByProf(bool decending)
+{
+	std::sort(dwarves.begin(), dwarves.end(), creatureAscProfCmp);
+}
+
+void DFInterface::sortDwarvesByHap(bool decending)
+{
+}

@@ -75,6 +75,7 @@ QVariant dwarfTableModel::data(const QModelIndex &index, int role) const
 				transName = "Happy";
 			else
 				transName = "Ecstatic";
+
 			transName.append(" [");
 			transName.append(QString::number(dwarves[index.row()]->happiness));
 			return transName.append("]");
@@ -218,4 +219,24 @@ bool dwarfTableModel::setData(const QModelIndex &index, const QVariant &value, i
 	dwarves[index.row()]->happiness = temp;
 	DFI->setHappinessChanged(dwarves[index.row()]->id);
 	return true;
+}
+
+void dwarfTableModel::sort(int column, Qt::SortOrder order)
+{
+	switch(column)
+	{
+	case 0:
+		if(order == Qt::AscendingOrder)
+			DFI->sortDwarvesByName(false);
+		else
+			DFI->sortDwarvesByName(true);
+		break;
+
+	case 1:
+		DFI->sortDwarvesByProf(false);
+		break;
+	}
+
+	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
+		QAbstractItemModel::createIndex(colCount, rowCount()));
 }

@@ -1680,7 +1680,44 @@ map_data_1b60_offset          0x1B9c
         map size Y: 0x16c4b14
         -->
     </Entry>
+    <Entry version="v0.31.09" os="windows" id="0.31.09" base="0.31.08" rebase="0xD028" > rebase="0xD030"
+        <String name="md5">1a85839ab03df082974dc5629d3fbc26</String>
+        <HexValue name="pe_timestamp">0x4C3897C0</HexValue>
+        <Address name="cursor_xyz">0xaff2d8</Address>       
+        <Address name="language_vector">0x16D33CC</Address>
+        <Address name="translation_vector">0x16D33FC</Address>
+        <Offset name="word_table">0x4c</Offset>
 
+        Creatures
+        =========
+        <Address name="creature_vector">0x168E73C</Address>
+        <Address name="dwarf_race_index">0x014b9f1c</Address>      
+        <Offset name="creature_soulskill_vector">0X1F4</Offset>
+        <Offset name="creature_physical">0x4AC</Offset>        
+        <Offset name="creature_appearance_vector">0x64c</Offset> <!-- Maybe slightly wrong -->
+        <Offset name="creature_artifact_name">0x71c</Offset>
+        <Offset name="creature_labors">0x7Bc</Offset>
+        <Offset name="creature_soul_vector">0x0788</Offset>
+        <Offset name="creature_default_soul">0x07A0</Offset>
+        <Offset name="creature_happiness">0x87c</Offset>
+    </Entry>
+    <Entry version="v0.31.10" os="windows" id="0.31.10" base="0.31.09">
+        <String name="md5">552cfa417fd131204ebfee66aefc4adb</String>
+        <HexValue name="pe_timestamp">0x4C398089</HexValue>
+    </Entry>
+    <Entry version="v0.31.11" os="windows" id="0.31.11" base="0.31.10" rebase="0x7018">
+      <String name="md5">552cfa417fd131204ebfee66aefc4adb</String>
+      <HexValue name="pe_timestamp">0x4C496D93</HexValue>
+      <Address name="cursor_xyz">0xB062D8</Address>
+      <Address name="window_x">0xe81114</Address> VERIFIED
+      <Address name="window_y">0xeAF1E8</Address> VERIFIED
+      <Address name="window_z">0xeAF1C4</Address> VERIFIED
+    </Entry>
+    <Entry version="v0.31.12" os="windows" id="0.31.12" base="0.31.11">
+      <String name="md5">f0459165a426a9f2dd8d957e9fa7f01d</String>
+      <HexValue name="pe_timestamp">0x4c4c32e7</HexValue>
+    </Entry>
+    
                             .-"""-.
                            '       \
                           |,.  ,-.  |   _________________________
@@ -1818,10 +1855,17 @@ map_data_1b60_offset          0x1B9c
         Creature type offsets
         =====================
         <Offset name="creature_type_caste_vector">0x60</Offset> VERIFIED
-        <Offset name="creature_type_extract_vector">0x1A14</Offset>
-        <Offset name="creature_tile">0xE0</Offset>
-        <Offset name="creature_tile_color">0xF6</Offset>
-        
+        from 0.31.08
+        Toad: 0xaf75b68
+        Toad: rawname = 0x0
+        Toad: character (not reliable) = 0x20
+        Toad: caste vector = 0x60
+        Toad: extract? vector = 0x18f4
+        Toad: colors = 0x36
+        <Offset name="creature_type_extract_vector">0x18f4</Offset> VERIFIED
+        <Offset name="creature_tile">0x20</Offset> VERIFIED
+        <Offset name="creature_tile_color">0x36</Offset> LOOKS OK
+
         <!--
         <Offset name="creature_type_caste_vector">0x138</Offset>
         <Offset name="creature_type_extract_vector">0x1A14</Offset>
@@ -2172,6 +2216,91 @@ map_data_1b60_offset          0x1B9c
         0x92d79d4
         0x92d79e0 = real one? seems like it
         0x92d7a10
+    </Entry>
+    <Entry version="v0.31.07" os="linux" id="30_07lin" base="30_06lin" rebase="0x2000">
+        <String name="md5">b31979551782e89c049b11db8d2d86d7</String>
+    </Entry>
+    <Entry version="v0.31.08" os="linux" id="30_08lin" base="30_07lin">
+        <String name="md5">e37750890350d7b9d8203879aff8fa5c</String>
+    </Entry>
+    <Entry version="v0.31.09" os="linux" id="30_09lin" base="30_08lin" rebase="0x11000">
+        <!-- TODO: fix creature offsets -->
+        <!-- TODO: small offsets added all over the place, investigate -->
+        <String name="md5">4f1f988bc1b425d4193d3d8b7b0579a5</String>
+        stealing memory...
+        looking for vectors...
+        -------------------
+        !!LANGUAGE TABLES!!
+        -------------------
+        translation vector: 0x932bf2c
+        lang vector: 0x932bf14
+        word table offset: 0x1c
+        -------------
+        !!MATERIALS!!
+        -------------
+        inorganics:
+        0x932bda8
+        organics:
+        0x932bdb4
+        trees:
+        0x932bdd8
+        plants:
+        0x932bdc0
+        color descriptors:
+        0x93302b8
+        Amber color:0xaf842e0
+        all descriptors:
+        0x93302d0
+        toad-first creature types:
+        0x932be54
+        all creature types:
+        0x932be2c
+        0x932be54
+        Toad: 0xb076f88
+        Toad: rawname = 0x0
+        Toad: character (not reliable) = 0x20
+        Toad: caste vector = 0x60
+        Toad: extract? vector = 0x18f4
+        Toad: colors = 0x36
+    </Entry>
+    <Entry version="v0.31.10" os="linux" id="30_10lin" base="30_09lin">
+        <String name="md5">3e7bea269018a6fb88ef53715685aa64</String>
+        stealing memory...
+        looking for vectors...
+        -------------------
+        !!LANGUAGE TABLES!!
+        -------------------
+        translation vector: 0x932bf2c
+        lang vector: 0x932bf14
+        word table offset: 0x1c
+        -------------
+        !!MATERIALS!!
+        -------------
+        inorganics:
+        0x932bda8
+        organics:
+        0x932bdb4
+        trees:
+        0x932bdd8
+        plants:
+        0x932bdc0
+        color descriptors:
+        0x93302b8
+        Amber color:0xcc3a770
+        all descriptors:
+        0x93302d0
+        toad-first creature types:
+        0x932be54
+        elephant-first creature types:
+        all creature types:
+        0x932be2c
+        0x932be54
+        Toad: 0xc77d798
+        Toad: rawname = 0x0
+        Toad: character (not reliable) = 0x20
+        Toad: caste vector = 0x60
+        Toad: extract? vector = 0x18f4
+        Toad: colors = 0x36
     </Entry>
     </MemoryDescriptors>
 </DFExtractor>

@@ -21,6 +21,7 @@ public:
 	void update(DFInterface *nDFI);
 	virtual Qt::ItemFlags flags(const QModelIndex &index) const;
 	virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
+	virtual void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
 
 protected:
 	DFInterface *DFI;
