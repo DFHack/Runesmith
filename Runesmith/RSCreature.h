@@ -24,7 +24,7 @@ struct statusTracker
 class RSCreature
 {
 public:
-	RSCreature(void);
+	RSCreature(DFHack::t_creature nRawCreature, DFInterface *nDFI);
 	~RSCreature(void);
 
 	/* getters */
@@ -77,9 +77,9 @@ public:
 
 	/* setters */
 	//void addLabour();
+	bool toggleCiv();
 	void toggleSex();
-
-	void setCiv(int nCiv);
+	
 	void setX(uint16_t nVal);
 	void setY(uint16_t nVal);
 	void setZ(uint16_t nVal);
@@ -87,11 +87,9 @@ public:
 	void setFlagsChanged();
 	
 	void setHappiness(uint32_t hapVal);	
-	void setSkillLevel(uint8_t nLevel);
-	void setSkillExperiance(uint16_t nExp);
-	void addTrait(uint32_t id, uint32_t level);
-	void editTrait(uint32_t id, uint32_t level);
-	void setRawCreature(DFHack::t_creature nRawCreature);
+	void setSkillLevel(uint8_t id, uint8_t nLevel)
+	void setSkillExperiance(uint8_t id, uint16_t nExp);
+	bool editTrait(uint32_t id, uint32_t level);
 
 	void setStrength(uint32_t nVal);
 	void setAgility(uint32_t nVal);
@@ -116,6 +114,7 @@ public:
 	void resetFlags();
 
 private:
+	DFInterface *DFI;
 	uint32_t RSID;
 	statusTracker dataChanged;
 
