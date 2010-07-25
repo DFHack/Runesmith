@@ -1,9 +1,35 @@
 #include "RSCreature.h"
 
-RSCreature::RSCreature(DFHack::t_creature nRawCreature, DFInterface *nDFI) : DFI(nDFI)
+RSCreature::RSCreature(DFHack::t_creature nRawCreature, DFInterface *nDFI) :
+	DFI(nDFI)
 {
 	rawCreature = nRawCreature;
-	//TODO build cache's here
+	
+	for(unsigned int i=0; i<NUM_TRAITS; i++)
+	{
+		QString temp;
+		temp = DFI->translateTrait(i, rawCreature.defaultSoul.traits[i]);
+				
+		if(temp != "")
+			traitCache.push_back(temp);
+	}
+
+	for(unsigned int i=0; i<rawCreature.defaultSoul.numSkills; i++)
+	{
+		formattedSkill temp;
+		temp.skill = DFI->translateSkill(rawCreature.defaultSoul.skills[i].id);
+		temp.level = DFI->getLevelInfo(
+			creature->defaultSoul.skills[i].rating).name.c_str();
+
+		temp.level.append(" [");
+		temp.level.append(QString::number(
+			rawCreature.defaultSoul.skills[i].rating));
+
+		temp.level.append("]");
+		formattedSkills.push_back(temp);
+	}
+
+	//TODO finish building cache's
 }
 
 RSCreature::~RSCreature(void)

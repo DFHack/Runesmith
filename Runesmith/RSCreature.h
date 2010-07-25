@@ -5,6 +5,8 @@
 #include <QString>
 #include <DFHack.h>
 
+#define NUM_TRAITS 30
+
 struct statusTracker
 {
 	statusTracker() : skillsChanged(false), attributesChanged(false),
@@ -19,6 +21,12 @@ struct statusTracker
 	bool moodChanged;
 	bool posChanged;
 	bool civChanged;
+};
+
+struct formattedSkill
+{
+	QString skill;
+	QString level;
 };
 
 class RSCreature
@@ -126,7 +134,7 @@ private:
 	QString mood;
 	QString age;
 
-	std::vector<QString> formattedSkills;
+	std::vector<formattedSkill> formattedSkills;
 	std::vector<QString> labourCache;
 	std::vector<QString> traitCache;
 	std::vector<QString> formattedMats;
