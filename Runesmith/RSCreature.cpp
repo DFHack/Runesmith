@@ -1,10 +1,31 @@
 #include "RSCreature.h"
+#include "rsException.h"
 
 RSCreature::RSCreature(DFHack::t_creature nRawCreature, DFInterface *nDFI) :
 	DFI(nDFI)
 {
+	if((!nRawCreature) || (!DFI))
+		throw RSException();
+
 	rawCreature = nRawCreature;
+	englishName = DFI->translateName(rawCreature.name, true);
+	dwarvishName =  DFI->translateName(rawCreature.name, false);
+	race = DFI->translateRace(rawCreature.race);
+	profession = DFI->translateProfession(rawCreature.profession);
+	age = (DFI->getCurrentYear() - creature->birth_year);
 	
+	if((rawCreature.mood > -1) && (rawCreature.mood < 6))
+	{
+		moodSkill = DFI->translateSkill(rawCreature.mood_skill);
+		mood = DFI->getMood(rawCreature.mood);
+		DFI->readMats(rawCreature, jobMats);
+
+		for(unsigned int i=0; i<jobMats.size(); i++)
+		{
+			formattedSkills.push_back(DFI->getMatDescription(jobMats[i]));
+		}
+	}
+
 	for(unsigned int i=0; i<NUM_TRAITS; i++)
 	{
 		QString temp;
@@ -29,7 +50,13 @@ RSCreature::RSCreature(DFHack::t_creature nRawCreature, DFInterface *nDFI) :
 		formattedSkills.push_back(temp);
 	}
 
-	//TODO finish building cache's
+	for(unsigned int i=0; i<NUM_CREATURE_LABORS; i++)
+	{
+		if(!rawCreature.labors[i])
+			continue;
+
+		labourCache.push_back(DFI->translateLabour(labours[i]));
+	}
 }
 
 RSCreature::~RSCreature(void)
@@ -358,15 +385,14 @@ void RSCreature::setMood(int nMood)
 	{
 		if(rawCreature.flags1.bits.has_mood)
 			rawCreature.flags1.bits.has_mood = 0;
-		dataChanged.flagsChanged = true;
 	}
 	else
 	{
 		if(!rawCreature.flags1.bits.has_mood)
 			rawCreature.flags1.bits.has_mood = 1;
-		
-		dataChanged.flagsChanged = true;
 	}
+
+	dataChanged.flagsChanged = true;
 }
 
 void RSCreature::setFlagsChanged()

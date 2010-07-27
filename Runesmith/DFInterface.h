@@ -5,6 +5,7 @@
 #include <map>
 #include <QString>
 #include <DFHack.h>
+#include "RSCreature.h"
 
 enum RacialStat
 {
@@ -29,12 +30,6 @@ enum RacialStat
 	KINESTHETIC_SENSE_STAT
 };
 
-struct nameStore
-{
-	QString english;
-	QString dwarvish;
-};
-
 class DFInterface
 {
 public:
@@ -48,21 +43,14 @@ public:
 	void update();
 	void setProcessDead(bool state);
 	void setMainRace(QString nMainRace);
-
-	void setHappinessChanged(uint32_t id);
-	void setFlagsChanged(uint32_t id);
-	void setAttrsChanged(uint32_t id);
-	void setSkillsChanged(uint32_t id);
-	void setSexChanged(uint32_t id);
-	void setTraitsChanged(uint32_t id);
-	void setMoodChanged(uint32_t id);
-	void setPosChanged(uint32_t id);
-	void setCivChanged(uint32_t id);
+	void setDataChanged();
 	void setAllRaceSkills(uint8_t val);
 	void setAllRaceAttrs(uint16_t val);
 
 	bool writeAllChanges();
 	bool changesPending();
+	bool readMats(const DFHack::t_creature *creature, 
+					std::vector<DFHack::t_material> &mats);
 	
 	std::vector<DFHack::t_matgloss> const& getOrganicMats();
 	std::vector<DFHack::t_matgloss> const& getInorgaincMats();
@@ -76,7 +64,7 @@ public:
 	DFHack::t_level getLevelInfo(uint32_t level);
 
 	QString getVersion();
-	QString translateName(const uint32_t id, bool english = false);
+	QString translateName(const DFHack:t_name const& name, bool english);
 	QString translateSkill(const uint32_t skill);
 	QString translateProfession(const uint32_t prof);
 	QString translateRace(const uint32_t race);
@@ -103,7 +91,6 @@ private:
 	void cleanup();
 	bool internalWriteChanges();
 	bool writeLoop(std::vector<DFHack::t_creature *> &data);
-	bool readMats(const DFHack::t_creature *creature, std::vector<DFHack::t_material> &mats);
 
 private:
 	std::vector<DFHack::t_creature *> creatures;
@@ -113,10 +100,6 @@ private:
 	std::vector<DFHack::t_creaturetype> raceExCache;
 	std::vector<DFHack::t_matgloss> organicMatCache;
 	std::vector<DFHack::t_matgloss> inorganicMatCache;
-
-	std::map<uint32_t, nameStore> nameCache;
-	std::map<uint32_t, std::vector<DFHack::t_material> > moods;
-	std::map<uint32_t, statusTracker> changeTracker;
 
 	uint32_t numCreatures;
 	uint32_t currentYear;

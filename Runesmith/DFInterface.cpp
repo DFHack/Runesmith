@@ -244,15 +244,6 @@ void DFInterface::process()
 			moods[temp->id] = tmats;
 		}
 
-		QString sTemp = Tran->TranslateName(temp->name, false).c_str();
-		
-		if(sTemp != "")
-		{
-			nameCache[temp->id].dwarvish = sTemp;
-			sTemp = Tran->TranslateName(temp->name, true).c_str();
-			nameCache[temp->id].english = sTemp;
-		}
-
 		if(QString(Materials->raceEx[temp->race].rawname) == mainRace)
 		{
 			if(!temp->flags1.bits.dead)
@@ -275,19 +266,9 @@ std::vector<DFHack::t_material>& DFInterface::getMoodMats(uint32_t id)
 	return moods[id];
 }
 
-QString DFInterface::translateName(const uint32_t id, bool english)
+QString DFInterface::translateName(const DFHack:t_name const& name, bool english)
 {
-	std::map<uint32_t, nameStore>::iterator it = nameCache.find(id);
-
-	if(it == nameCache.end())
-		return "";
-	else
-	{
-		if(english)
-			return it->second.english;
-		else
-			return it->second.dwarvish;
-	}
+	QString sTemp = Tran->TranslateName(name, false).c_str();
 }
 
 QString DFInterface::translateSkill(const uint32_t skill)
@@ -485,58 +466,9 @@ void DFInterface::cleanup()
 	dataChanged = false;
 }
 
-void DFInterface::setHappinessChanged(uint32_t id)
+void DFInterface::setDataChanged()
 {
-	changeTracker[id].happinessChanged = true;
-	dataChanged = true;
-}
-
-void DFInterface::setFlagsChanged(uint32_t id)
-{
-	changeTracker[id].flagsChanged = true;
-	dataChanged = true;
-}
-
-void DFInterface::setAttrsChanged(uint32_t id)
-{
-	changeTracker[id].attributesChanged = true;
-	dataChanged = true;
-}
-
-void DFInterface::setSkillsChanged(uint32_t id)
-{
-	changeTracker[id].skillsChanged = true;
-	dataChanged = true;
-}
-
-void DFInterface::setSexChanged(uint32_t id)
-{
-	changeTracker[id].sexChanged = true;
-	dataChanged = true;
-}
-
-void DFInterface::setTraitsChanged(uint32_t id)
-{
-	changeTracker[id].traitsChanged = true;
-	dataChanged = true;
-}
-
-void DFInterface::setMoodChanged(uint32_t id)
-{
-	changeTracker[id].moodChanged = true;
-	dataChanged = true;
-}
-
-void DFInterface::setPosChanged(uint32_t id)
-{
-	changeTracker[id].posChanged = true;
-	dataChanged = true;
-}
-
-void DFInterface::setCivChanged(uint32_t id)
-{
-	changeTracker[id].civChanged = true;
-	dataChanged = true;
+	dataChanged = true();
 }
 
 bool DFInterface::changesPending()

@@ -119,6 +119,9 @@ public:
 	void setSpatialSense(uint32_t nVal);
 	void setKinestheticSense(uint32_t nVal);
 
+	/* maintenance */
+	DFHack::t_creature const& getRawCreature();
+	statusTracker const& getChanged();
 	void resetFlags();
 
 private:
@@ -141,7 +144,6 @@ private:
 	std::vector<DFHack::t_material> jobMats;
 
 	DFHack::t_creature rawCreature;
-
 };
 
 #endif
