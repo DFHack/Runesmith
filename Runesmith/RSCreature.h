@@ -37,6 +37,7 @@ public:
 
 	/* getters */
 	const uint32_t getID();
+	const uint32_t getHappiness();
 	QString getDOB();
 	QString getSex();
 	QString getStatus();

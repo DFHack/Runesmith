@@ -68,6 +68,11 @@ const uint32_t RSCreature::getID()
 	return RSID;
 }
 
+const uint32_t RSCreature::getHappiness()
+{
+	return rawCreature.happiness;
+}
+
 QString RSCreature::getDOB()
 {
 	QString temp = QString::number((rawCreature.birth_time/1200) % 28 + 1);

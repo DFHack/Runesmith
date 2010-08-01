@@ -17,7 +17,7 @@ int dwarfTableModel::rowCount(const QModelIndex &parent) const
 	if(!DFI)
 		return 0;
 
-	std::vector<DFHack::t_creature *>& dwarves = DFI->getDwarves();
+	std::vector<RSCreature*>& dwarves = DFI->getDwarves();
 	return dwarves.size();
 }
 
@@ -34,104 +34,26 @@ QVariant dwarfTableModel::data(const QModelIndex &index, int role) const
 	if(!DFI->isAttached())
 		return QVariant();
 	
-	std::vector<DFHack::t_creature *>& dwarves = DFI->getDwarves();	
+	std::vector<RSCreature*>& dwarves = DFI->getDwarves();	
 
 	if(index.row() >= dwarves.size())
 		return QVariant();
-	
-	QString transName;
 
 	if(role == Qt::DisplayRole)
 	{
 		switch(index.column())
 		{
 		case 0:
-			transName = dwarves[index.row()]->name.first_name[0];
-			transName = transName.toUpper();
-			transName.append(dwarves[index.row()]->name.first_name+1);
-			transName.append(" ");
-			transName.append(DFI->translateName(dwarves[index.row()]->id));
-
-			if(transName[0] != 0)
-				return transName;
-			else
-				return QVariant();
+			return dwarves[index.row()]->getDwarvishName();
 
 		case 1:
-			return QString(DFI->translateProfession(dwarves[index.row()]->profession));
+			return dwarves[index.row()]->getProfession();
 
 		case 2:
-			if (dwarves[index.row()]->happiness < 1)
-				transName = "Miserable";
-			else if (dwarves[index.row()]->happiness <= 25)
-				transName = "Very Unhappy";
-			else if (dwarves[index.row()]->happiness <= 50)
-				transName = "Unhappy";
-			else if (dwarves[index.row()]->happiness <= 75)
-				transName = "Fine";
-			else if (dwarves[index.row()]->happiness <= 125)
-				transName = "Content";
-			else if (dwarves[index.row()]->happiness <= 150)
-				transName = "Happy";
-			else
-				transName = "Ecstatic";
-
-			transName.append(" [");
-			transName.append(QString::number(dwarves[index.row()]->happiness));
-			return transName.append("]");
+			return dwarves[index.row()]->getFormattedHappiness();
 
 		case 3:
-			if(dwarves[index.row()]->flags1.bits.dead)
-				return "Dead";
-			
-			if(dwarves[index.row()]->mood >= 0)
-			{
-				transName = "( ";
-				transName.append(DFI->getMood(dwarves[index.row()]->mood));
-				transName.append(" ) ");
-			}
-
-			if(dwarves[index.row()]->flags1.bits.drowning)
-				transName.append("( Drowning ) ");
-
-			if(dwarves[index.row()]->flags2.bits.for_trade)
-				transName.append("( For Trade ) ");
-
-			if(dwarves[index.row()]->flags2.bits.slaughter)
-				transName.append("( For Slaughter ) ");
-
-			if(dwarves[index.row()]->flags2.bits.breathing_problem)
-				transName.append("( Breathing Problem ) ");
-
-			if(dwarves[index.row()]->flags2.bits.vision_damaged)
-				transName.append("( Vision Damaged ) ");
-
-			if(dwarves[index.row()]->flags2.bits.vision_missing)
-				transName.append("( Vision Missing ) ");
-
-			if(dwarves[index.row()]->flags1.bits.chained)
-				transName.append("( Chanined ) ");
-
-			if(dwarves[index.row()]->flags1.bits.caged)
-				transName.append("( Caged ) ");
-
-			if(dwarves[index.row()]->flags1.bits.invades)
-				transName.append("( Invading ) ");
-
-			if(dwarves[index.row()]->flags1.bits.hidden_in_ambush)
-				transName.append("( Hidden in Ambush ) ");
-
-			if(dwarves[index.row()]->flags2.bits.sparring)
-				transName.append("( Sparring ) ");
-
-			if(dwarves[index.row()]->flags2.bits.swimming)
-				transName.append("( Swimming ) ");
-
-			if(dwarves[index.row()]->flags2.bits.visitor || 
-				dwarves[index.row()]->flags2.bits.visitor_uninvited)
-				transName.append("( Visitor ) ");
-
-			return transName;
+			return dwarves[index.row()]->getStatus();
 
 		default:
 			return QVariant();
@@ -139,7 +61,7 @@ QVariant dwarfTableModel::data(const QModelIndex &index, int role) const
 	}
 	else if((role == Qt::BackgroundColorRole) && (index.column() == 2))
 	{
-		int green = dwarves[index.row()]->happiness + HAPPINESS_WEIGHT;
+		int green = dwarves[index.row()]->getHappiness() + HAPPINESS_WEIGHT;
 		if(green > 255)
 			green = 255;		
 		return QColor(255-green, green, 0);
@@ -210,14 +132,13 @@ bool dwarfTableModel::setData(const QModelIndex &index, const QVariant &value, i
 	if(!DFI->isAttached())
 		return false;
 	
-	std::vector<DFHack::t_creature *>& dwarves = DFI->getDwarves();	
+	std::vector<RSCreature*>& dwarves = DFI->getDwarves();	
 
 	if(index.row() >= dwarves.size())
 		return false;
 
 	uint32_t temp = value.toUInt();	
-	dwarves[index.row()]->happiness = temp;
-	DFI->setHappinessChanged(dwarves[index.row()]->id);
+	dwarves[index.row()]->setHappiness(temp);
 	return true;
 }
 

@@ -3,6 +3,7 @@
 #include <DFHack.h>
 #include <limits>
 #include "runesmith.h"
+#include "RSCreature.h"
 #include "rsException.h"
 #include "about.h"
 #include "addTrait.h"
@@ -224,7 +225,7 @@ void Runesmith::aboutSlot()
 
 void Runesmith::dwarfSelected(const QModelIndex& index, const QModelIndex&)
 {
-	DFHack::t_creature *dwarf = DFI->getDwarf(index.row());
+	RSCreature* dwarf = DFI->getDwarf(index.row());
 	dsTM->setCreature(DFI, dwarf);
 	daTM->setCreature(DFI, dwarf);
 	dlTM->setCreature(DFI, dwarf);
@@ -238,7 +239,7 @@ void Runesmith::dwarfSelected(const QModelIndex& index, const QModelIndex&)
 
 void Runesmith::creatureSelected(const QModelIndex& index, const QModelIndex&)
 {
-	DFHack::t_creature *creature = DFI->getCreature(index.row());
+	RSCreature* creature = DFI->getCreature(index.row());
 	csTM->setCreature(DFI, creature);
 	caTM->setCreature(DFI, creature);
 	clTM->setCreature(DFI, creature);
