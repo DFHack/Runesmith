@@ -8,11 +8,21 @@ RSCreature::RSCreature(DFHack::t_creature nRawCreature, uint32_t nID, DFInterfac
 	if(!DFI)
 		throw RSException();
 
-	englishName = DFI->translateName(rawCreature.name, true);
-	dwarvishName =  DFI->translateName(rawCreature.name, false);
+	englishName = rawCreature.name.first_name[0];
+	englishName = englishName.toUpper();
+	englishName += rawCreature.name.first_name+1;
+	englishName += " ";
+	englishName += DFI->translateName(rawCreature.name, true);
+
+	dwarvishName = rawCreature.name.first_name[0];
+	dwarvishName = dwarvishName.toUpper();
+	dwarvishName += rawCreature.name.first_name+1;
+	dwarvishName += " ";
+	dwarvishName += DFI->translateName(rawCreature.name, false);
+
 	race = DFI->translateRace(rawCreature.race);
 	profession = DFI->translateProfession(rawCreature.profession);
-	age = (DFI->getCurrentYear() - rawCreature.birth_year);
+	age = QString::number(DFI->getCurrentYear() - rawCreature.birth_year);
 	
 	if((rawCreature.mood > -1) && (rawCreature.mood < 6))
 	{
@@ -57,12 +67,15 @@ RSCreature::RSCreature(DFHack::t_creature nRawCreature, uint32_t nID, DFInterfac
 		formattedSkills.push_back(temp);
 	}
 
-	for(unsigned int i=0; i<NUM_CREATURE_LABORS; i++)
+	for(uint8_t i=0; i<NUM_CREATURE_LABORS; i++)
 	{
 		if(!rawCreature.labors[i])
 			continue;
+		
+		QString temp = DFI->translateLabour(i);
 
-		labourCache.push_back(DFI->translateLabour(rawCreature.labors[i]));
+		//if(
+		labourCache.push_back(temp);
 	}
 }
 
@@ -188,97 +201,97 @@ QString RSCreature::getFormattedHappiness()
 
 QString RSCreature::getStrength()
 {
-	return rawCreature.strength.level;
+	return QString::number(rawCreature.strength.level);
 }
 
 QString RSCreature::getAgility()
 {
-	return rawCreature.agility.level;
+	return QString::number(rawCreature.agility.level);
 }
 
 QString RSCreature::getToughness()
 {
-	return rawCreature.toughness.level;
+	return QString::number(rawCreature.toughness.level);
 }
 
 QString RSCreature::getEndurance()
 {
-	return rawCreature.endurance.level;
+	return QString::number(rawCreature.endurance.level);
 }
 
 QString RSCreature::getRecuperation()
 {
-	return rawCreature.recuperation.level;
+	return QString::number(rawCreature.recuperation.level);
 }
 
 QString RSCreature::getDiseaseRes()
 {
-	return rawCreature.disease_resistance.level;
+	return QString::number(rawCreature.disease_resistance.level);
 }
 
 QString RSCreature::getWillpower()
 {
-	return rawCreature.defaultSoul.willpower.level;
+	return QString::number(rawCreature.defaultSoul.willpower.level);
 }
 
 QString RSCreature::getMemory()
 {
-	return rawCreature.defaultSoul.memory.level;
+	return QString::number(rawCreature.defaultSoul.memory.level);
 }
 
 QString RSCreature::getFocus()
 {
-	return rawCreature.defaultSoul.focus.level;
+	return QString::number(rawCreature.defaultSoul.focus.level);
 }
 
 QString RSCreature::getIntuition()
 {
-	return rawCreature.defaultSoul.intuition.level;
+	return QString::number(rawCreature.defaultSoul.intuition.level);
 }
 
 QString RSCreature::getPatience()
 {
-	return rawCreature.defaultSoul.patience.level;
+	return QString::number(rawCreature.defaultSoul.patience.level);
 }
 
 QString RSCreature::getEmpathy()
 {
-	return rawCreature.defaultSoul.empathy.level;
+	return QString::number(rawCreature.defaultSoul.empathy.level);
 }
 
 QString RSCreature::getSocialAwareness()
 {
-	return rawCreature.defaultSoul.social_awareness.level;
+	return QString::number(rawCreature.defaultSoul.social_awareness.level);
 }
 
 QString RSCreature::getCreativity()
 {
-	return rawCreature.defaultSoul.creativity.level;
+	return QString::number(rawCreature.defaultSoul.creativity.level);
 }
 
 QString RSCreature::getMusicality()
 {
-	return rawCreature.defaultSoul.musicality.level;
+	return QString::number(rawCreature.defaultSoul.musicality.level);
 }
 
 QString RSCreature::getAnalyticalAbility()
 {
-	return rawCreature.defaultSoul.analytical_ability.level;
+	return QString::number(rawCreature.defaultSoul.analytical_ability.level);
 }
 
 QString RSCreature::getLinguisticAbility()
 {
-	return rawCreature.defaultSoul.linguistic_ability.level;
+	return QString::number(rawCreature.defaultSoul.linguistic_ability.level);
 }
 
 QString RSCreature::getSpatialSense()
 {
-	return rawCreature.defaultSoul.spatial_sense.level;
+	return QString::number(rawCreature.defaultSoul.spatial_sense.level);
 }
 
 QString RSCreature::getKinestheticSense()
 {
-	return rawCreature.defaultSoul.kinesthetic_sense.level;
+	return QString::number(rawCreature.defaultSoul.kinesthetic_sense.level);
 }
 
 QString const& RSCreature::getAge()
@@ -410,7 +423,7 @@ bool RSCreature::isChanged()
 
 void RSCreature::toggleSex()
 {
-	rawCreature.sex != rawCreature.sex;
+	rawCreature.sex = !rawCreature.sex;
 	dataChanged.sexChanged = true;
 }
 
@@ -485,7 +498,7 @@ void RSCreature::setAllSkillLevels(uint8_t nLevel)
 }
 
 void RSCreature::setSkillLevel(uint8_t id, uint8_t nLevel)
-{
+{//TODO need to regen caches :/
 	rawCreature.defaultSoul.skills[id].rating = nLevel;
 	dataChanged.skillsChanged = true;
 }

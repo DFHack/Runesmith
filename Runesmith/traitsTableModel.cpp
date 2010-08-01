@@ -23,7 +23,7 @@ int traitsTableModel::rowCount(const QModelIndex &parent) const
 
 QVariant traitsTableModel::data(const QModelIndex &index, int role) const
 {
-	if((!creature) || (!DFI) || (role != Qt::DisplayRole))
+	if((!creature) || (role != Qt::DisplayRole))
 		return QVariant();	
 
 	std::vector<cacheItem> const& traits = creature->getTraitCache();
@@ -72,6 +72,11 @@ void traitsTableModel::setCreature(RSCreature* nCreature)
 		creature = NULL;
 		return;
 	}
+
+	reset();
+	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
+			QAbstractItemModel::createIndex(
+			colCount, rowCount()));
 }
 
 Qt::ItemFlags traitsTableModel::flags(const QModelIndex & index) const

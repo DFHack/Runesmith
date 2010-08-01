@@ -255,7 +255,7 @@ void DFInterface::process()
 
 QString DFInterface::translateName(const DFHack::t_name const& name, bool english)
 {
-	return Tran->TranslateName(name, false).c_str();
+	return Tran->TranslateName(name, english).c_str();
 }
 
 QString DFInterface::translateSkill(const uint32_t skill)
@@ -376,7 +376,8 @@ QString DFInterface::translateLabour(const uint8_t labour)
 			return mem->getLabor(labour).c_str();
 		}
 		catch(std::exception &e)
-		{
+		{//TODO add logging class
+			return e.what();
 		}
 	}
 	

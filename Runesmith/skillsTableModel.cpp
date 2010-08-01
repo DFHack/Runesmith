@@ -27,7 +27,7 @@ int skillsTableModel::columnCount(const QModelIndex &parent) const
 
 QVariant skillsTableModel::data(const QModelIndex &index, int role) const
 {
-	if((!creature) || (!DFI) || (role != Qt::DisplayRole))
+	if((!creature) || (role != Qt::DisplayRole))
 		return QVariant();	
 	
 	std::vector<formattedSkill> const& temp = creature->getFormattedSkills();
