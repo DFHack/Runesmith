@@ -3,6 +3,7 @@
 
 #include <QAbstractTableModel>
 #include "DFInterface.h"
+#include "RSCreature.h"
 #define HAPPINESS_WEIGHT 30
 
 class dwarfTableModel : public QAbstractTableModel

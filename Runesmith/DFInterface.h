@@ -43,7 +43,6 @@ public:
 	void update();
 	void setProcessDead(bool state);
 	void setMainRace(QString nMainRace);
-	void setDataChanged();
 	void setAllRaceSkills(uint8_t val);
 	void setAllRaceAttrs(uint16_t val);
 
@@ -54,13 +53,12 @@ public:
 	
 	std::vector<DFHack::t_matgloss> const& getOrganicMats();
 	std::vector<DFHack::t_matgloss> const& getInorgaincMats();
-	std::vector<DFHack::t_material>& getMoodMats(uint32_t id);
 	std::vector< std::vector<std::string> > const& getAllTraits();
-	std::vector<DFHack::t_creature *>& getDwarves();
-	std::vector<DFHack::t_creature *>& getCreatures();
+	std::vector<RSCreature*>& getDwarves();
+	std::vector<RSCreature*>& getCreatures();
 	
-	DFHack::t_creature* getDwarf(uint32_t dwarf);
-	DFHack::t_creature* getCreature(uint32_t creature);
+	RSCreature* getDwarf(uint32_t dwarf);
+	RSCreature* getCreature(uint32_t creature);
 	DFHack::t_level getLevelInfo(uint32_t level);
 
 	QString getVersion();
@@ -90,13 +88,13 @@ private:
 	void process();
 	void cleanup();
 	bool internalWriteChanges();
-	bool writeLoop(std::vector<DFHack::t_creature *> &data);
+	bool writeLoop(std::vector<DFHack::t_creature*> &data);
 
 private:
-	std::vector<DFHack::t_creature *> creatures;
-	std::vector<DFHack::t_creature *> dwarves;
-	std::vector<DFHack::t_creature *> allCreatures;
-	std::vector<DFHack::t_creature *> allDwarves;
+	std::vector<RSCreature*> creatures;
+	std::vector<RSCreature*> dwarves;
+	std::vector<RSCreature*> allCreatures;
+	std::vector<RSCreature*> allDwarves;
 	std::vector<DFHack::t_creaturetype> raceExCache;
 	std::vector<DFHack::t_matgloss> organicMatCache;
 	std::vector<DFHack::t_matgloss> inorganicMatCache;
@@ -105,7 +103,6 @@ private:
 	uint32_t currentYear;
 	int32_t dwarfCivID;
 	bool processDead;
-	bool dataChanged;
 	QString mainRace;
 
 	DFHack::ContextManager *DFMgr;

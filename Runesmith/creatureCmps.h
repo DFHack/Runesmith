@@ -1,10 +1,10 @@
 #ifndef CREATURECMPS_H
 #define CREATURECMPS_H
 
-#include <DFHack.h>
+#include "RSCreature.h"
 
-bool creatureAscNameCmp(DFHack::t_creature *left, DFHack::t_creature *right);
-bool creatureDecNameCmp(DFHack::t_creature *left, DFHack::t_creature *right);
-bool creatureAscProfCmp(DFHack::t_creature *left, DFHack::t_creature *right);
+bool creatureAscNameCmp(RSCreature* left, RSCreature* right);
+bool creatureDecNameCmp(RSCreature* left, RSCreature* right);
+bool creatureAscProfCmp(RSCreature* left, RSCreature* right);
 
 #endif

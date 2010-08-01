@@ -32,10 +32,11 @@ struct formattedSkill
 class RSCreature
 {
 public:
-	RSCreature(DFHack::t_creature nRawCreature, DFInterface *nDFI);
+	RSCreature(DFHack::t_creature nRawCreature, uint32_t nID, DFInterface *nDFI);
 	~RSCreature(void);
 
 	/* getters */
+	const uint32_t getID();
 	QString getDOB();
 	QString getSex();
 	QString getStatus();
@@ -94,11 +95,13 @@ public:
 	void setMood(int nMood);
 	void setFlagsChanged();
 	
-	void setHappiness(uint32_t hapVal);	
+	void setHappiness(uint32_t hapVal);
+	void setAllSkillLevels(uint8_t nLevel);
 	void setSkillLevel(uint8_t id, uint8_t nLevel)
 	void setSkillExperiance(uint8_t id, uint16_t nExp);
 	bool editTrait(uint32_t id, uint32_t level);
 
+	void setAllAttributes(uint16_t nVal);
 	void setStrength(uint32_t nVal);
 	void setAgility(uint32_t nVal);
 	void setToughness(uint32_t nVal);

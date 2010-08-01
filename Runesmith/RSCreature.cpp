@@ -1,8 +1,8 @@
 #include "RSCreature.h"
 #include "rsException.h"
 
-RSCreature::RSCreature(DFHack::t_creature nRawCreature, DFInterface *nDFI) :
-	DFI(nDFI)
+RSCreature::RSCreature(DFHack::t_creature nRawCreature, uint32_t nID, DFInterface *nDFI) :
+	DFI(nDFI), RSID(nID)
 {
 	if((!nRawCreature) || (!DFI))
 		throw RSException();
@@ -61,6 +61,11 @@ RSCreature::RSCreature(DFHack::t_creature nRawCreature, DFInterface *nDFI) :
 
 RSCreature::~RSCreature(void)
 {
+}
+
+const uint32_t RSCreature::getID()
+{
+	return RSID;
 }
 
 QString RSCreature::getDOB()
@@ -339,6 +344,48 @@ uint16_t RSCreature::z()
 	return rawCreature.z;
 }
 
+DFHack::t_creature const& RSCreature::getRawCreature()
+{
+	return rawCreature;
+}
+
+statusTracker const& RSCreature::getChanged()
+{
+	return dataChanged();
+}
+
+bool RSCreature::isChanged()
+{
+	if(dataChanged.skillsChanged)
+		return true;
+
+	if(dataChanged.attributesChanged)
+		return true;
+
+	if(dataChanged.flagsChanged)
+		return true;
+
+	if(dataChanged.happinessChanged)
+		return true;
+
+	if(dataChanged.sexChanged)
+		return true;
+
+	if(dataChanged.traitsChanged)
+		return true;
+
+	if(dataChanged.moodChanged)
+		return true;
+
+	if(dataChanged.posChanged)
+		return true;
+
+	if(dataChanged.civChanged)
+		return true;
+
+	return false;
+}
+
 void RSCreature::toggleSex()
 {
 	rawCreature.sex != rawCreature.sex;
@@ -400,10 +447,22 @@ void RSCreature::setFlagsChanged()
 	dataChanged.flagsChanged = true;
 }
 
-void RSCreature::setHappiness(uint32_t hapVal);
+void RSCreature::setHappiness(uint32_t hapVal)
 {
 	rawCreature.happiness = hapVal;
 	dataChanged.happinessChanged = true;
+}
+
+void RSCreature::setAllSkillLevels(uint8_t nLevel)
+{
+	uint32_t numSkills = rawCreature.defaultSoul.numSkills;
+
+	for(int i=0; i<numSkills; i++)
+	{
+		rawCreature.defaultSoul.skills[i].rating = nLevel;
+	}
+
+	dataChanged.skillsChanged = true;
 }
 
 void RSCreature::setSkillLevel(uint8_t id, uint8_t nLevel)
@@ -437,6 +496,30 @@ bool RSCreature::editTrait(uint32_t id, uint32_t level)
 	dataChanged.traitsChanged = true;
 	traitCache.push_back(DFI->translateTrait(id, rawCreature.defaultSoul.traits[id]));
 	return true;
+}
+
+void RSCreature::setAllAttributes(uint16_t nVal)
+{
+	rawCreature.strength.level = val;
+	rawCreature.agility.level = val;
+	rawCreature.toughness.level = val;
+	rawCreature.endurance.level = val;
+	rawCreature.recuperation.level = val;
+	rawCreature.disease_resistance.level = val;
+	rawCreature.defaultSoul.willpower.level = val;
+	rawCreature.defaultSoul.memory.level = val;
+	rawCreature.defaultSoul.focus.level = val;
+	rawCreature.defaultSoul.intuition.level = val;
+	rawCreature.defaultSoul.patience.level = val;
+	rawCreature.defaultSoul.empathy.level = val;
+	rawCreature.defaultSoul.social_awareness.level = val;
+	rawCreature.defaultSoul.creativity.level = val;
+	rawCreature.defaultSoul.musicality.level = val;
+	rawCreature.defaultSoul.analytical_ability.level = val;
+	rawCreature.defaultSoul.linguistic_ability.level = val;
+	rawCreature.defaultSoul.spatial_sense.level = val;
+	rawCreature.defaultSoul.kinesthetic_sense.level = val;	
+	dataChanged.attributesChanged = true;
 }
 
 void RSCreature::setStrength(uint32_t nVal)

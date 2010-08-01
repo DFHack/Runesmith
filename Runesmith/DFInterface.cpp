@@ -103,7 +103,6 @@ void DFInterface::detatch()
 			suspend();
 			DF->Detach();
 			numCreatures = 0;
-			dataChanged = false;
 			cleanup();
 		}
 	}
@@ -140,13 +139,12 @@ void DFInterface::update()
 	}
 	else
 	{
-		dataChanged = false;
 		numCreatures = 0;
 		cleanup();
 	}
 }
 
-std::vector<DFHack::t_creature *>& DFInterface::getDwarves()
+std::vector<RSCreature*>& DFInterface::getDwarves()
 {
 	if(isAttached())
 		if(!processDead)
@@ -160,7 +158,7 @@ std::vector<DFHack::t_creature *>& DFInterface::getDwarves()
 	}
 }
 
-std::vector<DFHack::t_creature *>& DFInterface::getCreatures()
+std::vector<RSCreature*>& DFInterface::getCreatures()
 {
 	if(isAttached())
 		if(!processDead)
@@ -174,7 +172,7 @@ std::vector<DFHack::t_creature *>& DFInterface::getCreatures()
 	}
 }
 
-DFHack::t_creature* DFInterface::getDwarf(uint32_t dwarf)
+RSCreature* DFInterface::getDwarf(uint32_t dwarf)
 {
 	if(isAttached())
 		if(!processDead)
@@ -185,7 +183,7 @@ DFHack::t_creature* DFInterface::getDwarf(uint32_t dwarf)
 		return NULL;
 }
 
-DFHack::t_creature* DFInterface::getCreature(uint32_t creature)
+RSCreature* DFInterface::getCreature(uint32_t creature)
 {
 	if(isAttached())
 		if(!processDead)
@@ -211,7 +209,7 @@ void DFInterface::suspend()
 
 	DF->Suspend();	
 	Materials->ReadAllMaterials();    
-//FIXME detatch from df aswell/instead of throw
+//TODO detatch from df aswell/instead of throw
 	if(!Creatures->Start(numCreatures))
 		throw RSException();    
 
@@ -233,37 +231,25 @@ void DFInterface::process()
 
 	for(int i=0; i<numCreatures; i++)
 	{
-		DFHack::t_creature *temp = new DFHack::t_creature;
-		Creatures->ReadCreature(i,*temp);
-		changeTracker[temp->id].id = i;
-		
-		if((temp->mood > -1) && (temp->mood < 6))
-		{
-			std::vector<DFHack::t_material> tmats;
-			readMats(temp, tmats);
-			moods[temp->id] = tmats;
-		}
+		DFHack::t_creature rTemp;
+		Creatures->ReadCreature(i, rTemp);
+		RSCreature *temp = new RSCreature(rTemp, i, this);
 
-		if(QString(Materials->raceEx[temp->race].rawname) == mainRace)
+		if(QString(Materials->raceEx[rTemp.race].rawname) == mainRace)
 		{
-			if(!temp->flags1.bits.dead)
+			if(!rTemp.flags1.bits.dead)
 				dwarves.push_back(temp);
 		
 			allDwarves.push_back(temp);
 		}
 		else
 		{
-			if(!temp->flags1.bits.dead)
+			if(!rTemp.flags1.bits.dead)
 				creatures.push_back(temp);
 			
 			allCreatures.push_back(temp);
 		}	
 	}	
-}
-
-std::vector<DFHack::t_material>& DFInterface::getMoodMats(uint32_t id)
-{
-	return moods[id];
 }
 
 QString DFInterface::translateName(const DFHack:t_name const& name, bool english)
@@ -457,30 +443,34 @@ void DFInterface::cleanup()
 
 	allDwarves.clear();
 	dwarves.clear();
-
-	changeTracker.clear();
-	moods.clear();
 	raceExCache.clear();
 	organicMatCache.clear();
 	inorganicMatCache.clear();
-	dataChanged = false;
-}
-
-void DFInterface::setDataChanged()
-{
-	dataChanged = true();
 }
 
 bool DFInterface::changesPending()
 {
-	return dataChanged;
+	std::vector<RSCreature*>::size_type size = allDwarves.size();
+
+	for(int i=0; i<size; i++)
+	{
+		if(allDwarves[i]->isChanged)
+			return true;
+	}
+
+	size = allCreatures.size();
+
+	for(int i=0; i<size; i++)
+	{
+		if(allCreatures[i]->isChanged)
+			return true;
+	}
+
+	return false;
 }
 
 bool DFInterface::writeAllChanges()
 {
-	if(!dataChanged)
-		return true;
-
 	if(isContextValid())
 	{
 		if(isAttached())
@@ -519,92 +509,94 @@ bool DFInterface::internalWriteChanges()
 	if(!writeLoop(allCreatures))
 		return false;
 
-	dataChanged = false;
 	return true;
 }
 
-bool DFInterface::writeLoop(std::vector<DFHack::t_creature *> &data)
+bool DFInterface::writeLoop(std::vector<RSCreature*> &data)
 {
 	for(int i=0; i<data.size(); i++)
 	{
-		statusTracker &temp = changeTracker[data[i]->id];
+		uint32_t rawID = data[i]->getID();
+		statusTracker& rawStatus = data[i]->getChanged();
+		DFHack::t_creature& rawData = data[i]->getRawCreature();
 
-		if(temp.happinessChanged)
+		if(rawStatus.happinessChanged)
 		{
-			if(!Creatures->WriteHappiness(temp.id, data[i]->happiness))
+			if(!Creatures->WriteHappiness(rawID, rawData.happiness))
 				return false;
 
-			temp.happinessChanged = false;
+			rawStatus.happinessChanged = false;
 		}
 
-		if(temp.skillsChanged)
+		if(rawStatus.skillsChanged)
 		{
-			if(!Creatures->WriteSkills(temp.id, data[i]->defaultSoul))
+			if(!Creatures->WriteSkills(rawID, rawData.defaultSoul))
 				return false;
 
-			temp.skillsChanged = false;
+			rawStatus.skillsChanged = false;
 		}
 
-		if(temp.attributesChanged)
+		if(rawStatus.attributesChanged)
 		{
-			if(!Creatures->WriteAttributes(temp.id, *data[i]))
+			if(!Creatures->WriteAttributes(rawID, *data[i]))
 				return false;
 
-			temp.attributesChanged = false;
+			rawStatus.attributesChanged = false;
 		}
 
-		if(temp.flagsChanged)
+		if(rawStatus.flagsChanged)
 		{
-			if(!Creatures->WriteFlags(temp.id, data[i]->flags1.whole, data[i]->flags2.whole))
+			if(!Creatures->WriteFlags(rawID, rawData.flags1.whole, rawData.flags2.whole))
 				return false;
 
-			temp.flagsChanged = false;
+			rawStatus.flagsChanged = false;
 		}
 
-		if(temp.sexChanged)
+		if(rawStatus.sexChanged)
 		{
-			if(!Creatures->WriteSex(temp.id, data[i]->sex))
+			if(!Creatures->WriteSex(rawID, rawData.sex))
 				return false;
 
-			temp.sexChanged = false;
+			rawStatus.sexChanged = false;
 		}
 
-		if(temp.traitsChanged)
+		if(rawStatus.traitsChanged)
 		{
-			if(!Creatures->WriteTraits(temp.id, data[i]->defaultSoul))
+			if(!Creatures->WriteTraits(rawID, rawData.defaultSoul))
 				return false;
 
-			temp.traitsChanged = false;
+			rawStatus.traitsChanged = false;
 		}
 
-		if(temp.moodChanged)
+		if(rawStatus.moodChanged)
 		{
-			if(!Creatures->WriteMood(temp.id, data[i]->mood))
+			if(!Creatures->WriteMood(rawID, rawData.mood))
 				return false;
 
-			if(!Creatures->WriteMoodSkill(temp.id, data[i]->mood_skill))
+			if(!Creatures->WriteMoodSkill(rawID, rawData.mood_skill))
 				return false;
 
-			temp.moodChanged = false;
+			rawStatus.moodChanged = false;
 		}
 
-		if(temp.posChanged)
+		if(rawStatus.posChanged)
 		{
-			if(!Creatures->WritePos(temp.id, *data[i]))
+			if(!Creatures->WritePos(rawID, *data[i]))
 				return false;
 
-			temp.posChanged = false;
+			rawStatus.posChanged = false;
 		}
 
-		if(temp.civChanged)
+		if(rawStatus.civChanged)
 		{
-			if(!Creatures->WriteCiv(temp.id, data[i]->civ))
+			if(!Creatures->WriteCiv(rawID, rawData.civ))
 				return false;
 
-			temp.civChanged = false;
+			rawStatus.civChanged = false;
 		}
 	}
 
+	data[i]->resetFlags();
 	return true;
 }
 
@@ -684,6 +676,7 @@ std::vector<DFHack::t_matgloss> const& DFInterface::getInorgaincMats()
 void DFInterface::setMainRace(QString nMainRace)
 {
 	mainRace = nMainRace.toUpper();
+	mainRace = mainRace.trimmed();
 }
 
 int32_t DFInterface::getDwarfCiv()
@@ -695,46 +688,16 @@ void DFInterface::setAllRaceSkills(uint8_t val)
 {
 	for(int i=0; i<dwarves.size(); i++)
 	{
-		for(int j=0; j<dwarves[i]->defaultSoul.numSkills; j++)
-		{
-			dwarves[i]->defaultSoul.skills[j].rating = val;
-			changeTracker[dwarves[i]->id].skillsChanged = true;
-		}
+		dwarves[i]->setAllSkillLevels(val);
 	}
-
-	dataChanged = true;
 }
 
 void DFInterface::setAllRaceAttrs(uint16_t val)
 {
 	for(int i=0; i<dwarves.size(); i++)
 	{
-		for(int j=0; j<dwarves[i]->defaultSoul.numSkills; j++)
-		{
-			dwarves[i]->strength.level = val;
-			dwarves[i]->agility.level = val;
-			dwarves[i]->toughness.level = val;
-			dwarves[i]->endurance.level = val;
-			dwarves[i]->recuperation.level = val;
-			dwarves[i]->disease_resistance.level = val;
-			dwarves[i]->defaultSoul.willpower.level = val;
-			dwarves[i]->defaultSoul.memory.level = val;
-			dwarves[i]->defaultSoul.focus.level = val;
-			dwarves[i]->defaultSoul.intuition.level = val;
-			dwarves[i]->defaultSoul.patience.level = val;
-			dwarves[i]->defaultSoul.empathy.level = val;
-			dwarves[i]->defaultSoul.social_awareness.level = val;
-			dwarves[i]->defaultSoul.creativity.level = val;
-			dwarves[i]->defaultSoul.musicality.level = val;
-			dwarves[i]->defaultSoul.analytical_ability.level = val;
-			dwarves[i]->defaultSoul.linguistic_ability.level = val;
-			dwarves[i]->defaultSoul.spatial_sense.level = val;
-			dwarves[i]->defaultSoul.kinesthetic_sense.level = val;	
-			changeTracker[dwarves[i]->id].attributesChanged = true;
-		}
+		dwarves[i]->setAllAttributes(val);
 	}
-
-	dataChanged = true;
 }
 
 QString DFInterface::getMaterialType(DFHack::t_material &mat)
