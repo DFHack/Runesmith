@@ -30,6 +30,12 @@ struct formattedSkill
 	uint32_t xp;
 };
 
+struct cacheItem
+{
+	uint32_t id;
+	QString text;
+};
+
 class RSCreature
 {
 public:
@@ -145,7 +151,7 @@ private:
 
 	std::vector<formattedSkill> formattedSkills;
 	std::vector<QString> labourCache;
-	std::vector<QString> traitCache;
+	std::vector<cacheItem> traitCache;
 	std::vector<QString> formattedMats;
 	std::vector<DFHack::t_material> jobMats;
 

@@ -24,15 +24,11 @@ public:
 		Qt::Orientation orientation,
 		int role = Qt::DisplayRole) const;
 	Qt::ItemFlags flags(const QModelIndex &index) const;
-	bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
-	void setCreature(DFInterface *nDFI, DFHack::t_creature *nCreature);
-	DFHack::t_creature *getCreature();
+	bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole);
+	void setCreature(RSCreature* nCreature);
+	RSCreature* getCreature();
 	unsigned int getTraitIndex(unsigned int id);
 	bool addTrait(int index1, int index2);
-
-private:
-	void updateCache();
-	std::vector<TraitIndexItem> traits;
 };
 
 #endif

@@ -33,10 +33,11 @@ RSCreature::RSCreature(DFHack::t_creature nRawCreature, uint32_t nID, DFInterfac
 
 	for(unsigned int i=0; i<NUM_TRAITS; i++)
 	{
-		QString temp;
-		temp = DFI->translateTrait(i, rawCreature.defaultSoul.traits[i]);
+		cacheItem temp;
+		temp.id = i;
+		temp.text = DFI->translateTrait(i, rawCreature.defaultSoul.traits[i]);
 				
-		if(temp != "")
+		if(temp.text != "")
 			traitCache.push_back(temp);
 	}
 
@@ -187,97 +188,97 @@ QString RSCreature::getFormattedHappiness()
 
 QString RSCreature::getStrength()
 {
-	return rawCreature.strength;
+	return rawCreature.strength.level;
 }
 
 QString RSCreature::getAgility()
 {
-	return rawCreature.agility;
+	return rawCreature.agility.level;
 }
 
 QString RSCreature::getToughness()
 {
-	return rawCreature.toughness;
+	return rawCreature.toughness.level;
 }
 
 QString RSCreature::getEndurance()
 {
-	return rawCreature.endurance;
+	return rawCreature.endurance.level;
 }
 
 QString RSCreature::getRecuperation()
 {
-	return rawCreature.recuperation;
+	return rawCreature.recuperation.level;
 }
 
 QString RSCreature::getDiseaseRes()
 {
-	return rawCreature.disease_resistance;
+	return rawCreature.disease_resistance.level;
 }
 
 QString RSCreature::getWillpower()
 {
-	return rawCreature.defaultSoul.willpower;
+	return rawCreature.defaultSoul.willpower.level;
 }
 
 QString RSCreature::getMemory()
 {
-	return rawCreature.defaultSoul.memory;
+	return rawCreature.defaultSoul.memory.level;
 }
 
 QString RSCreature::getFocus()
 {
-	return rawCreature.defaultSoul.focus;
+	return rawCreature.defaultSoul.focus.level;
 }
 
 QString RSCreature::getIntuition()
 {
-	return rawCreature.defaultSoul.intuition;
+	return rawCreature.defaultSoul.intuition.level;
 }
 
 QString RSCreature::getPatience()
 {
-	return rawCreature.defaultSoul.patience;
+	return rawCreature.defaultSoul.patience.level;
 }
 
 QString RSCreature::getEmpathy()
 {
-	return rawCreature.defaultSoul.empathy;
+	return rawCreature.defaultSoul.empathy.level;
 }
 
 QString RSCreature::getSocialAwareness()
 {
-	return rawCreature.defaultSoul.social_awareness;
+	return rawCreature.defaultSoul.social_awareness.level;
 }
 
 QString RSCreature::getCreativity()
 {
-	return rawCreature.defaultSoul.creativity;
+	return rawCreature.defaultSoul.creativity.level;
 }
 
 QString RSCreature::getMusicality()
 {
-	return rawCreature.defaultSoul.musicality;
+	return rawCreature.defaultSoul.musicality.level;
 }
 
 QString RSCreature::getAnalyticalAbility()
 {
-	return rawCreature.defaultSoul.analytical_ability;
+	return rawCreature.defaultSoul.analytical_ability.level;
 }
 
 QString RSCreature::getLinguisticAbility()
 {
-	return rawCreature.defaultSoul.linguistic_ability;
+	return rawCreature.defaultSoul.linguistic_ability.level;
 }
 
 QString RSCreature::getSpatialSense()
 {
-	return rawCreature.defaultSoul.spatial_sense;
+	return rawCreature.defaultSoul.spatial_sense.level;
 }
 
 QString RSCreature::getKinestheticSense()
 {
-	return rawCreature.defaultSoul.kinesthetic_sense;
+	return rawCreature.defaultSoul.kinesthetic_sense.level;
 }
 
 QString const& RSCreature::getAge()
@@ -507,7 +508,10 @@ bool RSCreature::editTrait(uint32_t id, uint32_t level)
 	}
 
 	dataChanged.traitsChanged = true;
-	traitCache.push_back(DFI->translateTrait(id, rawCreature.defaultSoul.traits[id]));
+	cacheItem temp;
+	temp.id = id;
+	temp.text = DFI->translateTrait(id, rawCreature.defaultSoul.traits[id]);
+	traitCache.push_back(temp);
 	return true;
 }
 

@@ -53,25 +53,25 @@ QVariant attrTableModel::data(const QModelIndex &index, int role) const
 	case 1:
 		switch(index.row())
 		{
-		case 0: return QString(QString::number(creature->strength.level));
-		case 1: return QString(QString::number(creature->agility.level));
-		case 2: return QString(QString::number(creature->toughness.level));
-		case 3: return QString(QString::number(creature->endurance.level));
-		case 4: return QString(QString::number(creature->recuperation.level));
-		case 5: return QString(QString::number(creature->disease_resistance.level));
-		case 6: return QString(QString::number(creature->defaultSoul.willpower.level));
-		case 7: return QString(QString::number(creature->defaultSoul.memory.level));
-		case 8: return QString(QString::number(creature->defaultSoul.focus.level));
-		case 9: return QString(QString::number(creature->defaultSoul.intuition.level));
-		case 10: return QString(QString::number(creature->defaultSoul.patience.level));
-		case 11: return QString(QString::number(creature->defaultSoul.empathy.level));
-		case 12: return QString(QString::number(creature->defaultSoul.social_awareness.level));
-		case 13: return QString(QString::number(creature->defaultSoul.creativity.level));
-		case 14: return QString(QString::number(creature->defaultSoul.musicality.level));
-		case 15: return QString(QString::number(creature->defaultSoul.analytical_ability.level));
-		case 16: return QString(QString::number(creature->defaultSoul.linguistic_ability.level));
-		case 17: return QString(QString::number(creature->defaultSoul.spatial_sense.level));
-		case 18: return QString(QString::number(creature->defaultSoul.kinesthetic_sense.level));
+		case 0: return creature->getStrength();
+		case 1: return creature->getAgility();
+		case 2: return creature->getToughness();
+		case 3: return creature->getEndurance();
+		case 4: return creature->getRecuperation();
+		case 5: return creature->getDiseaseResistance();
+		case 6: return creature->getWillpower();
+		case 7: return creature->getMemory();
+		case 8: return creature->getFocus();
+		case 9: return creature->getIntuition();
+		case 10: return creature->getPatience();
+		case 11: return creature->getEmpathy();
+		case 12: return creature->getSocial_awareness();
+		case 13: return creature->getCreativity();
+		case 14: return creature->getMusicality();
+		case 15: return creature->getAnalyticalAbility();
+		case 16: return creature->getLinguisticAbility();
+		case 17: return creature->getSpatialSense();
+		case 18: return creature->getKinestheticSense();
 		default: return QVariant();
 		}
 
@@ -145,29 +145,28 @@ bool attrTableModel::setData(const QModelIndex &index, const QVariant &value, in
 
 	switch(index.row())
 	{
-	case 0: creature->strength.level = temp; break;
-	case 1: creature->agility.level = temp; break;
-	case 2: creature->toughness.level = temp; break;
-	case 3: creature->endurance.level = temp; break;
-	case 4: creature->recuperation.level = temp; break;
-	case 5: creature->disease_resistance.level = temp; break;
-	case 6: creature->defaultSoul.willpower.level = temp; break;
-	case 7: creature->defaultSoul.memory.level = temp; break;
-	case 8: creature->defaultSoul.focus.level = temp; break;
-	case 9: creature->defaultSoul.intuition.level = temp; break;
-	case 10: creature->defaultSoul.patience.level = temp; break;
-	case 11: creature->defaultSoul.empathy.level = temp; break;
-	case 12: creature->defaultSoul.social_awareness.level = temp; break;
-	case 13: creature->defaultSoul.creativity.level = temp; break;
-	case 14: creature->defaultSoul.musicality.level = temp; break;
-	case 15: creature->defaultSoul.analytical_ability.level = temp; break;
-	case 16: creature->defaultSoul.linguistic_ability.level = temp; break;
-	case 17: creature->defaultSoul.spatial_sense.level = temp; break;
-	case 18: creature->defaultSoul.kinesthetic_sense.level = temp; break;		
+	case 0: creature->setStrength(temp); break;
+	case 1: creature->setAgility(temp); break;
+	case 2: creature->setToughness(temp); break;
+	case 3: creature->setEndurance(temp); break;
+	case 4: creature->setRecuperation(temp); break;
+	case 5: creature->setDiseaseResistance(temp); break;
+	case 6: creature->setWillpower(temp); break;
+	case 7: creature->setMemory(temp); break;
+	case 8: creature->setFocus(temp); break;
+	case 9: creature->setIntuition(temp); break;
+	case 10: creature->setPatience(temp); break;
+	case 11: creature->setEmpathy(temp); break;
+	case 12: creature->setSocial_awareness(temp); break;
+	case 13: creature->setCreativity(temp); break;
+	case 14: creature->setMusicality(temp); break;
+	case 15: creature->setAnalyticalAbility(temp); break;
+	case 16: creature->setLinguisticAbility(temp); break;
+	case 17: creature->setSpatialSense(temp); break;
+	case 18: creature->setKinestheticSense(temp); break;		
 	default: return false;
 	}
 
-	DFI->setAttrsChanged(creature->id);
 	return true;
 }
 
