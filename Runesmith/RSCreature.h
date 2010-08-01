@@ -27,6 +27,7 @@ struct formattedSkill
 {
 	QString skill;
 	QString level;
+	uint32_t xp;
 };
 
 class RSCreature
@@ -37,7 +38,10 @@ public:
 
 	/* getters */
 	const uint32_t getID();
+	const uint32_t getNumSkills();
 	const uint32_t getHappiness();
+	const uint32_t getCiv();
+
 	QString getDOB();
 	QString getSex();
 	QString getStatus();
@@ -71,29 +75,27 @@ public:
 	QString const& getDwarvishName();
 	QString const& getMoodSkill();
 
-	std::vector<QString> const& getFormattedSkills();
+	std::vector<formattedSkill> const& getFormattedSkills();
 	std::vector<QString> const& getLabourCache();
 	std::vector<QString> const& getTraitCache();
 	std::vector<QString> const& getJobMats();
 
 	DFHack::t_creaturflags1 & getFlags1();
-	DFHack::t_creaturflags1 & getFlags2();
-
-	bool isPlayerCiv();
+	DFHack::t_creaturflags2 & getFlags2();
 
 	uint16_t x();
 	uint16_t y();
 	uint16_t z();
 
 	/* setters */
-	//void addLabour();
-	bool toggleCiv();
+	//void addLabour();	
 	void toggleSex();
-	
+	void setCiv(int32_t nCiv);
 	void setX(uint16_t nVal);
 	void setY(uint16_t nVal);
 	void setZ(uint16_t nVal);
 	void setMood(int nMood);
+	void setMoodSkill(uint8_t skill);
 	void setFlagsChanged();
 	
 	void setHappiness(uint32_t hapVal);

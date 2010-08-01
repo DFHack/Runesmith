@@ -17,14 +17,14 @@ public:
 	virtual QVariant headerData(int section,
 		Qt::Orientation orientation,
 		int role = Qt::DisplayRole) const;
-	virtual void setCreature(DFInterface *nDFI, DFHack::t_creature *nCreature);
+	virtual void setCreature(DFInterface *nDFI, RSCreature* nCreature);
 	void clear();
 	int getNumCols();
 	virtual Qt::ItemFlags flags(const QModelIndex &index) const;
 	virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 	
 protected:
-	DFHack::t_creature *creature;
+	RSCreature* creature;
 	DFInterface *DFI;
 	const int colCount;
 };

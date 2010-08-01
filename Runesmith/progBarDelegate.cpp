@@ -12,7 +12,9 @@ progBarDelegate::~progBarDelegate(void)
 {
 }
 
-void progBarDelegate::paint(QPainter * painter, const QStyleOptionViewItem  & option, const QModelIndex & index) const
+void progBarDelegate::paint(QPainter * painter,
+							const QStyleOptionViewItem  & option,
+							const QModelIndex & index) const
 {	
 	QStyleOptionProgressBar opt;
 	DFHack::t_level levelinfo;
@@ -26,7 +28,9 @@ void progBarDelegate::paint(QPainter * painter, const QStyleOptionViewItem  & op
 	}
 	else
 	{		
-		levelinfo = DFI->getLevelInfo(creature->defaultSoul.skills[index.row()].rating);
+		levelinfo = DFI->getLevelInfo(
+			creature->getRawCreature().defaultSoul.skills[index.row()].rating);
+
 		opt.minimum = 0;
 		opt.maximum = 100;
 
@@ -48,10 +52,22 @@ void progBarDelegate::paint(QPainter * painter, const QStyleOptionViewItem  & op
 	}
 
 	painter->setRenderHint(QPainter::Antialiasing, true);
+
 	if(levelinfo.xpNxtLvl)
-		QApplication::style()->drawControl(QStyle::CE_ProgressBar, &opt, painter, (QWidget*)parent());
+	{
+		QApplication::style()->drawControl(
+			QStyle::CE_ProgressBar, &opt, painter, (QWidget*)parent());
+	}
 	else
-		QApplication::style()->drawItemText(painter, option.rect, Qt::AlignCenter, option.palette, true, index.data().toString());
+	{
+		QApplication::style()->drawItemText(painter,
+			option.rect,
+			Qt::AlignCenter,
+			option.palette,
+			true,
+			index.data().toString());
+	}
+
 	painter->restore();
 }
 
@@ -69,7 +85,8 @@ void progBarDelegate::setCreature(DFHack::t_creature *nCreature)
 }
 
 void progBarDelegate::updateEditorGeometry(QWidget *editor,
-     const QStyleOptionViewItem &option, const QModelIndex &/* index */) const
- {
-     editor->setGeometry(option.rect);
- }
+										   const QStyleOptionViewItem &option,
+										   const QModelIndex &/* index */) const
+{
+	editor->setGeometry(option.rect);
+}

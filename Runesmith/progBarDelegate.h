@@ -3,6 +3,7 @@
 
 #include <QStyledItemDelegate>
 #include "DFInterface.h"
+#include "RSCreature.h"
 
 class progBarDelegate : public QStyledItemDelegate
 {
@@ -15,10 +16,10 @@ public:
 	void updateEditorGeometry(QWidget *editor,
          const QStyleOptionViewItem &option, const QModelIndex &index) const;
 	void setDFI(DFInterface *nDFI);
-	void setCreature(DFHack::t_creature *nCreature);
+	void setCreature(RSCreature* nCreature);
 
 private:
-	DFHack::t_creature *creature;
+	RSCreature* creature;
 	DFInterface *DFI;
 };
 

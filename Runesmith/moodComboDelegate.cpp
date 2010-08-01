@@ -30,9 +30,12 @@ QWidget *moodComboDelegate::createEditor(QWidget *parent,
 	{
 		if(DFI && creature)
 		{
-			for(int i=0; i<creature->defaultSoul.numSkills; i++)
+			std::vector<formattedSkill> const& skills = 
+				creature->getFormattedSkills();
+
+			for(int i=0; i<skills.size(); i++)
 			{
-				editor->addItem(DFI->translateSkill(creature->defaultSoul.skills[i].id));
+				editor->addItem(skills[i]);
 			}
 		}
 	}

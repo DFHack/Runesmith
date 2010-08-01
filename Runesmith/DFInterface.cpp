@@ -498,7 +498,7 @@ bool DFInterface::writeAllChanges()
 		}
 	}
 
-	return true;
+	return false;
 }
 
 bool DFInterface::internalWriteChanges()

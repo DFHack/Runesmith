@@ -3,21 +3,23 @@
 
 addTrait::addTrait(QWidget *parent,
 				   Qt::WFlags flags, 
-				   DFHack::t_creature *creature,
-				   DFInterface *nDFI) : index1(-1), index2(-1)
+				   RSCreature* creature,
+				   DFInterface *nDFI) 
+				   : index1(-1), index2(-1), DFI(nDFI)
 {
 	atD.setupUi(this);
-	DFI = nDFI;
 	int first = -1;
 	unsigned int indexCount = 0;
 
 	if(DFI && creature)
 	{
-		std::vector< std::vector<std::string> > const& traits = DFI->getAllTraits();
+		std::vector< std::vector<std::string> > const& traits =	
+			DFI->getAllTraits();
 
 		for(unsigned int i=0; i<NUM_TRAITS; i++)
 		{			
-			if(DFI->translateTrait(i, creature->defaultSoul.traits[i]) == "")
+			if(DFI->translateTrait(i, 
+				creature->getRawCreature().defaultSoul.traits[i]) == "")
 			{
 				if(first == -1)
 					first = i;
@@ -36,8 +38,11 @@ addTrait::addTrait(QWidget *parent,
 		}
 	}
 
-	QApplication::connect(atD.categoryCB, SIGNAL(currentIndexChanged(int)), this, SLOT(populateLevel(int)));
-	QApplication::connect(atD.addButton, SIGNAL(clicked()), this, SLOT(addAction()));
+	QApplication::connect(atD.categoryCB, SIGNAL(currentIndexChanged(int)),
+		this, SLOT(populateLevel(int)));
+
+	QApplication::connect(atD.addButton, SIGNAL(clicked()), 
+		this, SLOT(addAction()));
 }
 
 addTrait::~addTrait(void)
@@ -48,7 +53,9 @@ void addTrait::populateLevel(int index)
 {
 	if(DFI)
 	{
-		std::vector< std::vector<std::string> > const& traits = DFI->getAllTraits();
+		std::vector< std::vector<std::string> > const& traits = 
+			DFI->getAllTraits();
+
 		atD.levelCB->clear();
 
 		for(int i=0; i<6; i++)

@@ -12,6 +12,7 @@ int labTableModel::rowCount(const QModelIndex &parent) const
 {
 	if(creature)
 	{
+		std::vector<QString> const& labours = getLabourCache();
 		return labours.size();
 	}
 	else
@@ -20,8 +21,10 @@ int labTableModel::rowCount(const QModelIndex &parent) const
 
 QVariant labTableModel::data(const QModelIndex &index, int role) const
 {
-	if((!creature) || (!DFI) || (role != Qt::DisplayRole))
+	if((!creature) || (role != Qt::DisplayRole))
 		return QVariant();	
+
+	std::vector<QString> const& labours = getLabourCache();
 
 	if(index.row() > labours.size())
 		return QVariant();
@@ -29,7 +32,7 @@ QVariant labTableModel::data(const QModelIndex &index, int role) const
 	if(index.column())
 		return QVariant();
 	else
-		return DFI->translateLabour(labours[index.row()]);
+		return labours[index.row()];
 }
 
 QVariant labTableModel::headerData(int section,
@@ -50,26 +53,16 @@ QVariant labTableModel::headerData(int section,
 		return QVariant();
 }
 
-void labTableModel::setCreature(DFInterface *nDFI, DFHack::t_creature *nCreature)
+void labTableModel::setCreature(RSCreature* nCreature)
 {
-	DFI = nDFI;	
-
 	if(nCreature)
+	{
 		creature = nCreature;
+	}
 	else
 	{
 		creature = NULL;
 		return;
-	}
-
-	labours.clear();
-
-	for(unsigned int i=0; i<NUM_CREATURE_LABORS; i++)
-	{
-		if(!creature->labors[i])
-			continue;
-
-		labours.push_back(i);
 	}
 
 	reset();

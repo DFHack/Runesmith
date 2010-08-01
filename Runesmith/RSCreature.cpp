@@ -25,6 +25,11 @@ RSCreature::RSCreature(DFHack::t_creature nRawCreature, uint32_t nID, DFInterfac
 			formattedSkills.push_back(DFI->getMatDescription(jobMats[i]));
 		}
 	}
+	else
+	{
+		mood = "None";
+		moodSkill = " - ";
+	}
 
 	for(unsigned int i=0; i<NUM_TRAITS; i++)
 	{
@@ -47,6 +52,7 @@ RSCreature::RSCreature(DFHack::t_creature nRawCreature, uint32_t nID, DFInterfac
 			rawCreature.defaultSoul.skills[i].rating));
 
 		temp.level.append("]");
+		temp.xp = defaultSoul.skills[i].experience;
 		formattedSkills.push_back(temp);
 	}
 
@@ -66,6 +72,11 @@ RSCreature::~RSCreature(void)
 const uint32_t RSCreature::getID()
 {
 	return RSID;
+}
+
+const uint32_t RSCreature::getID()
+{
+	return rawCreature.defaultSoul.numSkills;
 }
 
 const uint32_t RSCreature::getHappiness()
@@ -329,9 +340,9 @@ DFHack::t_creaturflags1 & RSCreature::getFlags2()
 	return rawCreature.flags2;
 }
 
-bool RSCreature::isPlayerCiv()
+const uint32_t RSCreature::getCiv()
 {
-	return (rawCreature.civ == -1) ? false : true;
+	return rawCreature.civ;
 }
 
 uint16_t RSCreature::x()
@@ -397,18 +408,10 @@ void RSCreature::toggleSex()
 	dataChanged.sexChanged = true;
 }
 
-bool RSCreature::toggleCiv()
+void RSCreature::setCiv(int32_t nCiv)
 {
-	if(!DFI)
-		return false;
-
-	if(rawCreature.civ == -1)
-		rawCreature.civ = DFI->getDwarfCiv();
-	else
-		rawCreature.civ = -1;
-
+	rawCreature.civ = nCiv;
 	dataChanged.civChanged = true;
-	return true;
 }
 
 void RSCreature::setX(uint16_t nVal)
@@ -445,6 +448,11 @@ void RSCreature::setMood(int nMood)
 	}
 
 	dataChanged.flagsChanged = true;
+}
+
+void RSCreature::setMoodSkill(uint8_t skill)
+{
+	rawCreature->mood_skill = rawCreature.defaultSoul.skills[skill].id;
 }
 
 void RSCreature::setFlagsChanged()

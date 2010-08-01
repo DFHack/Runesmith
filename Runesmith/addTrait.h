@@ -13,7 +13,7 @@ class addTrait : public QDialog
 public:
 	addTrait(QWidget *parent = 0, 
 		Qt::WFlags flags = 0,
-		DFHack::t_creature *creature = NULL,
+		RSCreature* creature = NULL,
 		DFInterface *nDFI = NULL);
 	~addTrait(void);
 	int getIndex1();

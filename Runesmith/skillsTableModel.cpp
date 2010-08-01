@@ -14,7 +14,7 @@ int skillsTableModel::rowCount(const QModelIndex &parent) const
 {
 	if(creature)
 	{
-		return creature->defaultSoul.numSkills;
+		return creature->getNumSkills();
 	}
 	else
 		return 0;
@@ -30,27 +30,18 @@ QVariant skillsTableModel::data(const QModelIndex &index, int role) const
 	if((!creature) || (!DFI) || (role != Qt::DisplayRole))
 		return QVariant();	
 	
-	QString temp;
+	std::vector<QString> const& temp = getFormattedSkills();
 
 	switch(index.column())
 	{
 	case 0:
-		return DFI->translateSkill(creature->defaultSoul.skills[index.row()].id);
+		return temp[index.row()].skill;
 
-	case 1:		
-		temp.append(
-			DFI->getLevelInfo(
-			creature->defaultSoul.skills[index.row()].rating).name.c_str());
-		temp.append(" [");
-		temp.append(
-			QString::number(
-			creature->defaultSoul.skills[index.row()].rating));
-		temp.append("]");
-		return temp;
+	case 1:
+		return temp[index.row()].level;
 
 	case 2:		
-		return QString(
-			QString::number(creature->defaultSoul.skills[index.row()].experience));
+		return temp[index.row()].xp;
 
 	default:
 		return QVariant();
@@ -146,8 +137,7 @@ bool skillsTableModel::setData(const QModelIndex &index, const QVariant &value, 
 		if(temp > std::numeric_limits<uint8_t>::max())
 			temp = std::numeric_limits<uint8_t>::max();
 
-		creature->defaultSoul.skills[index.row()].rating = temp;
-		DFI->setSkillsChanged(creature->id);
+		creature->setSkillLevel(index.row(), temp);
 		return true;
 	}		
 	else if(index.column() == 2)
@@ -157,8 +147,7 @@ bool skillsTableModel::setData(const QModelIndex &index, const QVariant &value, 
 		if(temp > std::numeric_limits<uint16_t>::max())
 			temp = std::numeric_limits<uint16_t>::max();
 
-		creature->defaultSoul.skills[index.row()].experience = temp;
-		DFI->setSkillsChanged(creature->id);
+		creature->setSkillExperiance(index.row(), temp);
 		return true;
 	}
 	else

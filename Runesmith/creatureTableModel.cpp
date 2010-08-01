@@ -16,7 +16,7 @@ int creatureTableModel::rowCount(const QModelIndex &parent) const
 	if(!DFI)
 		return 0;
 
-	std::vector<DFHack::t_creature *>& creatures = DFI->getCreatures();
+	std::vector<RSCreature*>& creatures = DFI->getCreatures();
 	return creatures.size();
 }
 
@@ -28,7 +28,7 @@ QVariant creatureTableModel::data(const QModelIndex &index, int role) const
 	if(!DFI->isAttached())
 		return QVariant();
 
-	std::vector<DFHack::t_creature *>& creatures = DFI->getCreatures();
+	std::vector<RSCreature*>& creatures = DFI->getCreatures();
 
 	if(index.row() >= creatures.size())
 		return QVariant();
@@ -40,93 +40,19 @@ QVariant creatureTableModel::data(const QModelIndex &index, int role) const
 		switch(index.column())
 		{
 		case 0:
-			return QString(DFI->translateRace(creatures[index.row()]->race));
+			return creatures[index.row()]->getRace();
 
 		case 1:	
-			if(creatures[index.row()]->name.first_name[0])
-			{
-				transName = creatures[index.row()]->name.first_name[0];
-				transName = transName.toUpper();
-				transName.append(creatures[index.row()]->name.first_name+1);
-			}
-			transName.append(" ");
-			transName.append(DFI->translateName(creatures[index.row()]->id));
-			return transName;
+			return creatures[index.row()]->getDwarvishName();
 
 		case 2:
-			return QString(DFI->translateProfession(creatures[index.row()]->profession));
+			return creatures[index.row()]->getProfession();
 
 		case 3:
-			if (creatures[index.row()]->happiness < 1)
-				transName = "Miserable";
-			else if (creatures[index.row()]->happiness <= 25)
-				transName = "Very Unhappy";
-			else if (creatures[index.row()]->happiness <= 50)
-				transName = "Unhappy";
-			else if (creatures[index.row()]->happiness <= 75)
-				transName = "Fine";
-			else if (creatures[index.row()]->happiness <= 125)
-				transName = "Content";
-			else if (creatures[index.row()]->happiness <= 150)
-				transName = "Happy";
-			else
-				transName = "Ecstatic";
-			transName.append(" [");
-			transName.append(QString::number(creatures[index.row()]->happiness));
-			return transName.append("]");
+			return creatures[index.row()]->getFormattedHappiness();
 
 		case 4:
-			if(creatures[index.row()]->flags1.bits.dead)
-				return "Dead";
-			
-			if(creatures[index.row()]->mood >= 0)
-			{
-				transName = "( ";
-				transName.append(DFI->getMood(creatures[index.row()]->mood));
-				transName.append(" ) ");
-			}
-
-			if(creatures[index.row()]->flags1.bits.drowning)
-				transName.append("( Drowning ) ");
-
-			if(creatures[index.row()]->flags2.bits.for_trade)
-				transName.append("( For Trade ) ");
-
-			if(creatures[index.row()]->flags2.bits.slaughter)
-				transName.append("( For Slaughter ) ");
-
-			if(creatures[index.row()]->flags2.bits.breathing_problem)
-				transName.append("( Breathing Problem ) ");
-
-			if(creatures[index.row()]->flags2.bits.vision_damaged)
-				transName.append("( Vision Damaged ) ");
-
-			if(creatures[index.row()]->flags2.bits.vision_missing)
-				transName.append("( Vision Missing ) ");
-
-			if(creatures[index.row()]->flags1.bits.chained)
-				transName.append("( Chanined ) ");
-
-			if(creatures[index.row()]->flags1.bits.caged)
-				transName.append("( Caged ) ");
-
-			if(creatures[index.row()]->flags1.bits.invades)
-				transName.append("( Invading ) ");
-
-			if(creatures[index.row()]->flags1.bits.hidden_in_ambush)
-				transName.append("( Hidden in Ambush ) ");
-
-			if(creatures[index.row()]->flags2.bits.sparring)
-				transName.append("( Sparring ) ");
-
-			if(creatures[index.row()]->flags2.bits.swimming)
-				transName.append("( Swimming ) ");
-
-			if(creatures[index.row()]->flags2.bits.visitor || 
-				creatures[index.row()]->flags2.bits.visitor_uninvited)
-				transName.append("( Visitor ) ");
-
-			return transName;
+			return creatures[index.row()]->getStatus();
 
 		default:
 			return QVariant();
@@ -134,7 +60,7 @@ QVariant creatureTableModel::data(const QModelIndex &index, int role) const
 	}
 	else if((role == Qt::BackgroundColorRole) && (index.column() == 3))
 	{
-		int green = creatures[index.row()]->happiness + HAPPINESS_WEIGHT;
+		int green = creatures[index.row()]->getHappiness() + HAPPINESS_WEIGHT;
 		if(green > 255)
 			green = 255;		
 		return QColor(255-green, green, 0);
@@ -201,13 +127,12 @@ bool creatureTableModel::setData(const QModelIndex &index, const QVariant &value
 	if(!DFI->isAttached())
 		return false;
 	
-	std::vector<DFHack::t_creature *>& creatures = DFI->getCreatures();	
+	std::vector<RSCreature*>& creatures = DFI->getCreatures();	
 
 	if(index.row() >= creatures.size())
 		return false;
 
 	uint32_t temp = value.toUInt();	
-	creatures[index.row()]->happiness = temp;
-	DFI->setHappinessChanged(creatures[index.row()]->id);
+	creatures[index.row()]->setHappiness(temp);
 	return true;
 }

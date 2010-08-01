@@ -21,7 +21,7 @@ int miscTableModel::rowCount(const QModelIndex &parent) const
 
 QVariant miscTableModel::data(const QModelIndex &index, int role) const
 {
-	if((!creature) || (!DFI))
+	if(!creature)
 		return QVariant();
 
 	switch(index.column())
@@ -50,25 +50,18 @@ QVariant miscTableModel::data(const QModelIndex &index, int role) const
 		{
 			switch(index.row())
 			{
-			case 0: return (creature->civ == -1) ? "False" : "True";
-			case 1: return creature->name.nickname;
-			case 2: return DFI->translateName(creature->id, true);
-			case 3: return creature->sex ? "Male" : "Female";
-			case 4: return calcDob();
-			case 5: return (DFI->getCurrentYear() - creature->birth_year);		
-			case 6: return creature->custom_profession;
-			case 8: return creature->x;
-			case 9: return creature->y;
-			case 10: return creature->z;
+			case 0: return creature->getCiv();
+			case 1: return creature->getNickname();
+			case 2: return creature->getEnglishName();
+			case 3: return creature->getSex();
+			case 4: return creature->getDOB();
+			case 5: return creature->getAge();		
+			case 6: return creature->getRawCreature().custom_profession;
+			case 8: return creature->x();
+			case 9: return creature->y();
+			case 10: return creature->z();
 			default: return QVariant();
 			}
-		}
-		else if(role == Qt::CheckStateRole)
-		{
-			if(!index.row())
-				return (creature->civ == -1) ? Qt::Unchecked : Qt::Checked;
-			else
-				return QVariant();
 		}
 		else
 			return QVariant();
@@ -98,16 +91,6 @@ QVariant miscTableModel::headerData(int section,
 		return QVariant();
 }
 
-QString miscTableModel::calcDob() const
-{
-	QString temp = QString::number((creature->birth_time/1200) % 28 + 1);
-	temp.append("/");
-	temp.append(QString::number(creature->birth_time/1200/28));
-	temp.append("/");
-	temp.append(QString::number(creature->birth_year));
-	return temp;
-}
-
 Qt::ItemFlags miscTableModel::flags(const QModelIndex & index) const
 {
 	if (!index.isValid())
@@ -117,7 +100,7 @@ Qt::ItemFlags miscTableModel::flags(const QModelIndex & index) const
 	{
 		switch(index.row())
 		{
-		case 0: return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsUserCheckable;
+		case 0:
 		case 3:
 		case 8:
 		case 9:
@@ -131,48 +114,36 @@ Qt::ItemFlags miscTableModel::flags(const QModelIndex & index) const
 
 bool miscTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-	if(!DFI)
-		return false;
-
-	if(!DFI->isAttached())
-		return false;
-
 	if((index.column() == 1))
 	{
-		unsigned int temp = value.toUInt();
-
-		if(temp > std::numeric_limits<uint16_t>::max())
-			temp = std::numeric_limits<uint16_t>::max();
+		int32_t temp = value.toInt();
 
 		switch(index.row())
 		{
 		case 0:
-			if(creature->civ == -1)
-				creature->civ = DFI->getDwarfCiv();
-			else
-				creature->civ = -1;
-
-			DFI->setCivChanged(creature->id);
+			creature->setCiv(temp);
 			return true;
 
 		case 3:
-			creature->sex = temp;
-			DFI->setSexChanged(creature->id);
+			creature->toggleSex();
 			return true;
 
 		case 8:
-			creature->x = temp;
-			DFI->setPosChanged(creature->id);
+			if(temp > std::numeric_limits<uint16_t>::max())
+				temp = std::numeric_limits<uint16_t>::max();
+			creature->setX(temp);
 			return true;
 
 		case 9:
-			creature->y = temp;
-			DFI->setPosChanged(creature->id);
+			if(temp > std::numeric_limits<uint16_t>::max())
+				temp = std::numeric_limits<uint16_t>::max();
+			creature->setY(temp);
 			return true;
 
 		case 10:
-			creature->z = temp;
-			DFI->setPosChanged(creature->id);
+			if(temp > std::numeric_limits<uint16_t>::max())
+				temp = std::numeric_limits<uint16_t>::max();
+			creature->setZ(temp);
 			return true;
 
 		default: return false;
