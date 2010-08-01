@@ -35,7 +35,7 @@ QWidget *moodComboDelegate::createEditor(QWidget *parent,
 
 			for(int i=0; i<skills.size(); i++)
 			{
-				editor->addItem(skills[i]);
+				editor->addItem(skills[i].skill);
 			}
 		}
 	}
@@ -110,7 +110,7 @@ void moodComboDelegate::setDFI(DFInterface *nDFI)
 	DFI = nDFI;
 }
 
-void moodComboDelegate::setCreature(DFHack::t_creature *nCreature)
+void moodComboDelegate::setCreature(RSCreature* nCreature)
 {
 	if(nCreature)
 		creature = nCreature;

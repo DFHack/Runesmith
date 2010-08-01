@@ -76,7 +76,7 @@ void progBarDelegate::setDFI(DFInterface *nDFI)
 	DFI = nDFI;
 }
 
-void progBarDelegate::setCreature(DFHack::t_creature *nCreature)
+void progBarDelegate::setCreature(RSCreature* nCreature)
 {
 	if(nCreature)
 		creature = nCreature;

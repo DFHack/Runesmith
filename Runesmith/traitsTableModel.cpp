@@ -1,4 +1,6 @@
 #include "traitsTableModel.h"
+#include "RSCreature.h"
+#include <QString>
 
 traitsTableModel::traitsTableModel(QObject *parent) : skillsTableModel(parent, 1)
 {
@@ -12,7 +14,7 @@ int traitsTableModel::rowCount(const QModelIndex &parent) const
 {
 	if(creature)
 	{
-		std::vector<QString> const& traits = creature->getTraitCache();
+		std::vector<cacheItem> const& traits = creature->getTraitCache();
 		return traits.size();
 	}
 	else
@@ -24,7 +26,7 @@ QVariant traitsTableModel::data(const QModelIndex &index, int role) const
 	if((!creature) || (!DFI) || (role != Qt::DisplayRole))
 		return QVariant();	
 
-	std::vector<QString> const& traits = creature->getTraitCache();
+	std::vector<cacheItem> const& traits = creature->getTraitCache();
 
 	if(index.row() > traits.size())
 		return QVariant();
@@ -32,7 +34,7 @@ QVariant traitsTableModel::data(const QModelIndex &index, int role) const
 	switch(index.column())
 	{
 	case 0:
-		return traits[index.row()];
+		return traits[index.row()].text;
 		
 	default:
 		return QVariant();
@@ -90,7 +92,7 @@ bool traitsTableModel::setData(const QModelIndex &index, const QVariant &value, 
 	if(index.column() == 0)
 	{
 		uint32_t temp = value.toUInt();
-		std::vector<QString> const& traits = creature->getTraitCache();
+		std::vector<cacheItem> const& traits = creature->getTraitCache();
 
 		if(temp > 5)
 			return false;
@@ -105,7 +107,8 @@ bool traitsTableModel::setData(const QModelIndex &index, const QVariant &value, 
 
 unsigned int traitsTableModel::getTraitIndex(unsigned int id)
 {
-	return traits[id].index;
+	std::vector<cacheItem> const& traits = creature->getTraitCache();
+	return traits[id].id;
 }
 
 RSCreature* traitsTableModel::getCreature()
@@ -115,6 +118,8 @@ RSCreature* traitsTableModel::getCreature()
 
 bool traitsTableModel::addTrait(int index1, int index2)
 {
+	std::vector<cacheItem> const& traits = creature->getTraitCache();
+
 	if((index1 >= 0) && (index2 >= 0))
 	{
 		if(index2 > 5)

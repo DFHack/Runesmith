@@ -1,28 +1,28 @@
 #include "RSCreature.h"
 #include "rsException.h"
+#include "DFInterface.h"
 
 RSCreature::RSCreature(DFHack::t_creature nRawCreature, uint32_t nID, DFInterface *nDFI) :
-	DFI(nDFI), RSID(nID)
+	DFI(nDFI), rawCreature(nRawCreature), RSID(nID)
 {
-	if((!nRawCreature) || (!DFI))
+	if(!DFI)
 		throw RSException();
 
-	rawCreature = nRawCreature;
 	englishName = DFI->translateName(rawCreature.name, true);
 	dwarvishName =  DFI->translateName(rawCreature.name, false);
 	race = DFI->translateRace(rawCreature.race);
 	profession = DFI->translateProfession(rawCreature.profession);
-	age = (DFI->getCurrentYear() - creature->birth_year);
+	age = (DFI->getCurrentYear() - rawCreature.birth_year);
 	
 	if((rawCreature.mood > -1) && (rawCreature.mood < 6))
 	{
 		moodSkill = DFI->translateSkill(rawCreature.mood_skill);
 		mood = DFI->getMood(rawCreature.mood);
-		DFI->readMats(rawCreature, jobMats);
+		DFI->readMats(&rawCreature, jobMats);
 
 		for(unsigned int i=0; i<jobMats.size(); i++)
 		{
-			formattedSkills.push_back(DFI->getMatDescription(jobMats[i]));
+			formattedMats.push_back(DFI->getMatDescription(jobMats[i]));
 		}
 	}
 	else
@@ -46,14 +46,14 @@ RSCreature::RSCreature(DFHack::t_creature nRawCreature, uint32_t nID, DFInterfac
 		formattedSkill temp;
 		temp.skill = DFI->translateSkill(rawCreature.defaultSoul.skills[i].id);
 		temp.level = DFI->getLevelInfo(
-			creature->defaultSoul.skills[i].rating).name.c_str();
+			rawCreature.defaultSoul.skills[i].rating).name.c_str();
 
 		temp.level.append(" [");
 		temp.level.append(QString::number(
 			rawCreature.defaultSoul.skills[i].rating));
 
 		temp.level.append("]");
-		temp.xp = defaultSoul.skills[i].experience;
+		temp.xp = rawCreature.defaultSoul.skills[i].experience;
 		formattedSkills.push_back(temp);
 	}
 
@@ -62,7 +62,7 @@ RSCreature::RSCreature(DFHack::t_creature nRawCreature, uint32_t nID, DFInterfac
 		if(!rawCreature.labors[i])
 			continue;
 
-		labourCache.push_back(DFI->translateLabour(labours[i]));
+		labourCache.push_back(DFI->translateLabour(rawCreature.labors[i]));
 	}
 }
 
@@ -75,7 +75,7 @@ const uint32_t RSCreature::getID()
 	return RSID;
 }
 
-const uint32_t RSCreature::getID()
+const uint32_t RSCreature::getNumSkills()
 {
 	return rawCreature.defaultSoul.numSkills;
 }
@@ -159,7 +159,7 @@ QString RSCreature::getStatus()
 
 QString RSCreature::getNickname()
 {
-	rawCreature.name.nickname;
+	return rawCreature.name.nickname;
 }
 
 QString RSCreature::getFormattedHappiness()
@@ -286,7 +286,7 @@ QString const& RSCreature::getAge()
 	return age;
 }
 
-QString const& RSCreature::getRace();
+QString const& RSCreature::getRace()
 {
 	return race;
 }
@@ -311,7 +311,12 @@ QString const& RSCreature::getMoodSkill()
 	return moodSkill;
 }
 
-std::vector<QString> const& RSCreature::getFormattedSkills()
+QString const& RSCreature::getProfession()
+{
+	return profession;
+}
+
+std::vector<formattedSkill> const& RSCreature::getFormattedSkills()
 {
 	return formattedSkills;
 }
@@ -321,7 +326,7 @@ std::vector<QString> const& RSCreature::getLabourCache()
 	return labourCache;
 }
 
-std::vector<QString> const& RSCreature::getTraitCache()
+std::vector<cacheItem> const& RSCreature::getTraitCache()
 {
 	return traitCache;
 }
@@ -336,7 +341,7 @@ DFHack::t_creaturflags1 & RSCreature::getFlags1()
 	return rawCreature.flags1;
 }
 
-DFHack::t_creaturflags1 & RSCreature::getFlags2()
+DFHack::t_creaturflags2 & RSCreature::getFlags2()
 {
 	return rawCreature.flags2;
 }
@@ -368,7 +373,7 @@ DFHack::t_creature const& RSCreature::getRawCreature()
 
 statusTracker const& RSCreature::getChanged()
 {
-	return dataChanged();
+	return dataChanged;
 }
 
 bool RSCreature::isChanged()
@@ -453,7 +458,7 @@ void RSCreature::setMood(int nMood)
 
 void RSCreature::setMoodSkill(uint8_t skill)
 {
-	rawCreature->mood_skill = rawCreature.defaultSoul.skills[skill].id;
+	rawCreature.mood_skill = rawCreature.defaultSoul.skills[skill].id;
 }
 
 void RSCreature::setFlagsChanged()
@@ -487,7 +492,7 @@ void RSCreature::setSkillLevel(uint8_t id, uint8_t nLevel)
 
 void RSCreature::setSkillExperiance(uint8_t id, uint16_t nExp)
 {
-	rawCreature.defaultSoul.skills[id].experience = nLevel;
+	rawCreature.defaultSoul.skills[id].experience = nExp;
 	dataChanged.skillsChanged = true;
 }
 
@@ -517,151 +522,151 @@ bool RSCreature::editTrait(uint32_t id, uint32_t level)
 
 void RSCreature::setAllAttributes(uint16_t nVal)
 {
-	rawCreature.strength.level = val;
-	rawCreature.agility.level = val;
-	rawCreature.toughness.level = val;
-	rawCreature.endurance.level = val;
-	rawCreature.recuperation.level = val;
-	rawCreature.disease_resistance.level = val;
-	rawCreature.defaultSoul.willpower.level = val;
-	rawCreature.defaultSoul.memory.level = val;
-	rawCreature.defaultSoul.focus.level = val;
-	rawCreature.defaultSoul.intuition.level = val;
-	rawCreature.defaultSoul.patience.level = val;
-	rawCreature.defaultSoul.empathy.level = val;
-	rawCreature.defaultSoul.social_awareness.level = val;
-	rawCreature.defaultSoul.creativity.level = val;
-	rawCreature.defaultSoul.musicality.level = val;
-	rawCreature.defaultSoul.analytical_ability.level = val;
-	rawCreature.defaultSoul.linguistic_ability.level = val;
-	rawCreature.defaultSoul.spatial_sense.level = val;
-	rawCreature.defaultSoul.kinesthetic_sense.level = val;	
+	rawCreature.strength.level = nVal;
+	rawCreature.agility.level = nVal;
+	rawCreature.toughness.level = nVal;
+	rawCreature.endurance.level = nVal;
+	rawCreature.recuperation.level = nVal;
+	rawCreature.disease_resistance.level = nVal;
+	rawCreature.defaultSoul.willpower.level = nVal;
+	rawCreature.defaultSoul.memory.level = nVal;
+	rawCreature.defaultSoul.focus.level = nVal;
+	rawCreature.defaultSoul.intuition.level = nVal;
+	rawCreature.defaultSoul.patience.level = nVal;
+	rawCreature.defaultSoul.empathy.level = nVal;
+	rawCreature.defaultSoul.social_awareness.level = nVal;
+	rawCreature.defaultSoul.creativity.level = nVal;
+	rawCreature.defaultSoul.musicality.level = nVal;
+	rawCreature.defaultSoul.analytical_ability.level = nVal;
+	rawCreature.defaultSoul.linguistic_ability.level = nVal;
+	rawCreature.defaultSoul.spatial_sense.level = nVal;
+	rawCreature.defaultSoul.kinesthetic_sense.level = nVal;	
 	dataChanged.attributesChanged = true;
 }
 
 void RSCreature::setStrength(uint32_t nVal)
 {
-	rawCreature.strength = nVal;
+	rawCreature.strength.level = nVal;
 	dataChanged.attributesChanged = true;
 }
 
 void RSCreature::setAgility(uint32_t nVal)
 {
-	rawCreature.agility = nVal;
+	rawCreature.agility.level = nVal;
 	dataChanged.attributesChanged = true;
 }
 
 void RSCreature::setToughness(uint32_t nVal)
 {
-	rawCreature.toughness = nVal;
+	rawCreature.toughness.level = nVal;
 	dataChanged.attributesChanged = true;
 }
 
 void RSCreature::setEndurance(uint32_t nVal)
 {
-	rawCreature.endurance = nVal;
+	rawCreature.endurance.level = nVal;
 	dataChanged.attributesChanged = true;
 }
 
 void RSCreature::setRecuperation(uint32_t nVal)
 {
-	rawCreature.recuperation = nVal;
+	rawCreature.recuperation.level = nVal;
 	dataChanged.attributesChanged = true;
 }
 
 void RSCreature::setDiseaseRes(uint32_t nVal)
 {
-	rawCreature.disease_resistance = nVal;
+	rawCreature.disease_resistance.level = nVal;
 	dataChanged.attributesChanged = true;
 }
 
 void RSCreature::setWillpower(uint32_t nVal)
 {
-	rawCreature.defaultSoul.willpower = nVal;
+	rawCreature.defaultSoul.willpower.level = nVal;
 	dataChanged.attributesChanged = true;
 }
 
 void RSCreature::setMemory(uint32_t nVal)
 {
-	rawCreature.defaultSoul.memory = nVal;
+	rawCreature.defaultSoul.memory.level = nVal;
 	dataChanged.attributesChanged = true;
 }
 
 void RSCreature::setFocus(uint32_t nVal)
 {
-	rawCreature.defaultSoul.focus = nVal;
+	rawCreature.defaultSoul.focus.level = nVal;
 	dataChanged.attributesChanged = true;
 }
 
 void RSCreature::setIntuition(uint32_t nVal)
 {
-	rawCreature.defaultSoul.intuition = nVal;
+	rawCreature.defaultSoul.intuition.level = nVal;
 	dataChanged.attributesChanged = true;
 }
 
 void RSCreature::setPatience(uint32_t nVal)
 {
-	rawCreature.defaultSoul.patience = nVal;
+	rawCreature.defaultSoul.patience.level = nVal;
 	dataChanged.attributesChanged = true;
 }
 
 void RSCreature::setEmpathy(uint32_t nVal)
 {
-	rawCreature.defaultSoul.empathy = nVal;
+	rawCreature.defaultSoul.empathy.level = nVal;
 	dataChanged.attributesChanged = true;
 }
 
 void RSCreature::setSocialAwareness(uint32_t nVal)
 {
-	rawCreature.defaultSoul.social_awareness = nVal;
+	rawCreature.defaultSoul.social_awareness.level = nVal;
 	dataChanged.attributesChanged = true;
 }
 
 void RSCreature::setCreativity(uint32_t nVal)
 {
-	rawCreature.defaultSoul.creativity = nVal;
+	rawCreature.defaultSoul.creativity.level = nVal;
 	dataChanged.attributesChanged = true;
 }
 
 void RSCreature::setMusicality(uint32_t nVal)
 {
-	rawCreature.defaultSoul.musicality = nVal;
+	rawCreature.defaultSoul.musicality.level = nVal;
 	dataChanged.attributesChanged = true;
 }
 
 void RSCreature::setAnalyticalAbility(uint32_t nVal)
 {
-	rawCreature.defaultSoul.analytical_ability = nVal;
+	rawCreature.defaultSoul.analytical_ability.level = nVal;
 	dataChanged.attributesChanged = true;
 }
 
 void RSCreature::setLinguisticAbility(uint32_t nVal)
 {
-	rawCreature.defaultSoul.linguistic_ability = nVal;
+	rawCreature.defaultSoul.linguistic_ability.level = nVal;
 	dataChanged.attributesChanged = true;
 }
 
 void RSCreature::setSpatialSense(uint32_t nVal)
 {
-	rawCreature.defaultSoul.spatial_sense = nVal;
+	rawCreature.defaultSoul.spatial_sense.level = nVal;
 	dataChanged.attributesChanged = true;
 }
 
 void RSCreature::setKinestheticSense(uint32_t nVal)
 {
-	rawCreature.defaultSoul.kinesthetic_sense = nVal;
+	rawCreature.defaultSoul.kinesthetic_sense.level = nVal;
 	dataChanged.attributesChanged = true;
 }
 
 void RSCreature::resetFlags()
 {
-	skillsChanged = false;
-	attributesChanged = false;
-	flagsChanged = false;
-	happinessChanged = false;
-	sexChanged = false;
-	traitsChanged = false;
-	moodChanged = false;
-	posChanged = false;
-	civChanged = false;
+	dataChanged.skillsChanged = false;
+	dataChanged.attributesChanged = false;
+	dataChanged.flagsChanged = false;
+	dataChanged.happinessChanged = false;
+	dataChanged.sexChanged = false;
+	dataChanged.traitsChanged = false;
+	dataChanged.moodChanged = false;
+	dataChanged.posChanged = false;
+	dataChanged.civChanged = false;
 }

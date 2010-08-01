@@ -4,6 +4,7 @@
 #include <vector>
 #include <QString>
 #include <DFHack.h>
+class DFInterface;
 
 #define NUM_TRAITS 30
 
@@ -80,10 +81,11 @@ public:
 	QString const& getEnglishName();
 	QString const& getDwarvishName();
 	QString const& getMoodSkill();
+	QString const& getProfession();
 
 	std::vector<formattedSkill> const& getFormattedSkills();
 	std::vector<QString> const& getLabourCache();
-	std::vector<QString> const& getTraitCache();
+	std::vector<cacheItem> const& getTraitCache();
 	std::vector<QString> const& getJobMats();
 
 	DFHack::t_creaturflags1 & getFlags1();
@@ -92,6 +94,8 @@ public:
 	uint16_t x();
 	uint16_t y();
 	uint16_t z();
+
+	bool isChanged();
 
 	/* setters */
 	//void addLabour();	
@@ -106,7 +110,7 @@ public:
 	
 	void setHappiness(uint32_t hapVal);
 	void setAllSkillLevels(uint8_t nLevel);
-	void setSkillLevel(uint8_t id, uint8_t nLevel)
+	void setSkillLevel(uint8_t id, uint8_t nLevel);
 	void setSkillExperiance(uint8_t id, uint16_t nExp);
 	bool editTrait(uint32_t id, uint32_t level);
 

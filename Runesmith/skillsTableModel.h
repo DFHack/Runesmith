@@ -3,6 +3,7 @@
 
 #include <QAbstractTableModel>
 #include "DFInterface.h"
+#include "RSCreature.h"
 
 class skillsTableModel : public QAbstractTableModel
 {

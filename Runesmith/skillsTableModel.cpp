@@ -30,7 +30,7 @@ QVariant skillsTableModel::data(const QModelIndex &index, int role) const
 	if((!creature) || (!DFI) || (role != Qt::DisplayRole))
 		return QVariant();	
 	
-	std::vector<QString> const& temp = getFormattedSkills();
+	std::vector<formattedSkill> const& temp = creature->getFormattedSkills();
 
 	switch(index.column())
 	{
@@ -77,7 +77,7 @@ QVariant skillsTableModel::headerData(int section,
 }
 
 void skillsTableModel::setCreature(DFInterface *nDFI,
-								   DFHack::t_creature *nCreature)
+								   RSCreature* nCreature)
 {
 	DFI = nDFI;
 	

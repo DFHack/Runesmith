@@ -2,9 +2,10 @@
 #include "DFInterface.h"
 #include "rsException.h"
 #include "creatureCmps.h"
+#include "RSCreature.h"
 
 DFInterface::DFInterface(void) : DF(NULL), DFMgr(NULL), Materials(NULL), Tran(NULL),
-	Creatures(NULL), mem(NULL), processDead(false), dataChanged(false), numCreatures(0)
+	Creatures(NULL), mem(NULL), processDead(false), numCreatures(0)
 {
 	mainRace = "DWARF";
 
@@ -252,9 +253,9 @@ void DFInterface::process()
 	}	
 }
 
-QString DFInterface::translateName(const DFHack:t_name const& name, bool english)
+QString DFInterface::translateName(const DFHack::t_name const& name, bool english)
 {
-	QString sTemp = Tran->TranslateName(name, false).c_str();
+	return Tran->TranslateName(name, false).c_str();
 }
 
 QString DFInterface::translateSkill(const uint32_t skill)
@@ -454,7 +455,7 @@ bool DFInterface::changesPending()
 
 	for(int i=0; i<size; i++)
 	{
-		if(allDwarves[i]->isChanged)
+		if(allDwarves[i]->isChanged())
 			return true;
 	}
 
@@ -462,7 +463,7 @@ bool DFInterface::changesPending()
 
 	for(int i=0; i<size; i++)
 	{
-		if(allCreatures[i]->isChanged)
+		if(allCreatures[i]->isChanged())
 			return true;
 	}
 
@@ -517,55 +518,46 @@ bool DFInterface::writeLoop(std::vector<RSCreature*> &data)
 	for(int i=0; i<data.size(); i++)
 	{
 		uint32_t rawID = data[i]->getID();
-		statusTracker& rawStatus = data[i]->getChanged();
-		DFHack::t_creature& rawData = data[i]->getRawCreature();
+		statusTracker const& rawStatus = data[i]->getChanged();
+		DFHack::t_creature const& rawData = data[i]->getRawCreature();
 
 		if(rawStatus.happinessChanged)
 		{
 			if(!Creatures->WriteHappiness(rawID, rawData.happiness))
 				return false;
-
-			rawStatus.happinessChanged = false;
 		}
 
 		if(rawStatus.skillsChanged)
 		{
 			if(!Creatures->WriteSkills(rawID, rawData.defaultSoul))
 				return false;
-
-			rawStatus.skillsChanged = false;
 		}
 
 		if(rawStatus.attributesChanged)
 		{
-			if(!Creatures->WriteAttributes(rawID, *data[i]))
+			if(!Creatures->WriteAttributes(rawID, data[i]->getRawCreature()))
 				return false;
-
-			rawStatus.attributesChanged = false;
 		}
 
 		if(rawStatus.flagsChanged)
 		{
-			if(!Creatures->WriteFlags(rawID, rawData.flags1.whole, rawData.flags2.whole))
-				return false;
+			if(!Creatures->WriteFlags(rawID, 
+				rawData.flags1.whole,
+				rawData.flags2.whole))
 
-			rawStatus.flagsChanged = false;
+				return false;
 		}
 
 		if(rawStatus.sexChanged)
 		{
 			if(!Creatures->WriteSex(rawID, rawData.sex))
 				return false;
-
-			rawStatus.sexChanged = false;
 		}
 
 		if(rawStatus.traitsChanged)
 		{
 			if(!Creatures->WriteTraits(rawID, rawData.defaultSoul))
 				return false;
-
-			rawStatus.traitsChanged = false;
 		}
 
 		if(rawStatus.moodChanged)
@@ -575,28 +567,22 @@ bool DFInterface::writeLoop(std::vector<RSCreature*> &data)
 
 			if(!Creatures->WriteMoodSkill(rawID, rawData.mood_skill))
 				return false;
-
-			rawStatus.moodChanged = false;
 		}
 
 		if(rawStatus.posChanged)
 		{
-			if(!Creatures->WritePos(rawID, *data[i]))
+			if(!Creatures->WritePos(rawID, data[i]->getRawCreature()))
 				return false;
-
-			rawStatus.posChanged = false;
 		}
 
 		if(rawStatus.civChanged)
 		{
 			if(!Creatures->WriteCiv(rawID, rawData.civ))
 				return false;
-
-			rawStatus.civChanged = false;
 		}
-	}
 
-	data[i]->resetFlags();
+		data[i]->resetFlags();
+	}
 	return true;
 }
 

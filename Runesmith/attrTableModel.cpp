@@ -23,6 +23,8 @@ QVariant attrTableModel::data(const QModelIndex &index, int role) const
 	if((!creature) || (!DFI) || (role != Qt::DisplayRole))
 		return QVariant();	
 
+	DFHack::t_creature const& rawCre = creature->getRawCreature();
+
 	switch(index.column())
 	{
 	case 0:
@@ -58,14 +60,14 @@ QVariant attrTableModel::data(const QModelIndex &index, int role) const
 		case 2: return creature->getToughness();
 		case 3: return creature->getEndurance();
 		case 4: return creature->getRecuperation();
-		case 5: return creature->getDiseaseResistance();
+		case 5: return creature->getDiseaseRes();
 		case 6: return creature->getWillpower();
 		case 7: return creature->getMemory();
 		case 8: return creature->getFocus();
 		case 9: return creature->getIntuition();
 		case 10: return creature->getPatience();
 		case 11: return creature->getEmpathy();
-		case 12: return creature->getSocial_awareness();
+		case 12: return creature->getSocialAwareness();
 		case 13: return creature->getCreativity();
 		case 14: return creature->getMusicality();
 		case 15: return creature->getAnalyticalAbility();
@@ -78,25 +80,25 @@ QVariant attrTableModel::data(const QModelIndex &index, int role) const
 	case 2:
 		switch(index.row())
 		{
-		case 0: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, STRENGTH_STAT)));
-		case 1: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, AGILITY_STAT)));
-		case 2: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, TOUGHNESS_STAT)));
-		case 3: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, ENDURANCE_STAT)));
-		case 4: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, RECUPERATION_STAT)));
-		case 5: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, DISEASE_RESISTANCE_STAT)));
-		case 6: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, WILLPOWER_STAT)));
-		case 7: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, MEMORY_STAT)));
-		case 8: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, FOCUS_STAT)));
-		case 9: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, INTUITION_STAT)));
-		case 10: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, PATIENCE_STAT)));
-		case 11: return QString("-");//QString::number(DFI->getRacialAverage(creature->race, creature->caste, EMPATHY_STAT)));
-		case 12: return QString("-");//QString::number(DFI->getRacialAverage(creature->race, creature->caste, SOCIAL_AWARENESS_STAT)));
-		case 13: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, CREATVITY_STAT)));
-		case 14: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, MUSICALITY_STAT)));
-		case 15: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, ANALYTICAL_ABILITY_STAT)));
-		case 16: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, LINGUISTIC_ABILITY_STAT)));
-		case 17: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, SPATIAL_SENSE_STAT)));
-		case 18: return QString(QString::number(DFI->getRacialAverage(creature->race, creature->caste, KINESTHETIC_SENSE_STAT)));		
+		case 0: return QString(QString::number(DFI->getRacialAverage(rawCre.race, rawCre.caste, STRENGTH_STAT)));
+		case 1: return QString(QString::number(DFI->getRacialAverage(rawCre.race, rawCre.caste, AGILITY_STAT)));
+		case 2: return QString(QString::number(DFI->getRacialAverage(rawCre.race, rawCre.caste, TOUGHNESS_STAT)));
+		case 3: return QString(QString::number(DFI->getRacialAverage(rawCre.race, rawCre.caste, ENDURANCE_STAT)));
+		case 4: return QString(QString::number(DFI->getRacialAverage(rawCre.race, rawCre.caste, RECUPERATION_STAT)));
+		case 5: return QString(QString::number(DFI->getRacialAverage(rawCre.race, rawCre.caste, DISEASE_RESISTANCE_STAT)));
+		case 6: return QString(QString::number(DFI->getRacialAverage(rawCre.race, rawCre.caste, WILLPOWER_STAT)));
+		case 7: return QString(QString::number(DFI->getRacialAverage(rawCre.race, rawCre.caste, MEMORY_STAT)));
+		case 8: return QString(QString::number(DFI->getRacialAverage(rawCre.race, rawCre.caste, FOCUS_STAT)));
+		case 9: return QString(QString::number(DFI->getRacialAverage(rawCre.race, rawCre.caste, INTUITION_STAT)));
+		case 10: return QString(QString::number(DFI->getRacialAverage(rawCre.race, rawCre.caste, PATIENCE_STAT)));
+		case 11: return QString("-");//QString::number(DFI->getRacialAverage(rawCre.race, rawCre.caste, EMPATHY_STAT)));
+		case 12: return QString("-");//QString::number(DFI->getRacialAverage(rawCre.race, rawCre.caste, SOCIAL_AWARENESS_STAT)));
+		case 13: return QString(QString::number(DFI->getRacialAverage(rawCre.race, rawCre.caste, CREATVITY_STAT)));
+		case 14: return QString(QString::number(DFI->getRacialAverage(rawCre.race, rawCre.caste, MUSICALITY_STAT)));
+		case 15: return QString(QString::number(DFI->getRacialAverage(rawCre.race, rawCre.caste, ANALYTICAL_ABILITY_STAT)));
+		case 16: return QString(QString::number(DFI->getRacialAverage(rawCre.race, rawCre.caste, LINGUISTIC_ABILITY_STAT)));
+		case 17: return QString(QString::number(DFI->getRacialAverage(rawCre.race, rawCre.caste, SPATIAL_SENSE_STAT)));
+		case 18: return QString(QString::number(DFI->getRacialAverage(rawCre.race, rawCre.caste, KINESTHETIC_SENSE_STAT)));		
 		default: return QVariant();
 		}
 
@@ -150,14 +152,14 @@ bool attrTableModel::setData(const QModelIndex &index, const QVariant &value, in
 	case 2: creature->setToughness(temp); break;
 	case 3: creature->setEndurance(temp); break;
 	case 4: creature->setRecuperation(temp); break;
-	case 5: creature->setDiseaseResistance(temp); break;
+	case 5: creature->setDiseaseRes(temp); break;
 	case 6: creature->setWillpower(temp); break;
 	case 7: creature->setMemory(temp); break;
 	case 8: creature->setFocus(temp); break;
 	case 9: creature->setIntuition(temp); break;
 	case 10: creature->setPatience(temp); break;
 	case 11: creature->setEmpathy(temp); break;
-	case 12: creature->setSocial_awareness(temp); break;
+	case 12: creature->setSocialAwareness(temp); break;
 	case 13: creature->setCreativity(temp); break;
 	case 14: creature->setMusicality(temp); break;
 	case 15: creature->setAnalyticalAbility(temp); break;

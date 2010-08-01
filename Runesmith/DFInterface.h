@@ -5,7 +5,7 @@
 #include <map>
 #include <QString>
 #include <DFHack.h>
-#include "RSCreature.h"
+class RSCreature;
 
 enum RacialStat
 {
@@ -62,7 +62,7 @@ public:
 	DFHack::t_level getLevelInfo(uint32_t level);
 
 	QString getVersion();
-	QString translateName(const DFHack:t_name const& name, bool english);
+	QString translateName(DFHack::t_name const& name, bool english);
 	QString translateSkill(const uint32_t skill);
 	QString translateProfession(const uint32_t prof);
 	QString translateRace(const uint32_t race);
@@ -88,7 +88,7 @@ private:
 	void process();
 	void cleanup();
 	bool internalWriteChanges();
-	bool writeLoop(std::vector<DFHack::t_creature*> &data);
+	bool writeLoop(std::vector<RSCreature*> &data);
 
 private:
 	std::vector<RSCreature*> creatures;

@@ -228,11 +228,11 @@ void Runesmith::dwarfSelected(const QModelIndex& index, const QModelIndex&)
 	RSCreature* dwarf = DFI->getDwarf(index.row());
 	dsTM->setCreature(DFI, dwarf);
 	daTM->setCreature(DFI, dwarf);
-	dlTM->setCreature(DFI, dwarf);
+	dlTM->setCreature(dwarf);
 	dfTM->setCreature(DFI, dwarf);
 	dmTM->setCreature(DFI, dwarf);
-	dtTM->setCreature(DFI, dwarf);
-	dmooTM->setCreature(DFI, dwarf);
+	dtTM->setCreature(dwarf);
+	dmooTM->setCreature(dwarf);
 	skillProgDele.setCreature(dwarf);
 	mCD.setCreature(dwarf);
 }
@@ -242,10 +242,10 @@ void Runesmith::creatureSelected(const QModelIndex& index, const QModelIndex&)
 	RSCreature* creature = DFI->getCreature(index.row());
 	csTM->setCreature(DFI, creature);
 	caTM->setCreature(DFI, creature);
-	clTM->setCreature(DFI, creature);
+	clTM->setCreature(creature);
 	cfTM->setCreature(DFI, creature);
 	cmTM->setCreature(DFI, creature);
-	ctTM->setCreature(DFI, creature);
+	ctTM->setCreature(creature);
 	cSkillProgDele.setCreature(creature);
 }
 

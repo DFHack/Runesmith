@@ -12,7 +12,7 @@ int labTableModel::rowCount(const QModelIndex &parent) const
 {
 	if(creature)
 	{
-		std::vector<QString> const& labours = getLabourCache();
+		std::vector<QString> const& labours = creature->getLabourCache();
 		return labours.size();
 	}
 	else
@@ -24,7 +24,7 @@ QVariant labTableModel::data(const QModelIndex &index, int role) const
 	if((!creature) || (role != Qt::DisplayRole))
 		return QVariant();	
 
-	std::vector<QString> const& labours = getLabourCache();
+	std::vector<QString> const& labours = creature->getLabourCache();
 
 	if(index.row() > labours.size())
 		return QVariant();
