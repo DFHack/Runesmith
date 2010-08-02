@@ -123,15 +123,20 @@ RSCreature* traitsTableModel::getCreature()
 
 bool traitsTableModel::addTrait(int index1, int index2)
 {
-	std::vector<cacheItem> const& traits = creature->getTraitCache();
-
 	if((index1 >= 0) && (index2 >= 0))
 	{
 		if(index2 > 5)
 			return false;
 		else
-			creature->editTrait(traits[index1].id, index2);
+			creature->addTrait(index1, index2);
 	}
 	else
 		return false;
+
+	reset();
+	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
+			QAbstractItemModel::createIndex(
+			colCount, rowCount()));
+
+	return true;
 }

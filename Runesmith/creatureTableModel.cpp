@@ -42,8 +42,12 @@ QVariant creatureTableModel::data(const QModelIndex &index, int role) const
 		case 0:
 			return creatures[index.row()]->getRace();
 
-		case 1:	
-			return creatures[index.row()]->getDwarvishName();
+		case 1:				 
+			transName = creatures[index.row()]->getDwarvishName();
+		
+			if(transName[0] == 0)
+				return QVariant();
+			return transName;
 
 		case 2:
 			return creatures[index.row()]->getProfession();

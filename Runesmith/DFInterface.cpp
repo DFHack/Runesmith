@@ -253,7 +253,7 @@ void DFInterface::process()
 	}	
 }
 
-QString DFInterface::translateName(const DFHack::t_name const& name, bool english)
+QString DFInterface::translateName(DFHack::t_name const& name, bool english)
 {
 	return Tran->TranslateName(name, english).c_str();
 }

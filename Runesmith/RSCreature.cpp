@@ -8,17 +8,20 @@ RSCreature::RSCreature(DFHack::t_creature nRawCreature, uint32_t nID, DFInterfac
 	if(!DFI)
 		throw RSException();
 
-	englishName = rawCreature.name.first_name[0];
-	englishName = englishName.toUpper();
-	englishName += rawCreature.name.first_name+1;
-	englishName += " ";
-	englishName += DFI->translateName(rawCreature.name, true);
+	if(rawCreature.name.has_name)
+	{
+		englishName = rawCreature.name.first_name[0];
+		englishName = englishName.toUpper();
+		englishName += rawCreature.name.first_name+1;
+		englishName += " ";
+		englishName += DFI->translateName(rawCreature.name, true);
 
-	dwarvishName = rawCreature.name.first_name[0];
-	dwarvishName = dwarvishName.toUpper();
-	dwarvishName += rawCreature.name.first_name+1;
-	dwarvishName += " ";
-	dwarvishName += DFI->translateName(rawCreature.name, false);
+		dwarvishName = rawCreature.name.first_name[0];
+		dwarvishName = dwarvishName.toUpper();
+		dwarvishName += rawCreature.name.first_name+1;
+		dwarvishName += " ";
+		dwarvishName += DFI->translateName(rawCreature.name, false);
+	}
 
 	race = DFI->translateRace(rawCreature.race);
 	profession = DFI->translateProfession(rawCreature.profession);
@@ -347,7 +350,7 @@ DFHack::t_creaturflags2 & RSCreature::getFlags2()
 	return rawCreature.flags2;
 }
 
-const uint32_t RSCreature::getCiv()
+const int32_t RSCreature::getCiv()
 {
 	return rawCreature.civ;
 }
@@ -506,6 +509,30 @@ void RSCreature::setSkillExperiance(uint8_t id, uint16_t nExp)
 
 bool RSCreature::editTrait(uint32_t id, uint32_t level)
 {
+	if(!DFI)
+		return false;
+
+	switch(level)
+	{
+	case 0: rawCreature.defaultSoul.traits[id] = 9; break;
+	case 1: rawCreature.defaultSoul.traits[id] = 24; break;
+	case 2: rawCreature.defaultSoul.traits[id] = 60; break;
+	case 3: rawCreature.defaultSoul.traits[id] = 75; break;
+	case 4: rawCreature.defaultSoul.traits[id] = 90; break;
+	case 5: rawCreature.defaultSoul.traits[id] = 100; break;
+	default: return false;
+	}
+
+	dataChanged.traitsChanged = true;
+	cacheItem temp;
+	temp.id = id;
+	temp.text = DFI->translateTrait(id, rawCreature.defaultSoul.traits[id]);
+	traitCache.push_back(temp);
+	return true;
+}
+
+bool RSCreature::addTrait(uint32_t id, uint32_t level)
+{	
 	if(!DFI)
 		return false;
 

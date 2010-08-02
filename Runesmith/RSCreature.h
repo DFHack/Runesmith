@@ -48,7 +48,7 @@ public:
 	const uint32_t getID();
 	const uint32_t getNumSkills();
 	const uint32_t getHappiness();
-	const uint32_t getCiv();
+	const int32_t getCiv();
 
 	QString getDOB();
 	QString getSex();
@@ -114,6 +114,7 @@ public:
 	void setSkillLevel(uint8_t id, uint8_t nLevel);
 	void setSkillExperiance(uint8_t id, uint16_t nExp);
 	bool editTrait(uint32_t id, uint32_t level);
+	bool addTrait(uint32_t id, uint32_t level);
 
 	void setAllAttributes(uint16_t nVal);
 	void setStrength(uint32_t nVal);

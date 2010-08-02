@@ -4,7 +4,7 @@
 //TODO test to see if these are the correct way round
 bool creatureAscNameCmp(RSCreature* left, RSCreature* right)
 {
-	if(left->getDwarvishName() > right->getDwarvishName())
+	if(left->getDwarvishName() < right->getDwarvishName())
 		return true;
 	else
 		return false;
@@ -12,7 +12,7 @@ bool creatureAscNameCmp(RSCreature* left, RSCreature* right)
 
 bool creatureDecNameCmp(RSCreature* left, RSCreature* right)
 {
-	if(left->getDwarvishName() < right->getDwarvishName())
+	if(left->getDwarvishName() > right->getDwarvishName())
 		return true;
 	else
 		return false;
