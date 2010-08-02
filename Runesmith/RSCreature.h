@@ -26,9 +26,10 @@ struct statusTracker
 
 struct formattedSkill
 {
+	uint8_t id;
+	uint32_t xp;
 	QString skill;
 	QString level;
-	uint32_t xp;
 };
 
 struct cacheItem
@@ -84,7 +85,7 @@ public:
 	QString const& getProfession();
 
 	std::vector<formattedSkill> const& getFormattedSkills();
-	std::vector<QString> const& getLabourCache();
+	std::vector<cacheItem> const& getLabourCache();
 	std::vector<cacheItem> const& getTraitCache();
 	std::vector<QString> const& getJobMats();
 
@@ -141,6 +142,12 @@ public:
 	void resetFlags();
 
 private:
+	/* Helpers */
+	void genSkillsCache();
+	void updateSkillsCache(uint8_t id);
+	void updateMoodCache();
+
+	/* Data */
 	DFInterface *DFI;
 	uint32_t RSID;
 	statusTracker dataChanged;
@@ -153,8 +160,8 @@ private:
 	QString mood;
 	QString age;
 
-	std::vector<formattedSkill> formattedSkills;
-	std::vector<QString> labourCache;
+	std::vector<formattedSkill> skillsCache;
+	std::vector<cacheItem> labourCache;
 	std::vector<cacheItem> traitCache;
 	std::vector<QString> formattedMats;
 	std::vector<DFHack::t_material> jobMats;

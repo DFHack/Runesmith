@@ -51,28 +51,16 @@ RSCreature::RSCreature(DFHack::t_creature nRawCreature, uint32_t nID, DFInterfac
 			traitCache.push_back(temp);
 	}
 
-	for(unsigned int i=0; i<rawCreature.defaultSoul.numSkills; i++)
-	{
-		formattedSkill temp;
-		temp.skill = DFI->translateSkill(rawCreature.defaultSoul.skills[i].id);
-		temp.level = DFI->getLevelInfo(
-			rawCreature.defaultSoul.skills[i].rating).name.c_str();
-
-		temp.level.append(" [");
-		temp.level.append(QString::number(
-			rawCreature.defaultSoul.skills[i].rating));
-
-		temp.level.append("]");
-		temp.xp = rawCreature.defaultSoul.skills[i].experience;
-		formattedSkills.push_back(temp);
-	}
+	genSkillsCache();
 
 	for(uint8_t i=0; i<NUM_CREATURE_LABORS; i++)
 	{
 		if(!rawCreature.labors[i])
 			continue;
-		
-		QString temp = DFI->translateLabour(i);
+
+		cacheItem temp;
+		temp.id = i;
+		temp.text = DFI->translateLabour(i);
 
 		//if(
 		labourCache.push_back(temp);
@@ -331,10 +319,10 @@ QString const& RSCreature::getProfession()
 
 std::vector<formattedSkill> const& RSCreature::getFormattedSkills()
 {
-	return formattedSkills;
+	return skillsCache;
 }
 
-std::vector<QString> const& RSCreature::getLabourCache()
+std::vector<cacheItem> const& RSCreature::getLabourCache()
 {
 	return labourCache;
 }
@@ -466,12 +454,16 @@ void RSCreature::setMood(int nMood)
 			rawCreature.flags1.bits.has_mood = 1;
 	}
 
+	updateMoodCache();
+	dataChanged.moodChanged = true;
 	dataChanged.flagsChanged = true;
 }
 
 void RSCreature::setMoodSkill(uint8_t skill)
 {
 	rawCreature.mood_skill = rawCreature.defaultSoul.skills[skill].id;
+	updateMoodCache();
+	dataChanged.moodChanged = true;
 }
 
 void RSCreature::setFlagsChanged()
@@ -494,18 +486,21 @@ void RSCreature::setAllSkillLevels(uint8_t nLevel)
 		rawCreature.defaultSoul.skills[i].rating = nLevel;
 	}
 
+	genSkillsCache();
 	dataChanged.skillsChanged = true;
 }
 
 void RSCreature::setSkillLevel(uint8_t id, uint8_t nLevel)
-{//TODO need to regen caches :/
+{
 	rawCreature.defaultSoul.skills[id].rating = nLevel;
+	updateSkillsCache(id);
 	dataChanged.skillsChanged = true;
 }
 
 void RSCreature::setSkillExperiance(uint8_t id, uint16_t nExp)
 {
 	rawCreature.defaultSoul.skills[id].experience = nExp;
+	updateSkillsCache(id);
 	dataChanged.skillsChanged = true;
 }
 
@@ -682,4 +677,68 @@ void RSCreature::resetFlags()
 	dataChanged.moodChanged = false;
 	dataChanged.posChanged = false;
 	dataChanged.civChanged = false;
+}
+
+void RSCreature::genSkillsCache()
+{
+	for(unsigned int i=0; i<rawCreature.defaultSoul.numSkills; i++)
+	{
+		formattedSkill temp;
+		temp.id = i;
+		temp.skill = DFI->translateSkill(rawCreature.defaultSoul.skills[i].id);
+		temp.level = DFI->getLevelInfo(
+			rawCreature.defaultSoul.skills[i].rating).name.c_str();
+
+		temp.level.append(" [");
+		temp.level.append(QString::number(
+			rawCreature.defaultSoul.skills[i].rating));
+
+		temp.level.append("]");
+		temp.xp = rawCreature.defaultSoul.skills[i].experience;
+		skillsCache.push_back(temp);
+	}
+}
+
+void RSCreature::updateSkillsCache(uint8_t id)
+{
+	formattedSkill* item;
+
+	if(skillsCache[id].id == id)
+	{
+		item = &skillsCache[id];
+	}
+	else
+	{
+		//slow but shouldn't usually hit here
+		int len = skillsCache.size();
+
+		for(int i=0; i<len; i++)
+		{
+			if(skillsCache[i].id = id)
+				item = &skillsCache[i];
+		}
+	}
+
+	item->level = DFI->getLevelInfo(
+		rawCreature.defaultSoul.skills[id].rating).name.c_str();
+
+	item->level.append(" [");
+	item->level.append(QString::number(
+		rawCreature.defaultSoul.skills[id].rating));
+
+	item->level.append("]");
+	item->skill = DFI->translateSkill(rawCreature.defaultSoul.skills[id].id);
+	item->xp = rawCreature.defaultSoul.skills[id].experience;
+}
+
+void RSCreature::updateMoodCache()
+{
+	moodSkill = DFI->translateSkill(rawCreature.mood_skill);
+	mood = DFI->getMood(rawCreature.mood);
+	formattedMats.clear();
+
+	for(unsigned int i=0; i<jobMats.size(); i++)
+	{
+		formattedMats.push_back(DFI->getMatDescription(jobMats[i]));
+	}
 }
