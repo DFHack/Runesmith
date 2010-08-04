@@ -509,6 +509,7 @@
     </property>
     <addaction name="actionSet_Dwarves_Skills"/>
     <addaction name="actionSet_Dwarves_Attributes"/>
+    <addaction name="action_Genocide"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_View"/>
@@ -532,6 +533,7 @@
    <addaction name="separator"/>
    <addaction name="actionSet_Dwarves_Skills"/>
    <addaction name="actionSet_Dwarves_Attributes"/>
+   <addaction name="action_Genocide"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionE_xit">
@@ -628,6 +630,15 @@
    </property>
    <property name="text">
     <string>Set Dwarves &amp;Attributes</string>
+   </property>
+  </action>
+  <action name="action_Genocide">
+   <property name="icon">
+    <iconset resource="runesmith.qrc">
+     <normaloff>:/Runesmith/Icons/melted-icon.png</normaloff>:/Runesmith/Icons/melted-icon.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Genocide (Kill Selected Race)</string>
    </property>
   </action>
  </widget>

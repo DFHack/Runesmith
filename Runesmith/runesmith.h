@@ -4,6 +4,7 @@
 #include <QtGui/QMainWindow>
 #include <QLabel>
 #include "DFInterface.h"
+#include "RSCreature.h"
 #include "ui_runesmith.h"
 #include "dwarfTableModel.h"
 #include "skillsTableModel.h"

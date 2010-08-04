@@ -100,6 +100,7 @@ public:
 
 	/* setters */
 	//void addLabour();	
+	void kill();
 	void toggleSex();
 	void setCiv(int32_t nCiv);
 	void setX(uint16_t nVal);

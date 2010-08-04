@@ -45,6 +45,7 @@ public:
 	void setMainRace(QString nMainRace);
 	void setAllRaceSkills(uint8_t val);
 	void setAllRaceAttrs(uint16_t val);
+	void killAllRace(uint32_t race);
 
 	bool writeAllChanges();
 	bool changesPending();

@@ -3,7 +3,6 @@
 #include <DFHack.h>
 #include <limits>
 #include "runesmith.h"
-#include "RSCreature.h"
 #include "rsException.h"
 #include "about.h"
 #include "addTrait.h"
@@ -111,6 +110,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	QApplication::connect(ui.action_Set_Main_Race, SIGNAL(triggered()), this, SLOT(setRace()));
 	QApplication::connect(ui.actionSet_Dwarves_Attributes, SIGNAL(triggered()), this, SLOT(setRaceAttrs()));
 	QApplication::connect(ui.actionSet_Dwarves_Skills, SIGNAL(triggered()), this, SLOT(setRaceSkills()));
+	QApplication::connect(ui.action_Genocide, SIGNAL(triggered()), cTM, SLOT(genocide()));
 }
 
 Runesmith::~Runesmith()
@@ -240,6 +240,7 @@ void Runesmith::dwarfSelected(const QModelIndex& index, const QModelIndex&)
 void Runesmith::creatureSelected(const QModelIndex& index, const QModelIndex&)
 {
 	RSCreature* creature = DFI->getCreature(index.row());
+	cTM->setCurrent(creature);
 	csTM->setCreature(DFI, creature);
 	caTM->setCreature(DFI, creature);
 	clTM->setCreature(creature);

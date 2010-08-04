@@ -3,7 +3,7 @@
 #include "creatureTableModel.h"
 
 creatureTableModel::creatureTableModel(QObject *parent) 
-: dwarfTableModel(parent, 5)
+: dwarfTableModel(parent, 5), selectedCreature(NULL)
 {
 }
 
@@ -139,4 +139,21 @@ bool creatureTableModel::setData(const QModelIndex &index, const QVariant &value
 	uint32_t temp = value.toUInt();	
 	creatures[index.row()]->setHappiness(temp);
 	return true;
+}
+
+void creatureTableModel::genocide()
+{
+	if(selectedCreature)
+	{
+		DFI->killAllRace(selectedCreature->getRawCreature().race);
+		reset();
+		emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
+			QAbstractItemModel::createIndex(colCount, rowCount()));
+	}
+}
+
+void creatureTableModel::setCurrent(RSCreature* nCreature)
+{
+	if(nCreature)
+		selectedCreature = nCreature;
 }

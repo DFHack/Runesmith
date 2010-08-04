@@ -21,6 +21,14 @@ public:
 	bool setData(const QModelIndex &index,
 		const QVariant &value,
 		int role = Qt::EditRole);
+	
+	void setCurrent(RSCreature* nCreature);
+
+public slots:
+	void genocide();
+
+private:
+	RSCreature* selectedCreature;
 };
 
 #endif

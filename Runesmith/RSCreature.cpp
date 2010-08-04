@@ -769,3 +769,8 @@ void RSCreature::updateMoodCache()
 		formattedMats.push_back(DFI->getMatDescription(jobMats[i]));
 	}
 }
+
+void RSCreature::kill()
+{
+	rawCreature.flags1.bits.dead = 1;
+}

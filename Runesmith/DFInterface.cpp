@@ -687,6 +687,19 @@ void DFInterface::setAllRaceAttrs(uint16_t val)
 	}
 }
 
+void DFInterface::killAllRace(uint32_t race)
+{
+	std::vector<RSCreature*>::iterator iter = creatures.begin();
+
+	while(iter != creatures.end())
+	{
+		if((*iter)->getRawCreature().race == race)
+			iter = creatures.erase(iter);
+		else
+			iter++;
+	}
+}
+
 QString DFInterface::getMaterialType(DFHack::t_material &mat)
 {
 	if(isAttached())
