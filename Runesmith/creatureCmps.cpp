@@ -20,6 +20,14 @@ bool creatureDecNameCmp(RSCreature* left, RSCreature* right)
 
 bool creatureAscProfCmp(RSCreature* left, RSCreature* right)
 {
+	if(left->getProfession() < right->getProfession())
+		return true;
+	else
+		return false;
+}
+
+bool creatureDecProfCmp(RSCreature* left, RSCreature* right)
+{
 	if(left->getProfession() > right->getProfession())
 		return true;
 	else

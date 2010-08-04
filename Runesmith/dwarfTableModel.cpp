@@ -154,7 +154,10 @@ void dwarfTableModel::sort(int column, Qt::SortOrder order)
 		break;
 
 	case 1:
-		DFI->sortDwarvesByProf(false);
+		if(order == Qt::AscendingOrder)
+			DFI->sortDwarvesByProf(false);
+		else
+			DFI->sortDwarvesByProf(true);
 		break;
 	}
 
