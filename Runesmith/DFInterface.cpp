@@ -754,4 +754,18 @@ void DFInterface::sortDwarvesByProf(bool decending)
 
 void DFInterface::sortDwarvesByHap(bool decending)
 {
+	if(decending)
+	{
+		if(!processDead)
+			std::sort(dwarves.begin(), dwarves.end(), creatureDecHapCmp);
+		else
+			std::sort(dwarves.begin(), dwarves.end(), creatureDecHapCmp);	
+	}
+	else
+	{
+		if(!processDead)
+			std::sort(dwarves.begin(), dwarves.end(), creatureAscHapCmp);
+		else
+			std::sort(dwarves.begin(), dwarves.end(), creatureAscHapCmp);
+	}
 }

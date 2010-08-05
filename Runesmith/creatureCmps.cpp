@@ -33,3 +33,19 @@ bool creatureDecProfCmp(RSCreature* left, RSCreature* right)
 	else
 		return false;
 }
+
+bool creatureAscHapCmp(RSCreature* left, RSCreature* right)
+{
+	if(left->getRawCreature().happiness > right->getRawCreature().happiness)
+		return true;
+	else
+		return false;
+}
+
+bool creatureDecHapCmp(RSCreature* left, RSCreature* right)
+{
+	if(left->getRawCreature().happiness < right->getRawCreature().happiness)
+		return true;
+	else
+		return false;
+}

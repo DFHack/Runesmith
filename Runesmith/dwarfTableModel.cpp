@@ -159,6 +159,13 @@ void dwarfTableModel::sort(int column, Qt::SortOrder order)
 		else
 			DFI->sortDwarvesByProf(true);
 		break;
+
+	case 2:
+		if(order == Qt::AscendingOrder)
+			DFI->sortDwarvesByHap(false);
+		else
+			DFI->sortDwarvesByHap(true);
+		break;
 	}
 
 	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
