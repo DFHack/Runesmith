@@ -119,6 +119,8 @@ private:
 	DFHack::Creatures *Creatures;
 	DFHack::memory_info *mem;
 	DFHack::World * world;
+
+	bool suspended;
 };
 
 #endif

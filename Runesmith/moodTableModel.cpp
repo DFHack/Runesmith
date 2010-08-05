@@ -100,10 +100,10 @@ Qt::ItemFlags moodTableModel::flags(const QModelIndex & index) const
 	if (!index.isValid())
 		return Qt::NoItemFlags;
 
-	if((index.row() == 0) || (index.row() == 1)) // turned off material editing with this & in delegate
+//	if((index.row() == 0) || (index.row() == 1)) // turned off material editing with this & in delegate
 		return Qt::ItemIsSelectable | Qt::ItemIsEnabled | Qt::ItemIsEditable;
-	else
-		return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
+//	else
+//		return Qt::ItemIsSelectable | Qt::ItemIsEnabled;
 }
 
 bool moodTableModel::setData(const QModelIndex &index, 
@@ -124,27 +124,30 @@ bool moodTableModel::setData(const QModelIndex &index,
 			creature->setMoodSkill(temp);
 			return true;
 
-		default: return false;
+		default:
+			std::vector<DFHack::t_matgloss> const& organic = DFI->getOrganicMats();
+			std::vector<DFHack::t_matgloss> const& inorganic = DFI->getInorgaincMats();
+			std::vector<DFHack::t_material> const& mats = creature->getRawMats();
+			QString type = DFI->getMaterialType(const_cast<DFHack::t_material&>(mats[index.row()-2]));
+
+			if(type == "organic")
+			{
+				creature->setMatIndex(index.row()-2, temp);
+			}
+			else if(type == "inorganic")
+			{
+				creature->setMatIndex(index.row()-2, temp);
+			}
+			else if(type == "any")
+			{
+				
+			}
+			else
+			{
+				return false;
+			}
 		}
 	}
 	else
 		return false;
-}
-
-void moodTableModel::setCreature(RSCreature* nCreature)
-{
-	if(nCreature)
-	{
-		creature = nCreature;
-	}
-	else
-	{
-		creature = NULL;
-		return;
-	}	
-
-	reset();
-	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
-		QAbstractItemModel::createIndex(
-		colCount, rowCount()));
 }

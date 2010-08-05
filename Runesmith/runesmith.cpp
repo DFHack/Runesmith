@@ -232,7 +232,7 @@ void Runesmith::dwarfSelected(const QModelIndex& index, const QModelIndex&)
 	dfTM->setCreature(DFI, dwarf);
 	dmTM->setCreature(DFI, dwarf);
 	dtTM->setCreature(dwarf);
-	dmooTM->setCreature(dwarf);
+	dmooTM->setCreature(DFI, dwarf);
 	skillProgDele.setCreature(dwarf);
 	mCD.setCreature(dwarf);
 }

@@ -5,7 +5,7 @@
 #include "RSCreature.h"
 
 DFInterface::DFInterface(void) : DF(NULL), DFMgr(NULL), Materials(NULL), Tran(NULL),
-	Creatures(NULL), mem(NULL), processDead(false), numCreatures(0)
+	Creatures(NULL), mem(NULL), processDead(false), numCreatures(0), suspended(false)
 {
 	mainRace = "DWARF";
 
@@ -201,6 +201,7 @@ void DFInterface::resume()
 		Creatures->Finish();
 
 	DF->Resume();
+	suspended = false;
 }
 
 void DFInterface::suspend()
@@ -219,6 +220,8 @@ void DFInterface::suspend()
 
 	if(!Tran->Start())
 		throw RSException();
+
+	suspended = true;
 }
 
 void DFInterface::process()
@@ -568,6 +571,9 @@ bool DFInterface::writeLoop(std::vector<RSCreature*> &data)
 
 			if(!Creatures->WriteMoodSkill(rawID, rawData.mood_skill))
 				return false;
+
+			if(!Creatures->WriteJob(&rawData, data[i]->getRawMats()))
+				return false;
 		}
 
 		if(rawStatus.posChanged)
@@ -624,7 +630,15 @@ QString DFInterface::getMatDescription(DFHack::t_material &mat)
 	{
 		try
 		{
-			return Materials->getDescription(mat).c_str();
+			if(!suspended)
+			{
+				suspend();
+				QString temp = Materials->getDescription(mat).c_str();
+				resume();
+				return temp;
+			}
+			else
+				return Materials->getDescription(mat).c_str();
 		}
 		catch(std::exception &e)
 		{

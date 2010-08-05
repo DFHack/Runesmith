@@ -88,6 +88,7 @@ public:
 	std::vector<cacheItem> const& getLabourCache();
 	std::vector<cacheItem> const& getTraitCache();
 	std::vector<QString> const& getJobMats();
+	std::vector<DFHack::t_material> const& getRawMats(); 
 
 	DFHack::t_creaturflags1 & getFlags1();
 	DFHack::t_creaturflags2 & getFlags2();
@@ -109,6 +110,7 @@ public:
 	void setMood(int nMood);
 	void setMoodSkill(uint8_t skill);
 	void setFlagsChanged();
+	void setMatIndex(uint32_t id, int32_t nIndex);
 	
 	void setHappiness(uint32_t hapVal);
 	void setAllSkillLevels(uint8_t nLevel);

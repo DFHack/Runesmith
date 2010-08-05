@@ -340,6 +340,11 @@ std::vector<QString> const& RSCreature::getJobMats()
 	return formattedMats;
 }
 
+std::vector<DFHack::t_material> const& RSCreature::getRawMats()
+{
+	return jobMats;
+}
+
 DFHack::t_creaturflags1 & RSCreature::getFlags1()
 {
 	return rawCreature.flags1;
@@ -773,4 +778,16 @@ void RSCreature::updateMoodCache()
 void RSCreature::kill()
 {
 	rawCreature.flags1.bits.dead = 1;
+}
+
+void RSCreature::setMatIndex(uint32_t id, int32_t nIndex)
+{/* TODO work out a better way of updating the display without having to run the update mood cache 
+	function, as it has to suspend and this is SLOOOOOW! also possibly set to be wrtten seperately
+	to the rest of the mood stuff */
+	if(id < jobMats.size())
+	{
+		jobMats[id].index = nIndex;
+		updateMoodCache();
+		dataChanged.moodChanged = true;
+	}
 }

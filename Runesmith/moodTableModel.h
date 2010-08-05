@@ -21,8 +21,6 @@ public:
 	bool setData(const QModelIndex &index, 
 		const QVariant &value,
 		int role = Qt::EditRole);
-
-	void setCreature(RSCreature* nCreature);
 };
 
 #endif
