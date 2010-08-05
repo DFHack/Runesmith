@@ -157,3 +157,40 @@ void creatureTableModel::setCurrent(RSCreature* nCreature)
 	if(nCreature)
 		selectedCreature = nCreature;
 }
+
+void creatureTableModel::sort(int column, Qt::SortOrder order)
+{
+	switch(column)
+	{
+	case 0:
+		if(order == Qt::AscendingOrder)
+			DFI->sortCreaturesByRace(false);
+		else
+			DFI->sortCreaturesByRace(true);
+		break;
+
+	case 1:
+		if(order == Qt::AscendingOrder)
+			DFI->sortCreaturesByName(false);
+		else
+			DFI->sortCreaturesByName(true);
+		break;
+
+	case 2:
+		if(order == Qt::AscendingOrder)
+			DFI->sortCreaturesByProf(false);
+		else
+			DFI->sortCreaturesByProf(true);
+		break;
+
+	case 3:
+		if(order == Qt::AscendingOrder)
+			DFI->sortCreaturesByHap(false);
+		else
+			DFI->sortCreaturesByHap(true);
+		break;
+	}
+
+	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
+		QAbstractItemModel::createIndex(colCount, rowCount()));
+}

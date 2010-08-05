@@ -723,14 +723,14 @@ void DFInterface::sortDwarvesByName(bool decending)
 		if(!processDead)
 			std::sort(dwarves.begin(), dwarves.end(), creatureDecNameCmp);
 		else
-			std::sort(dwarves.begin(), dwarves.end(), creatureDecNameCmp);	
+			std::sort(allDwarves.begin(), dwarves.end(), creatureDecNameCmp);	
 	}
 	else
 	{
 		if(!processDead)
 			std::sort(dwarves.begin(), dwarves.end(), creatureAscNameCmp);
 		else
-			std::sort(dwarves.begin(), dwarves.end(), creatureAscNameCmp);
+			std::sort(allDwarves.begin(), dwarves.end(), creatureAscNameCmp);
 	}
 }
 
@@ -741,14 +741,14 @@ void DFInterface::sortDwarvesByProf(bool decending)
 		if(!processDead)
 			std::sort(dwarves.begin(), dwarves.end(), creatureDecProfCmp);
 		else
-			std::sort(dwarves.begin(), dwarves.end(), creatureDecProfCmp);	
+			std::sort(allDwarves.begin(), dwarves.end(), creatureDecProfCmp);	
 	}
 	else
 	{
 		if(!processDead)
 			std::sort(dwarves.begin(), dwarves.end(), creatureAscProfCmp);
 		else
-			std::sort(dwarves.begin(), dwarves.end(), creatureAscProfCmp);
+			std::sort(allDwarves.begin(), dwarves.end(), creatureAscProfCmp);
 	}
 }
 
@@ -759,13 +759,85 @@ void DFInterface::sortDwarvesByHap(bool decending)
 		if(!processDead)
 			std::sort(dwarves.begin(), dwarves.end(), creatureDecHapCmp);
 		else
-			std::sort(dwarves.begin(), dwarves.end(), creatureDecHapCmp);	
+			std::sort(allDwarves.begin(), dwarves.end(), creatureDecHapCmp);	
 	}
 	else
 	{
 		if(!processDead)
 			std::sort(dwarves.begin(), dwarves.end(), creatureAscHapCmp);
 		else
-			std::sort(dwarves.begin(), dwarves.end(), creatureAscHapCmp);
+			std::sort(allDwarves.begin(), dwarves.end(), creatureAscHapCmp);
+	}
+}
+
+void DFInterface::sortCreaturesByRace(bool decending)
+{
+	if(decending)
+	{
+		if(!processDead)
+			std::sort(creatures.begin(), creatures.end(), creatureDecRaceCmp);
+		else
+			std::sort(allCreatures.begin(), creatures.end(), creatureDecRaceCmp);	
+	}
+	else
+	{
+		if(!processDead)
+			std::sort(creatures.begin(), creatures.end(), creatureAscRaceCmp);
+		else
+			std::sort(allCreatures.begin(), creatures.end(), creatureAscRaceCmp);
+	}
+}
+
+void DFInterface::sortCreaturesByName(bool decending)
+{
+	if(decending)
+	{
+		if(!processDead)
+			std::sort(creatures.begin(), creatures.end(), creatureDecNameCmp);
+		else
+			std::sort(allCreatures.begin(), creatures.end(), creatureDecNameCmp);	
+	}
+	else
+	{
+		if(!processDead)
+			std::sort(creatures.begin(), creatures.end(), creatureAscNameCmp);
+		else
+			std::sort(allCreatures.begin(), creatures.end(), creatureAscNameCmp);
+	}
+}
+
+void DFInterface::sortCreaturesByProf(bool decending)
+{
+	if(decending)
+	{
+		if(!processDead)
+			std::sort(creatures.begin(), creatures.end(), creatureDecProfCmp);
+		else
+			std::sort(allCreatures.begin(), creatures.end(), creatureDecProfCmp);	
+	}
+	else
+	{
+		if(!processDead)
+			std::sort(creatures.begin(), creatures.end(), creatureAscProfCmp);
+		else
+			std::sort(allCreatures.begin(), creatures.end(), creatureAscProfCmp);
+	}
+}
+
+void DFInterface::sortCreaturesByHap(bool decending)
+{
+	if(decending)
+	{
+		if(!processDead)
+			std::sort(creatures.begin(), creatures.end(), creatureDecHapCmp);
+		else
+			std::sort(allCreatures.begin(), creatures.end(), creatureDecHapCmp);	
+	}
+	else
+	{
+		if(!processDead)
+			std::sort(creatures.begin(), creatures.end(), creatureAscHapCmp);
+		else
+			std::sort(allCreatures.begin(), creatures.end(), creatureAscHapCmp);
 	}
 }

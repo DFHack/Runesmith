@@ -49,3 +49,19 @@ bool creatureDecHapCmp(RSCreature* left, RSCreature* right)
 	else
 		return false;
 }
+
+bool creatureAscRaceCmp(RSCreature* left, RSCreature* right)
+{
+	if(left->getRace() < right->getRace())
+		return true;
+	else
+		return false;
+}
+
+bool creatureDecRaceCmp(RSCreature* left, RSCreature* right)
+{
+	if(left->getRace() > right->getRace())
+		return true;
+	else
+		return false;
+}

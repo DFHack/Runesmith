@@ -82,6 +82,12 @@ public:
 	void sortDwarvesByProf(bool decending);
 	void sortDwarvesByHap(bool decending);
 
+	/* Sorting (Creatures)*/
+	void sortCreaturesByRace(bool decending);
+	void sortCreaturesByName(bool decending);
+	void sortCreaturesByProf(bool decending);
+	void sortCreaturesByHap(bool decending);
+
 private:
 	bool isContextValid();
 	void resume();

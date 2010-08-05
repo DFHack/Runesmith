@@ -23,6 +23,7 @@ public:
 		int role = Qt::EditRole);
 	
 	void setCurrent(RSCreature* nCreature);
+	virtual void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
 
 public slots:
 	void genocide();
