@@ -127,25 +127,19 @@ bool moodTableModel::setData(const QModelIndex &index,
 		default:
 			std::vector<DFHack::t_matgloss> const& organic = DFI->getOrganicMats();
 			std::vector<DFHack::t_matgloss> const& inorganic = DFI->getInorgaincMats();
-			std::vector<DFHack::t_material> const& mats = creature->getRawMats();
-			QString type = DFI->getMaterialType(const_cast<DFHack::t_material&>(mats[index.row()-2]));
 
-			if(type == "organic")
+			/* use mats[i].index to get type from matgloss vector, thus change mats.index to change type.
+		sub index needs to be set to between 416 & 618 for organic, subindex 0 looks like it may work for inorganic*/
+			if(temp >= inorganic.size())
 			{
-				creature->setMatIndex(index.row()-2, temp, (const char*)&organic[temp].id);
-			}
-			else if(type == "inorganic")
-			{
-				creature->setMatIndex(index.row()-2, temp, (const char*)&inorganic[temp].id);
-			}
-			else if(type == "any")
-			{
-				
+				temp -= inorganic.size();
+				creature->setMat(index.row()-2, temp, (const char*)&organic[temp].id, 420);
 			}
 			else
 			{
-				return false;
+				creature->setMat(index.row()-2, temp, (const char*)&inorganic[temp].id, 0);
 			}
+		
 		}
 	}
 	else

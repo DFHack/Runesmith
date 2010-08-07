@@ -42,42 +42,19 @@ QWidget *moodComboDelegate::createEditor(QWidget *parent,
 	else
 	{
 		if(DFI && creature)
-		{/* use mats[i].index to get type from matgloss vector, thus change mats.index to change type.
-			sub index needs to be set to between 416 & 618 for organic, subindex 0 looks like it may work for inorganic*/
+		{
 			std::vector<DFHack::t_matgloss> const& organic = DFI->getOrganicMats();
 			std::vector<DFHack::t_matgloss> const& inorganic = DFI->getInorgaincMats();
 			std::vector<DFHack::t_material> const& mats = creature->getRawMats();
-
-			QString type = DFI->getMaterialType(const_cast<DFHack::t_material&>(mats[index.row()-2]));
 			
-			if(type == "organic")
+			for(int i=0; i<inorganic.size(); i++)
 			{
-				for(int i=0; i<organic.size(); i++)
-				{
-					editor->addItem(organic[i].id);
-				}
+				editor->addItem(inorganic[i].id);
 			}
-			else if(type == "inorganic")
-			{
-				for(int i=0; i<inorganic.size(); i++)
-				{
-					editor->addItem(inorganic[i].id);
-				}
-			}
-			else if(type == "any")
-			{
-				for(int i=0; i<inorganic.size(); i++)
-				{
-					editor->addItem(inorganic[i].id);
-				}
 
-				for(int i=0; i<organic.size(); i++)
-				{
-					editor->addItem(organic[i].id);
-				}
-			}
-			else
+			for(int i=0; i<organic.size(); i++)
 			{
+				editor->addItem(organic[i].id);
 			}
 		}
 	}

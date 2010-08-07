@@ -780,14 +780,15 @@ void RSCreature::kill()
 	rawCreature.flags1.bits.dead = 1;
 }
 
-void RSCreature::setMatIndex(uint32_t id, int32_t nIndex, const char* text)
-{/* TODO work out a better way of updating the display without having to run the update mood cache 
-	function, as it has to suspend and this is SLOOOOOW! also possibly set to be wrtten seperately
-	to the rest of the mood stuff */
+void RSCreature::setMat(uint32_t id, int32_t nIndex, const char* text, int16_t subIndex)
+{
 	if(id < jobMats.size())
 	{
 		jobMats[id].index = nIndex;
 		formattedMats[id] = text;
 		dataChanged.moodChanged = true;
+
+		if(subIndex >= 0)
+			jobMats[id].subIndex = subIndex;
 	}
 }
