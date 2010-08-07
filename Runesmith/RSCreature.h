@@ -110,7 +110,7 @@ public:
 	void setMood(int nMood);
 	void setMoodSkill(uint8_t skill);
 	void setFlagsChanged();
-	void setMatIndex(uint32_t id, int32_t nIndex);
+	void setMatIndex(uint32_t id, int32_t nIndex, const char* text = NULL);
 	
 	void setHappiness(uint32_t hapVal);
 	void setAllSkillLevels(uint8_t nLevel);

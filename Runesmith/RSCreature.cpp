@@ -462,7 +462,7 @@ void RSCreature::setMood(int nMood)
 			rawCreature.flags1.bits.has_mood = 1;
 	}
 
-	updateMoodCache();
+	mood = DFI->getMood(rawCreature.mood);
 	dataChanged.moodChanged = true;
 	dataChanged.flagsChanged = true;
 }
@@ -470,7 +470,7 @@ void RSCreature::setMood(int nMood)
 void RSCreature::setMoodSkill(uint8_t skill)
 {
 	rawCreature.mood_skill = rawCreature.defaultSoul.skills[skill].id;
-	updateMoodCache();
+	moodSkill = DFI->translateSkill(rawCreature.mood_skill);
 	dataChanged.moodChanged = true;
 }
 
@@ -780,14 +780,14 @@ void RSCreature::kill()
 	rawCreature.flags1.bits.dead = 1;
 }
 
-void RSCreature::setMatIndex(uint32_t id, int32_t nIndex)
+void RSCreature::setMatIndex(uint32_t id, int32_t nIndex, const char* text)
 {/* TODO work out a better way of updating the display without having to run the update mood cache 
 	function, as it has to suspend and this is SLOOOOOW! also possibly set to be wrtten seperately
 	to the rest of the mood stuff */
 	if(id < jobMats.size())
 	{
 		jobMats[id].index = nIndex;
-		updateMoodCache();
+		formattedMats[id] = text;
 		dataChanged.moodChanged = true;
 	}
 }

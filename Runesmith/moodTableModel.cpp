@@ -132,11 +132,11 @@ bool moodTableModel::setData(const QModelIndex &index,
 
 			if(type == "organic")
 			{
-				creature->setMatIndex(index.row()-2, temp);
+				creature->setMatIndex(index.row()-2, temp, (const char*)&organic[temp].id);
 			}
 			else if(type == "inorganic")
 			{
-				creature->setMatIndex(index.row()-2, temp);
+				creature->setMatIndex(index.row()-2, temp, (const char*)&inorganic[temp].id);
 			}
 			else if(type == "any")
 			{
