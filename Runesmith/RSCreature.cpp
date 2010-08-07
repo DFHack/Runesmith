@@ -2,8 +2,12 @@
 #include "rsException.h"
 #include "DFInterface.h"
 
-RSCreature::RSCreature(DFHack::t_creature nRawCreature, uint32_t nID, DFInterface *nDFI) :
-	DFI(nDFI), rawCreature(nRawCreature), RSID(nID)
+RSCreature::RSCreature(DFHack::t_creature nRawCreature,
+					   uint32_t nID, 
+					   DFInterface *nDFI) 
+					   : DFI(nDFI),
+					   rawCreature(nRawCreature), 
+					   RSID(nID)
 {
 	if(!DFI)
 		throw RSException();
@@ -26,7 +30,7 @@ RSCreature::RSCreature(DFHack::t_creature nRawCreature, uint32_t nID, DFInterfac
 	race = DFI->translateRace(rawCreature.race);
 	profession = DFI->translateProfession(rawCreature.profession);
 	age = QString::number(DFI->getCurrentYear() - rawCreature.birth_year);
-	
+
 	if((rawCreature.mood > -1) && (rawCreature.mood < 6))
 	{
 		moodSkill = DFI->translateSkill(rawCreature.mood_skill);
@@ -49,7 +53,7 @@ RSCreature::RSCreature(DFHack::t_creature nRawCreature, uint32_t nID, DFInterfac
 		cacheItem temp;
 		temp.id = i;
 		temp.text = DFI->translateTrait(i, rawCreature.defaultSoul.traits[i]);
-				
+
 		if(temp.text != "")
 			traitCache.push_back(temp);
 	}
@@ -110,7 +114,7 @@ QString RSCreature::getStatus()
 
 	if(rawCreature.flags1.bits.dead)
 		return "Dead";
-	
+
 	if(rawCreature.mood >= 0)
 	{
 		temp = "( ";
@@ -780,7 +784,9 @@ void RSCreature::kill()
 	rawCreature.flags1.bits.dead = 1;
 }
 
-void RSCreature::setMat(uint32_t id, int32_t nIndex, const char* text, int16_t subIndex)
+void RSCreature::setMat(uint32_t id, 
+						int32_t nIndex, const char* text,
+						int16_t subIndex)
 {
 	if(id < jobMats.size())
 	{
