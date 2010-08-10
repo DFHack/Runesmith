@@ -16,7 +16,7 @@ addTrait::addTrait(QWidget *parent,
 		std::vector< std::vector<std::string> > const& traits =	
 			DFI->getAllTraits();
 
-		for(unsigned int i=0; i<NUM_TRAITS; i++)
+		for(unsigned int i=0; i<NUM_CREATURE_TRAITS; i++)
 		{			
 			if(DFI->translateTrait(i, 
 				creature->getRawCreature().defaultSoul.traits[i]) == "")

@@ -42,6 +42,8 @@ public slots:
 	void writeChanges();
 	void dAddTraitWrap();
 	void cAddTraitWrap();
+	void dAddLabourWrap();
+	void cAddLabourWrap();
 	void setRace();
 	void setRaceAttrs();
 	void setRaceSkills();

@@ -6,13 +6,16 @@
 #include <DFHack.h>
 class DFInterface;
 
-#define NUM_TRAITS 30
+#define NUM_CREATURE_TRAITS 30
+#define NUM_CREATURE_LABORS 102
 
 struct statusTracker
 {
 	statusTracker() : skillsChanged(false), attributesChanged(false),
 		flagsChanged(false), happinessChanged(false), sexChanged(false),
-		traitsChanged(false), moodChanged(false), posChanged(false), civChanged(false){}
+		traitsChanged(false), moodChanged(false), posChanged(false), 
+		civChanged(false), laboursChanged(false){}
+
 	bool skillsChanged;
 	bool attributesChanged;
 	bool flagsChanged;
@@ -22,6 +25,7 @@ struct statusTracker
 	bool moodChanged;
 	bool posChanged;
 	bool civChanged;
+	bool laboursChanged;
 };
 
 struct formattedSkill
@@ -100,7 +104,6 @@ public:
 	bool isChanged();
 
 	/* setters */
-	//void addLabour();	
 	void kill();
 	void toggleSex();
 	void setCiv(int32_t nCiv);
@@ -118,6 +121,7 @@ public:
 	void setSkillExperiance(uint8_t id, uint16_t nExp);
 	bool editTrait(uint32_t id, uint32_t level);
 	bool addTrait(uint32_t id, uint32_t level);
+	bool addLabour(uint32_t id);	
 
 	void setAllAttributes(uint16_t nVal);
 	void setStrength(uint32_t nVal);

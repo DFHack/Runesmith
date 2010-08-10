@@ -48,7 +48,7 @@ RSCreature::RSCreature(DFHack::t_creature nRawCreature,
 		moodSkill = " - ";
 	}
 
-	for(unsigned int i=0; i<NUM_TRAITS; i++)
+	for(unsigned int i=0; i<NUM_CREATURE_TRAITS; i++)
 	{
 		cacheItem temp;
 		temp.id = i;
@@ -69,8 +69,8 @@ RSCreature::RSCreature(DFHack::t_creature nRawCreature,
 		temp.id = i;
 		temp.text = DFI->translateLabour(i);
 
-		//if(
-		labourCache.push_back(temp);
+		if(!temp.text.contains("memory definition missing"))
+			labourCache.push_back(temp);
 	}
 }
 
@@ -542,7 +542,7 @@ bool RSCreature::editTrait(uint32_t id, uint32_t level)
 
 bool RSCreature::addTrait(uint32_t id, uint32_t level)
 {	
-	if(!DFI)
+	if(!DFI || (id > NUM_CREATURE_TRAITS))
 		return false;
 
 	switch(level)
@@ -561,6 +561,21 @@ bool RSCreature::addTrait(uint32_t id, uint32_t level)
 	temp.id = id;
 	temp.text = DFI->translateTrait(id, rawCreature.defaultSoul.traits[id]);
 	traitCache.push_back(temp);
+	return true;
+}
+
+bool RSCreature::addLabour(uint32_t id)
+{
+	if(!DFI || (id > NUM_CREATURE_LABORS))
+		return false;
+
+	rawCreature.labors[id] = 1;
+	dataChanged.laboursChanged = true;
+	cacheItem temp;
+	temp.id = id;
+	temp.text = DFI->translateLabour(id);
+	labourCache.push_back(temp);
+
 	return true;
 }
 
@@ -713,6 +728,7 @@ void RSCreature::resetFlags()
 	dataChanged.moodChanged = false;
 	dataChanged.posChanged = false;
 	dataChanged.civChanged = false;
+	dataChanged.laboursChanged = false;
 }
 
 void RSCreature::genSkillsCache()

@@ -135,8 +135,7 @@ bool traitsTableModel::addTrait(int index1, int index2)
 
 	reset();
 	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
-			QAbstractItemModel::createIndex(
-			colCount, rowCount()));
+			QAbstractItemModel::createIndex(colCount, rowCount()));
 
 	return true;
 }

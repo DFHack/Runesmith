@@ -17,6 +17,7 @@ public:
 		Qt::Orientation orientation,
 		int role = Qt::DisplayRole) const;
 	void setCreature(RSCreature* nCreature);
+	bool addLabour(int index);
 };
 
 #endif

@@ -588,6 +588,12 @@ bool DFInterface::writeLoop(std::vector<RSCreature*> &data)
 				return false;
 		}
 
+		if(rawStatus.laboursChanged)
+		{
+			if(!Creatures->WriteLabors(rawID, ((DFHack::t_creature)rawData).labors))
+				return false;
+		}
+
 		data[i]->resetFlags();
 	}
 	return true;
@@ -596,6 +602,11 @@ bool DFInterface::writeLoop(std::vector<RSCreature*> &data)
 std::vector< std::vector<std::string> > const& DFInterface::getAllTraits()
 {
 	return mem->getAllTraits();
+}
+
+std::map<uint32_t, std::string> const& DFInterface::getAllLabours()
+{
+	return mem->getAllLabours();
 }
 
 bool DFInterface::readMats(const DFHack::t_creature *creature, std::vector<DFHack::t_material> &mats)

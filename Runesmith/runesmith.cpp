@@ -6,6 +6,7 @@
 #include "rsException.h"
 #include "about.h"
 #include "addTrait.h"
+#include "addLabour.h"
 #include "numInputDialog.h"
 
 Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
@@ -107,6 +108,8 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	QApplication::connect(ui.action_Force_Resume, SIGNAL(triggered()), this, SLOT(forceResume()));
 	QApplication::connect(ui.dAddTraitBtn, SIGNAL(clicked()), this, SLOT(dAddTraitWrap()));
 	QApplication::connect(ui.cAddTraitBtn, SIGNAL(clicked()), this, SLOT(cAddTraitWrap()));
+	QApplication::connect(ui.dAddLabBtn, SIGNAL(clicked()), this, SLOT(dAddLabourWrap()));
+	QApplication::connect(ui.cAddLabBtn, SIGNAL(clicked()), this, SLOT(cAddLabourWrap()));
 	QApplication::connect(ui.action_Set_Main_Race, SIGNAL(triggered()), this, SLOT(setRace()));
 	QApplication::connect(ui.actionSet_Dwarves_Attributes, SIGNAL(triggered()), this, SLOT(setRaceAttrs()));
 	QApplication::connect(ui.actionSet_Dwarves_Skills, SIGNAL(triggered()), this, SLOT(setRaceSkills()));
@@ -316,6 +319,36 @@ void Runesmith::cAddTraitWrap()
 	{
 		QMessageBox msgBox(QMessageBox::Critical,
 			"Error!", "Could not add trait!",
+			QMessageBox::Ok, this);			
+		msgBox.exec();
+	}
+}
+
+void Runesmith::dAddLabourWrap()
+{
+	addLabour temp(this, 0, dtTM->getCreature(), DFI);
+	temp.setModal(true);
+	temp.exec();
+
+	if(!dlTM->addLabour(temp.getIndex()))
+	{
+		QMessageBox msgBox(QMessageBox::Critical,
+			"Error!", "Could not add Labour!",
+			QMessageBox::Ok, this);			
+		msgBox.exec();
+	}
+}
+
+void Runesmith::cAddLabourWrap()
+{
+	addLabour temp(this, 0, ctTM->getCreature(), DFI);
+	temp.setModal(true);
+	temp.exec();
+
+	if(!clTM->addLabour(temp.getIndex()))
+	{
+		QMessageBox msgBox(QMessageBox::Critical,
+			"Error!", "Could not add Labour!",
 			QMessageBox::Ok, this);			
 		msgBox.exec();
 	}

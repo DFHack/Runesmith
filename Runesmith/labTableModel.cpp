@@ -70,3 +70,17 @@ void labTableModel::setCreature(RSCreature* nCreature)
 			QAbstractItemModel::createIndex(
 			colCount, rowCount()));
 }
+
+bool labTableModel::addLabour(int index)
+{
+	bool retVal = creature->addLabour(index);
+
+	if(retVal)
+	{
+		reset();
+		emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
+			QAbstractItemModel::createIndex(colCount, rowCount()));
+	}
+
+	return retVal;
+}

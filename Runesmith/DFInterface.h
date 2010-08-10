@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <map>
+#include <string>
 #include <QString>
 #include <DFHack.h>
 class RSCreature;
@@ -55,6 +56,7 @@ public:
 	std::vector<DFHack::t_matgloss> const& getOrganicMats();
 	std::vector<DFHack::t_matgloss> const& getInorgaincMats();
 	std::vector< std::vector<std::string> > const& getAllTraits();
+	std::map<uint32_t, std::string> const& getAllLabours();
 	std::vector<RSCreature*>& getDwarves();
 	std::vector<RSCreature*>& getCreatures();
 	
