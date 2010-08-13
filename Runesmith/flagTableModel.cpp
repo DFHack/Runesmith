@@ -27,7 +27,8 @@ QVariant flagTableModel::data(const QModelIndex &index, int role) const
 	{
 	case 0:
 		if(role == Qt::DisplayRole)
-		{//testing found switch faster than function pointer array
+		{//TODO do this bitwise or something, it's nasty
+			//testing found switch faster than function pointer array
 			switch(index.row())
 			{
 			case 0: return "Active Invader";

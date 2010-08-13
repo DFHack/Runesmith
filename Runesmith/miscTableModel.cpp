@@ -32,7 +32,7 @@ QVariant miscTableModel::data(const QModelIndex &index, int role) const
 
 		switch(index.row())
 		{
-		case 0: return QString("Player Civilisation");
+		case 0: return QString("Civilisation");
 		case 1:	return QString("Nickname:");	
 		case 2:	return QString("English Name:");
 		case 3:	return QString("Sex:");

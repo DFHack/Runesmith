@@ -253,7 +253,7 @@ void DFInterface::process()
 			
 			allCreatures.push_back(temp);
 		}	
-	}	
+	}
 }
 
 QString DFInterface::translateName(DFHack::t_name const& name, bool english)
