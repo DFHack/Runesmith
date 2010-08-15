@@ -569,6 +569,7 @@
     <addaction name="actionSet_Dwarves_Skills"/>
     <addaction name="actionSet_Dwarves_Attributes"/>
     <addaction name="action_Genocide"/>
+    <addaction name="action_Export_All_Dwarves"/>
    </widget>
    <addaction name="menu_File"/>
    <addaction name="menu_View"/>
@@ -698,6 +699,11 @@
    </property>
    <property name="text">
     <string>&amp;Genocide (Kill Selected Race)</string>
+   </property>
+  </action>
+  <action name="action_Export_All_Dwarves">
+   <property name="text">
+    <string>&amp;Export All Dwarves</string>
    </property>
   </action>
  </widget>

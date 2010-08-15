@@ -1,5 +1,6 @@
 #include <QMessageBox>
 #include <QFile>
+#include <QFileDialog>
 #include <DFHack.h>
 #include <limits>
 #include "runesmith.h"
@@ -8,6 +9,7 @@
 #include "addTrait.h"
 #include "addLabour.h"
 #include "numInputDialog.h"
+#include "exportDialog.h"
 
 Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 : QMainWindow(parent, flags), DFI(NULL)
@@ -114,6 +116,7 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	QApplication::connect(ui.actionSet_Dwarves_Attributes, SIGNAL(triggered()), this, SLOT(setRaceAttrs()));
 	QApplication::connect(ui.actionSet_Dwarves_Skills, SIGNAL(triggered()), this, SLOT(setRaceSkills()));
 	QApplication::connect(ui.action_Genocide, SIGNAL(triggered()), cTM, SLOT(genocide()));
+	QApplication::connect(ui.action_Export_All_Dwarves, SIGNAL(triggered()), this, SLOT(exportAllDwarves()));
 }
 
 Runesmith::~Runesmith()
@@ -389,4 +392,12 @@ void Runesmith::setRaceAttrs()
 		val = std::numeric_limits<uint16_t>::max();
 
 	DFI->setAllRaceAttrs(val);
+}
+
+void Runesmith::exportAllDwarves()
+{
+	ExportDialog temp;
+	temp.exec();
+	QString filename = QFileDialog::getSaveFileName(this, tr("Save To..."), "./Dwarves", "*.csv");
+	DFI->exportAllDwarves(filename, temp.getFlags());
 }

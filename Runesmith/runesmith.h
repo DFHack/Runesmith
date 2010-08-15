@@ -47,6 +47,7 @@ public slots:
 	void setRace();
 	void setRaceAttrs();
 	void setRaceSkills();
+	void exportAllDwarves();
 
 private:
 	void clean();

@@ -6,6 +6,7 @@
 #include <string>
 #include <QString>
 #include <DFHack.h>
+#include "ExportableStats.h"
 class RSCreature;
 
 enum RacialStat
@@ -89,6 +90,9 @@ public:
 	void sortCreaturesByName(bool decending);
 	void sortCreaturesByProf(bool decending);
 	void sortCreaturesByHap(bool decending);
+
+	/* Export */
+	void exportAllDwarves(QString filename, ExportableStats stats);
 
 private:
 	bool isContextValid();

@@ -3,6 +3,7 @@
 #include "rsException.h"
 #include "creatureCmps.h"
 #include "RSCreature.h"
+#include "StatExportManager.h"
 
 DFInterface::DFInterface(void) : DF(NULL), DFMgr(NULL), Materials(NULL), Tran(NULL),
 	Creatures(NULL), mem(NULL), processDead(false), numCreatures(0), suspended(false)
@@ -865,4 +866,18 @@ void DFInterface::sortCreaturesByHap(bool decending)
 		else
 			std::sort(allCreatures.begin(), creatures.end(), creatureAscHapCmp);
 	}
+}
+
+/* Export */
+void DFInterface::exportAllDwarves(QString filename, ExportableStats stats)
+{
+	StatExportManager statMan;
+	GenericExporter* fp = statMan.open(filename, stats);
+
+	for(unsigned int i=0; i<dwarves.size(); i++)
+	{
+		fp->exportCreature(dwarves[i]);
+	}
+
+	delete fp;
 }
