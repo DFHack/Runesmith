@@ -44,7 +44,7 @@ RSCreature::RSCreature(DFHack::t_creature nRawCreature,
 	}
 	else
 	{
-		mood = "None";
+		mood = "0";
 		moodSkill = " - ";
 	}
 

@@ -18,7 +18,7 @@ QWidget *moodComboDelegate::createEditor(QWidget *parent,
 	
 	if(index.row() == 0)
 	{
-		editor->addItem("None");
+		editor->addItem("0");
 		editor->addItem("Fey");
 		editor->addItem("Secretive");
 		editor->addItem("Possesed");

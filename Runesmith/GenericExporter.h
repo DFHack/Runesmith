@@ -10,13 +10,13 @@
 class GenericExporter
 {
 public:
-	GenericExporter(QString filename, ExportableStats stats);
+	GenericExporter(QString filename, unsigned int stats);
 	virtual ~GenericExporter(void);
 	virtual void exportCreature(RSCreature *creature) = 0;
 
 protected:
 	QTextStream* outStream;
-	ExportableStats toWrite;
+	unsigned int toWrite;
 
 private:
 	QFile* fp;

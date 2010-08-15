@@ -1,6 +1,6 @@
 #include "ExportCSV.h"
 
-ExportCSV::ExportCSV(QString filename, ExportableStats stats) 
+ExportCSV::ExportCSV(QString filename, unsigned int stats) 
 : GenericExporter(filename, stats)
 {
 }

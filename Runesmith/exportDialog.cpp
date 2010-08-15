@@ -12,14 +12,14 @@ ExportDialog::~ExportDialog(void)
 
 void ExportDialog::setFlags()
 {
-	flags = NONE;
+	flags = 0;
 	
 	if(exDia.raceCB)
-		flags = (ExportableStats)(flags | RACE);
+		flags |= RACE;
 	//this->close();
 }
 
-ExportableStats ExportDialog::getFlags()
+unsigned int ExportDialog::getFlags()
 {
 	return flags;
 }

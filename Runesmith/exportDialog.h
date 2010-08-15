@@ -12,14 +12,14 @@ class ExportDialog : public QDialog
 public:
 	ExportDialog(QWidget *parent = 0, Qt::WFlags flags = 0);
 	~ExportDialog(void);
-	ExportableStats getFlags();
+	unsigned int getFlags();
 
 private slots:
 		void setFlags();
 
 private:
 	Ui::exportDia exDia;
-	ExportableStats flags;
+	unsigned int flags;
 };
 
 #endif

@@ -9,7 +9,7 @@ StatExportManager::~StatExportManager(void)
 {
 }
 
-GenericExporter* StatExportManager::open(QString filename, ExportableStats stats)
+GenericExporter* StatExportManager::open(QString filename, unsigned int stats)
 {
 	QString extension = filename.right(4);
 
