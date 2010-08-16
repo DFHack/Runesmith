@@ -13,22 +13,22 @@ void ExportCSV::exportCreature(RSCreature *creature)
 {
 	if(toWrite & RACE)
 	{
-		*outStream << creature->getRace();
+		*outStream << creature->getRace() << ",";
 	}
 
 	if(toWrite & NAME)
 	{
-		*outStream << creature->getDwarvishName();
+		*outStream << creature->getDwarvishName() << ",";
 	}
 
 	if(toWrite & PROFESSION)
 	{
-		*outStream << creature->getProfession();
+		*outStream << creature->getProfession() << ",";
 	}
 
 	if(toWrite & HAPPINESS)
 	{
-		*outStream << creature->getHappiness();
+		*outStream << creature->getHappiness() << ",";
 	}
 
 	if(toWrite & SKILLS)
@@ -58,27 +58,27 @@ void ExportCSV::exportCreature(RSCreature *creature)
 
 	if(toWrite & NICKNAME)
 	{
-		*outStream << creature->getNickname();
+		*outStream << creature->getNickname() << ",";
 	}
 
 	if(toWrite & ENGLISH_NAME)
 	{
-		*outStream << creature->getEnglishName();
+		*outStream << creature->getEnglishName() << ",";
 	}
 
 	if(toWrite & SEX)
 	{
-		*outStream << creature->getSex();
+		*outStream << creature->getSex() << ",";
 	}
 
 	if(toWrite & DOB)
 	{
-		*outStream << creature->getDOB();
+		*outStream << creature->getDOB() << ",";
 	}
 
 	if(toWrite & AGE)
 	{
-		*outStream << creature->getAge();
+		*outStream << creature->getAge() << ",";
 	}
 
 	if(toWrite & CUSTOM_PROF)

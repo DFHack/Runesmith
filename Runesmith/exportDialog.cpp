@@ -16,7 +16,51 @@ void ExportDialog::setFlags()
 	
 	if(exDia.raceCB)
 		flags |= RACE;
-	//this->close();
+
+	if(exDia.nameCB)
+		flags |= NAME;
+
+	if(exDia.profCB)
+		flags |= PROFESSION;
+
+	if(exDia.happCB)
+		flags |= HAPPINESS;
+
+	if(exDia.skillsCB)
+		flags |= SKILLS;
+	
+	if(exDia.attrCB)
+		flags |= ATTRIBUTES;
+
+	if(exDia.traitCB)
+		flags |= TRAITS;
+
+	if(exDia.labsCB)
+		flags |= LABOURS;
+
+	if(exDia.moodCB)
+		flags |= MOOD;
+
+	if(exDia.nickCB)
+		flags |= NICKNAME;
+
+	if(exDia.engCB)
+		flags |= ENGLISH_NAME;
+
+	if(exDia.sexCB)
+		flags |= SEX;
+
+	if(exDia.dobCB)
+		flags |= DOB;
+
+	if(exDia.ageCB)
+		flags |= AGE;
+
+	if(exDia.cProfCB)
+		flags |= CUSTOM_PROF;
+
+	if(exDia.flagCB)
+		flags |= FLAGS;
 }
 
 unsigned int ExportDialog::getFlags()
