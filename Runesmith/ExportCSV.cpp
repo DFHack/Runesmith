@@ -21,39 +21,9 @@ void ExportCSV::exportCreature(RSCreature *creature)
 		outStream << creature->getDwarvishName() << ",";
 	}
 
-	if(toWrite & PROFESSION)
+	if(toWrite & ENGLISH_NAME)
 	{
-		outStream << creature->getProfession() << ",";
-	}
-
-	if(toWrite & HAPPINESS)
-	{
-		outStream << creature->getHappiness() << ",";
-	}
-
-	if(toWrite & SKILLS)
-	{
-	//	outStream << creature-
-	}
-
-	if(toWrite & ATTRIBUTES)
-	{
-	//	outStream << creature-
-	}
-
-	if(toWrite & TRAITS)
-	{
-	//	outStream << creature-
-	}
-
-	if(toWrite & LABOURS)
-	{
-	//	outStream << creature-
-	}
-
-	if(toWrite & MOOD)
-	{
-	//	outStream << creature-
+		outStream << creature->getEnglishName() << ",";
 	}
 
 	if(toWrite & NICKNAME)
@@ -61,9 +31,14 @@ void ExportCSV::exportCreature(RSCreature *creature)
 		outStream << creature->getNickname() << ",";
 	}
 
-	if(toWrite & ENGLISH_NAME)
+	if(toWrite & HAPPINESS)
 	{
-		outStream << creature->getEnglishName() << ",";
+		outStream << creature->getHappiness() << ",";
+	}
+
+	if(toWrite & PROFESSION)
+	{
+		outStream << creature->getProfession() << ",";
 	}
 
 	if(toWrite & SEX)
@@ -83,6 +58,69 @@ void ExportCSV::exportCreature(RSCreature *creature)
 
 	if(toWrite & CUSTOM_PROF)
 	{
-	//	outStream << creature-
+		outStream << creature->getRawCreature().custom_profession << ",";
 	}
+
+	if(toWrite & SKILLS)
+	{
+		std::vector<formattedSkill> skills = creature->getFormattedSkills();
+
+		for(int i=0; i<skills.size(); i++)
+		{
+			outStream << skills[i].skill << ",";
+			outStream << skills[i].level << ",";
+			outStream << QString::number(skills[i].xp) << ",";
+		}
+	}
+
+	if(toWrite & ATTRIBUTES)
+	{
+		outStream << creature->getStrength() << ",";
+		outStream << creature->getAgility() << ",";
+		outStream << creature->getToughness() << ",";
+		outStream << creature->getEndurance() << ",";
+		outStream << creature->getRecuperation() << ",";
+		outStream << creature->getDiseaseRes() << ",";
+		outStream << creature->getWillpower() << ",";
+		outStream << creature->getMemory() << ",";
+		outStream << creature->getFocus() << ",";
+		outStream << creature->getIntuition() << ",";
+		outStream << creature->getPatience() << ",";
+		outStream << creature->getEmpathy() << ",";
+		outStream << creature->getSocialAwareness() << ",";
+		outStream << creature->getCreativity() << ",";
+		outStream << creature->getMusicality() << ",";
+		outStream << creature->getAnalyticalAbility() << ",";
+		outStream << creature->getLinguisticAbility() << ",";
+		outStream << creature->getSpatialSense() << ",";
+		outStream << creature->getKinestheticSense() << ",";
+	}
+
+	if(toWrite & TRAITS)
+	{
+		std::vector<cacheItem> const& traits = creature->getTraitCache();
+
+		for(int i=0; i<traits.size(); i++)
+		{
+			outStream << traits[i].text << ",";
+		}
+	}
+
+	if(toWrite & LABOURS)
+	{
+		std::vector<cacheItem> const& labours = creature->getLabourCache();
+
+		for(int i=0; i<labours.size(); i++)
+		{
+			outStream << labours[i].text << ",";
+		}
+	}
+
+	if(toWrite & MOOD)
+	{
+		outStream << creature->getMood() << ",";
+		outStream << creature->getMoodSkill() << ",";
+	}
+
+	outStream << "\n";
 }

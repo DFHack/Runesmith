@@ -46,31 +46,7 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="1">
-    <widget class="QCheckBox" name="moodCB">
-     <property name="text">
-      <string>Mood</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QCheckBox" name="nameCB">
-     <property name="text">
-      <string>Name</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QCheckBox" name="nickCB">
-     <property name="text">
-      <string>Nickname</string>
-     </property>
-    </widget>
-   </item>
-   <item row="22" column="0" colspan="2">
+   <item row="30" column="0" colspan="2">
     <layout class="QHBoxLayout">
      <property name="spacing">
       <number>6</number>
@@ -107,87 +83,7 @@
      </item>
     </layout>
    </item>
-   <item row="9" column="0">
-    <widget class="QCheckBox" name="labsCB">
-     <property name="text">
-      <string>Labours</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="QCheckBox" name="attrCB">
-     <property name="text">
-      <string>Attributes</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
-    <widget class="QCheckBox" name="dobCB">
-     <property name="text">
-      <string>DOB</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QCheckBox" name="sexCB">
-     <property name="text">
-      <string>Sex</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QCheckBox" name="engCB">
-     <property name="text">
-      <string>English Name</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QCheckBox" name="skillsCB">
-     <property name="text">
-      <string>Skills</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QCheckBox" name="happCB">
-     <property name="text">
-      <string>Happiness</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QCheckBox" name="profCB">
-     <property name="text">
-      <string>Profession</string>
-     </property>
-     <property name="checked">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="1">
-    <widget class="QCheckBox" name="ageCB">
-     <property name="text">
-      <string>Age</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0">
-    <widget class="QCheckBox" name="traitCB">
-     <property name="text">
-      <string>Traits</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="1">
-    <widget class="QCheckBox" name="cProfCB">
-     <property name="text">
-      <string>Custom Profession</string>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="0">
+   <item row="18" column="0">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -199,6 +95,116 @@
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="0" column="1">
+    <widget class="QCheckBox" name="ageCB">
+     <property name="text">
+      <string>Age</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QCheckBox" name="cProfCB">
+     <property name="text">
+      <string>Custom Profession</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QCheckBox" name="nameCB">
+     <property name="text">
+      <string>Name</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="0">
+    <widget class="QCheckBox" name="dobCB">
+     <property name="text">
+      <string>DOB</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QCheckBox" name="engCB">
+     <property name="text">
+      <string>English Name</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QCheckBox" name="nickCB">
+     <property name="text">
+      <string>Nickname</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QCheckBox" name="happCB">
+     <property name="text">
+      <string>Happiness</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QCheckBox" name="profCB">
+     <property name="text">
+      <string>Profession</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QCheckBox" name="sexCB">
+     <property name="text">
+      <string>Sex</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QCheckBox" name="skillsCB">
+     <property name="text">
+      <string>Skills</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QCheckBox" name="attrCB">
+     <property name="text">
+      <string>Attributes</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QCheckBox" name="traitCB">
+     <property name="text">
+      <string>Traits</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QCheckBox" name="labsCB">
+     <property name="text">
+      <string>Labours</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="QCheckBox" name="moodCB">
+     <property name="text">
+      <string>Mood</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
