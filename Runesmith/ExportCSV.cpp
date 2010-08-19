@@ -85,9 +85,4 @@ void ExportCSV::exportCreature(RSCreature *creature)
 	{
 	//	outStream << creature-
 	}
-
-	if(toWrite & FLAGS)
-	{
-	//	outStream << creature-
-	}
 }

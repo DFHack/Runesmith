@@ -16,6 +16,5 @@
 #define	DOB 0x1000
 #define	AGE 0x2000
 #define	CUSTOM_PROF 0x4000
-#define	FLAGS 0x8000
 
 #endif

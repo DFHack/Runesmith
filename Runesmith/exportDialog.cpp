@@ -58,9 +58,6 @@ void ExportDialog::setFlags()
 
 	if(exDia.cProfCB)
 		flags |= CUSTOM_PROF;
-
-	if(exDia.flagCB)
-		flags |= FLAGS;
 }
 
 unsigned int ExportDialog::getFlags()
