@@ -1,7 +1,7 @@
 #include "ExportCSV.h"
 
 ExportCSV::ExportCSV(QString filename, unsigned int stats) 
-: GenericExporter(filename, stats)
+: GenericExporter(filename, stats), outStream(fp)
 {
 }
 
@@ -13,81 +13,81 @@ void ExportCSV::exportCreature(RSCreature *creature)
 {
 	if(toWrite & RACE)
 	{
-		*outStream << creature->getRace() << ",";
+		outStream << creature->getRace() << ",";
 	}
 
 	if(toWrite & NAME)
 	{
-		*outStream << creature->getDwarvishName() << ",";
+		outStream << creature->getDwarvishName() << ",";
 	}
 
 	if(toWrite & PROFESSION)
 	{
-		*outStream << creature->getProfession() << ",";
+		outStream << creature->getProfession() << ",";
 	}
 
 	if(toWrite & HAPPINESS)
 	{
-		*outStream << creature->getHappiness() << ",";
+		outStream << creature->getHappiness() << ",";
 	}
 
 	if(toWrite & SKILLS)
 	{
-		*outStream << creature-
+	//	outStream << creature-
 	}
 
 	if(toWrite & ATTRIBUTES)
 	{
-		*outStream << creature-
+	//	outStream << creature-
 	}
 
 	if(toWrite & TRAITS)
 	{
-		*outStream << creature-
+	//	outStream << creature-
 	}
 
 	if(toWrite & LABOURS)
 	{
-		*outStream << creature-
+	//	outStream << creature-
 	}
 
 	if(toWrite & MOOD)
 	{
-		*outStream << creature-
+	//	outStream << creature-
 	}
 
 	if(toWrite & NICKNAME)
 	{
-		*outStream << creature->getNickname() << ",";
+		outStream << creature->getNickname() << ",";
 	}
 
 	if(toWrite & ENGLISH_NAME)
 	{
-		*outStream << creature->getEnglishName() << ",";
+		outStream << creature->getEnglishName() << ",";
 	}
 
 	if(toWrite & SEX)
 	{
-		*outStream << creature->getSex() << ",";
+		outStream << creature->getSex() << ",";
 	}
 
 	if(toWrite & DOB)
 	{
-		*outStream << creature->getDOB() << ",";
+		outStream << creature->getDOB() << ",";
 	}
 
 	if(toWrite & AGE)
 	{
-		*outStream << creature->getAge() << ",";
+		outStream << creature->getAge() << ",";
 	}
 
 	if(toWrite & CUSTOM_PROF)
 	{
-		*outStream << creature-
+	//	outStream << creature-
 	}
 
 	if(toWrite & FLAGS)
 	{
-		*outStream << creature-
+	//	outStream << creature-
 	}
 }

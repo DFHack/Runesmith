@@ -15,10 +15,7 @@ public:
 	virtual void exportCreature(RSCreature *creature) = 0;
 
 protected:
-	QTextStream* outStream;
 	unsigned int toWrite;
-
-private:
 	QFile* fp;
 };
 

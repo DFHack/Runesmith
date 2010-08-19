@@ -92,7 +92,7 @@ public:
 	void sortCreaturesByHap(bool decending);
 
 	/* Export */
-	void exportAllDwarves(QString filename, unsigned int stats);
+	bool exportAllDwarves(QString filename, unsigned int stats);
 
 private:
 	bool isContextValid();

@@ -869,10 +869,13 @@ void DFInterface::sortCreaturesByHap(bool decending)
 }
 
 /* Export */
-void DFInterface::exportAllDwarves(QString filename, unsigned int stats)
+bool DFInterface::exportAllDwarves(QString filename, unsigned int stats)
 {
 	StatExportManager statMan;
 	GenericExporter* fp = statMan.open(filename, stats);
+
+	if(!fp)
+		return false;
 
 	for(unsigned int i=0; i<dwarves.size(); i++)
 	{
@@ -880,4 +883,5 @@ void DFInterface::exportAllDwarves(QString filename, unsigned int stats)
 	}
 
 	delete fp;
+	return true;
 }

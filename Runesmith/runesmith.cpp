@@ -398,6 +398,12 @@ void Runesmith::exportAllDwarves()
 {
 	ExportDialog temp;
 	temp.exec();
-	QString filename = QFileDialog::getSaveFileName(this, tr("Save To..."), "./Dwarves", "*.csv");
-	DFI->exportAllDwarves(filename, temp.getFlags());
+
+	QString filename = QFileDialog::getSaveFileName(this,
+		tr("Save To..."),
+		"./Dwarves", 
+		"Comma Seperated Values (*.csv);;XML (*.xml)");
+
+	if(!filename.isEmpty())
+		DFI->exportAllDwarves(filename, temp.getFlags());
 }

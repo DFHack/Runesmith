@@ -10,6 +10,9 @@ public:
 	ExportCSV(QString filename, unsigned int stats);
 	virtual ~ExportCSV(void);
 	void exportCreature(RSCreature *creature);
+
+private:
+	QTextStream outStream;
 };
 
 #endif

@@ -1,5 +1,6 @@
 #include "StatExportManager.h"
 #include "ExportCSV.h"
+#include "ExportXML.h"
 
 StatExportManager::StatExportManager()
 {
@@ -19,6 +20,7 @@ GenericExporter* StatExportManager::open(QString filename, unsigned int stats)
 	}
 	else if(!(extension.compare(".xml", Qt::CaseInsensitive)))
 	{
+		return new ExportXML(filename, stats);
 	}
 	
 	return NULL;
