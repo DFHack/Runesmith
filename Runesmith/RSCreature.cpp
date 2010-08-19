@@ -44,7 +44,7 @@ RSCreature::RSCreature(DFHack::t_creature nRawCreature,
 	}
 	else
 	{
-		mood = "0";
+		mood = "None";
 		moodSkill = " - ";
 	}
 
@@ -424,6 +424,7 @@ bool RSCreature::isChanged()
 void RSCreature::toggleSex()
 {
 	rawCreature.sex = !rawCreature.sex;
+	//rawCreature.caste = !rawCreature.caste;
 	dataChanged.sexChanged = true;
 }
 

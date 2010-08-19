@@ -504,6 +504,7 @@ bool DFInterface::writeAllChanges()
 		}
 	}
 
+	cleanup();
 	return false;
 }
 
@@ -557,6 +558,9 @@ bool DFInterface::writeLoop(std::vector<RSCreature*> &data)
 		{
 			if(!Creatures->WriteSex(rawID, rawData.sex))
 				return false;
+
+		//	if(!Creatures->WriteCaste(rawID, rawData.caste))
+		//		return false;
 		}
 
 		if(rawStatus.traitsChanged)

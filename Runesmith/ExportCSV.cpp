@@ -3,6 +3,82 @@
 ExportCSV::ExportCSV(QString filename, unsigned int stats) 
 : GenericExporter(filename, stats), outStream(fp)
 {
+	if(toWrite & RACE)
+	{
+		outStream << "Race,";
+	}
+
+	if(toWrite & NAME)
+	{
+		outStream << "Name,";
+	}
+
+	if(toWrite & ENGLISH_NAME)
+	{
+		outStream << "English_Name,";
+	}
+
+	if(toWrite & NICKNAME)
+	{
+		outStream << "Nickname,";
+	}
+
+	if(toWrite & HAPPINESS)
+	{
+		outStream << "Happiness,";
+	}
+
+	if(toWrite & PROFESSION)
+	{
+		outStream << "Profession,";
+	}
+
+	if(toWrite & SEX)
+	{
+		outStream << "Sex,";
+	}
+
+	if(toWrite & DOB)
+	{
+		outStream << "DOB,";
+	}
+
+	if(toWrite & AGE)
+	{
+		outStream << "Age,";
+	}
+
+	if(toWrite & CUSTOM_PROF)
+	{
+		outStream << "Custom_Profession,";
+	}
+
+	if(toWrite & SKILLS)
+	{
+			outStream << "Skills,";
+	}
+
+	if(toWrite & ATTRIBUTES)
+	{
+		outStream << "Attributes,";
+	}
+
+	if(toWrite & TRAITS)
+	{
+			outStream << "Traits,";
+	}
+
+	if(toWrite & LABOURS)
+	{
+			outStream << "Labours,";
+	}
+
+	if(toWrite & MOOD)
+	{
+		outStream << "Mood,";
+	}
+
+	outStream << "\n";
 }
 
 ExportCSV::~ExportCSV(void)

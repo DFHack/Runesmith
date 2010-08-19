@@ -282,13 +282,13 @@ void Runesmith::writeChanges()
 {
 	if(!DFI->writeAllChanges())
 	{
+		clean();
 		QMessageBox msgBox(QMessageBox::Critical,
 			"Error!", "Could not write changes!\n" 
 			"Changes will be kept until successfully written or "
 			"'No' is selected when asked to write changes before 'Refreshing'",
 			QMessageBox::Ok, this);			
 		msgBox.exec();
-		//update();
 		return;
 	}
 
