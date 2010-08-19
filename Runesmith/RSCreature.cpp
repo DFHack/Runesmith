@@ -798,6 +798,7 @@ void RSCreature::updateMoodCache()
 void RSCreature::kill()
 {
 	rawCreature.flags1.bits.dead = 1;
+	dataChanged.flagsChanged = true;
 }
 
 void RSCreature::setMat(uint32_t id, 

@@ -720,7 +720,10 @@ void DFInterface::killAllRace(uint32_t race)
 	while(iter != creatures.end())
 	{
 		if((*iter)->getRawCreature().race == race)
+		{
+			(*iter)->kill();
 			iter = creatures.erase(iter);
+		}
 		else
 			iter++;
 	}
