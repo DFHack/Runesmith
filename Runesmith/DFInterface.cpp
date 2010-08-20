@@ -90,7 +90,13 @@ bool DFInterface::attach()
 		Materials = DF->getMaterials();
 		Tran = DF->getTranslation();
 		world = DF->getWorld();
-		suspend();	
+		suspend();
+
+		Materials->ReadAllMaterials();
+		raceExCache =  Materials->raceEx;
+		organicMatCache = Materials->organic;
+		inorganicMatCache = Materials->inorganic;
+
 		process();
 		resume();
 	}
@@ -105,6 +111,9 @@ void DFInterface::detatch()
 			suspend();
 			DF->Detach();
 			numCreatures = 0;
+			raceExCache.clear();
+			organicMatCache.clear();
+			inorganicMatCache.clear();
 			cleanup();
 		}
 	}
@@ -210,8 +219,7 @@ void DFInterface::suspend()
 	if(Tran)
 		Tran->Finish();
 
-	DF->Suspend();	
-	Materials->ReadAllMaterials();    
+	DF->Suspend();
 //TODO detatch from df aswell/instead of throw
 	if(!Creatures->Start(numCreatures))
 		throw RSException();    
@@ -230,9 +238,6 @@ void DFInterface::process()
 	cleanup();
 	currentYear = world->ReadCurrentYear();
 	dwarfCivID = Creatures->GetDwarfCivId();
-	raceExCache =  Materials->raceEx;
-	organicMatCache = Materials->organic;
-	inorganicMatCache = Materials->inorganic;
 
 	for(int i=0; i<numCreatures; i++)
 	{
@@ -240,7 +245,7 @@ void DFInterface::process()
 		Creatures->ReadCreature(i, rTemp);
 		RSCreature *temp = new RSCreature(rTemp, i, this);
 
-		if(QString(Materials->raceEx[rTemp.race].rawname) == mainRace)
+		if(QString(raceExCache[rTemp.race].rawname) == mainRace)
 		{
 			if(!rTemp.flags1.bits.dead)
 				dwarves.push_back(temp);
@@ -449,9 +454,6 @@ void DFInterface::cleanup()
 
 	allDwarves.clear();
 	dwarves.clear();
-	raceExCache.clear();
-	organicMatCache.clear();
-	inorganicMatCache.clear();
 }
 
 bool DFInterface::changesPending()

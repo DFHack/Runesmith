@@ -44,6 +44,8 @@ public slots:
 	void cAddTraitWrap();
 	void dAddLabourWrap();
 	void cAddLabourWrap();
+	void dRemoveLabour();
+	void cRemoveLabour();
 	void setRace();
 	void setRaceAttrs();
 	void setRaceSkills();

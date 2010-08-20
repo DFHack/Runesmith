@@ -40,6 +40,14 @@ struct cacheItem
 {
 	uint32_t id;
 	QString text;
+
+	bool operator==(const cacheItem& right)
+	{
+		if((id == right.id) && (text == right.text))
+			return true;
+
+		return false;
+	}
 };
 
 class RSCreature
@@ -121,7 +129,8 @@ public:
 	void setSkillExperiance(uint8_t id, uint16_t nExp);
 	bool editTrait(uint32_t id, uint32_t level);
 	bool addTrait(uint32_t id, uint32_t level);
-	bool addLabour(uint32_t id);	
+	bool addLabour(uint32_t id);
+	bool removeTopLabour();
 
 	void setAllAttributes(uint16_t nVal);
 	void setStrength(uint32_t nVal);

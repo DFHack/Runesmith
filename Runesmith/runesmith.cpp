@@ -117,6 +117,8 @@ Runesmith::Runesmith(QWidget *parent, Qt::WFlags flags)
 	QApplication::connect(ui.actionSet_Dwarves_Skills, SIGNAL(triggered()), this, SLOT(setRaceSkills()));
 	QApplication::connect(ui.action_Genocide, SIGNAL(triggered()), cTM, SLOT(genocide()));
 	QApplication::connect(ui.action_Export_All_Dwarves, SIGNAL(triggered()), this, SLOT(exportAllDwarves()));
+	QApplication::connect(ui.dRemoveBtn, SIGNAL(clicked()), this, SLOT(dRemoveLabour()));
+	QApplication::connect(ui.cRemoveBtn, SIGNAL(clicked()), this, SLOT(cRemoveLabour()));
 }
 
 Runesmith::~Runesmith()
@@ -355,6 +357,19 @@ void Runesmith::cAddLabourWrap()
 			QMessageBox::Ok, this);			
 		msgBox.exec();
 	}
+}
+
+
+void Runesmith::dRemoveLabour()
+{
+	QModelIndexList indexes = ui.dLabTV->selectionModel()->selection().indexes();
+	dlTM->removeLabours(indexes);
+}
+
+void Runesmith::cRemoveLabour()
+{
+	QModelIndexList indexes = ui.cLabTV->selectionModel()->selection().indexes();
+	clTM->removeLabours(indexes);
 }
 
 void Runesmith::setRace()

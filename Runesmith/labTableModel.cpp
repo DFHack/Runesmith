@@ -71,7 +71,7 @@ void labTableModel::setCreature(RSCreature* nCreature)
 			colCount, rowCount()));
 }
 
-bool labTableModel::addLabour(int index)
+bool labTableModel::addLabour(unsigned int index)
 {
 	bool retVal = creature->addLabour(index);
 
@@ -81,6 +81,26 @@ bool labTableModel::addLabour(int index)
 		emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
 			QAbstractItemModel::createIndex(colCount, rowCount()));
 	}
+
+	return retVal;
+}
+
+bool labTableModel::removeLabours(QModelIndexList indexes)
+{
+	bool retVal;
+
+	for(int i=0; i<indexes.count(); i++)
+	{
+		QModelIndex index = indexes.at(i);
+		retVal = creature->removeTopLabour();
+
+		if(!retVal)
+			return retVal;
+	}
+	
+	reset();
+	emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
+		QAbstractItemModel::createIndex(colCount, rowCount()));
 
 	return retVal;
 }

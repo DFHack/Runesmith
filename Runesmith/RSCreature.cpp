@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "RSCreature.h"
 #include "rsException.h"
 #include "DFInterface.h"
@@ -418,6 +419,9 @@ bool RSCreature::isChanged()
 	if(dataChanged.civChanged)
 		return true;
 
+	if(dataChanged.laboursChanged)
+		return true;
+
 	return false;
 }
 
@@ -577,6 +581,17 @@ bool RSCreature::addLabour(uint32_t id)
 	temp.text = DFI->translateLabour(id);
 	labourCache.push_back(temp);
 
+	return true;
+}
+
+bool RSCreature::removeTopLabour()
+{
+	if(!DFI)
+		return false;
+
+	rawCreature.labors[labourCache[0].id] = 0;
+	dataChanged.laboursChanged = true;
+	labourCache.erase(labourCache.begin());
 	return true;
 }
 

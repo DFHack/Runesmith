@@ -158,6 +158,13 @@
                </spacer>
               </item>
               <item>
+               <widget class="QPushButton" name="dRemoveBtn">
+                <property name="text">
+                 <string>Remove Labour</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QPushButton" name="dAddLabBtn">
                 <property name="text">
                  <string>Add Labour</string>
@@ -188,7 +195,11 @@
            </attribute>
            <layout class="QGridLayout" name="gridLayout_16">
             <item row="0" column="0">
-             <widget class="QTableView" name="dMoodTV"/>
+             <widget class="QTableView" name="dMoodTV">
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -427,6 +438,13 @@
                  </size>
                 </property>
                </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="cRemoveBtn">
+                <property name="text">
+                 <string>Remove Labour</string>
+                </property>
+               </widget>
               </item>
               <item>
                <widget class="QPushButton" name="cAddLabBtn">
