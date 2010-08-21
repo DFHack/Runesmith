@@ -503,6 +503,7 @@ void RSCreature::setAllSkillLevels(uint8_t nLevel)
 		rawCreature.defaultSoul.skills[i].rating = nLevel;
 	}
 
+	skillsCache.clear();
 	genSkillsCache();
 	dataChanged.skillsChanged = true;
 }
