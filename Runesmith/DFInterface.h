@@ -123,7 +123,7 @@ private:
 	DFHack::Materials *Materials;
 	DFHack::Translation *Tran;
 	DFHack::Creatures *Creatures;
-	DFHack::memory_info *mem;
+	DFHack::VersionInfo *mem;
 	DFHack::World * world;
 
 	bool suspended;

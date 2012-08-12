@@ -13,8 +13,8 @@ RSCreature::RSCreature(DFHack::t_creature nRawCreature,
 	if(!DFI)
 		throw RSException();
 
-	if(rawCreature.name.has_name)
-	{
+//	if(rawCreature.name.has_name)
+//	{
 		englishName = rawCreature.name.first_name[0];
 		englishName = englishName.toUpper();
 		englishName += rawCreature.name.first_name+1;
@@ -26,7 +26,7 @@ RSCreature::RSCreature(DFHack::t_creature nRawCreature,
 		dwarvishName += rawCreature.name.first_name+1;
 		dwarvishName += " ";
 		dwarvishName += DFI->translateName(rawCreature.name, false);
-	}
+//	}
 
 	race = DFI->translateRace(rawCreature.race);
 	profession = DFI->translateProfession(rawCreature.profession);

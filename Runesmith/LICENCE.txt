@@ -3,7 +3,15 @@ Copyright © 2010 Simon Jackson
 This software is still in development, and this means that there are
 going to be problems, including serious problems that, however unlikely,
 might damage your system or the information stored on it.  Please be
-aware of this before use.
+aware of this before use. In more legal terms:
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 
 All rights are retained by Simon Jackson, save the following:  
 you may redistribute the binary and accompanying files, 
