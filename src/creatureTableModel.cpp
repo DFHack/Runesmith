@@ -145,7 +145,7 @@ void creatureTableModel::genocide()
 {
 	if(selectedCreature)
 	{
-		DFI->killAllRace(selectedCreature->getRawCreature().race);
+		DFI->killAllRace(selectedCreature->getRace());
 		reset();
 		emit dataChanged(QAbstractItemModel::createIndex(0, 0), 
 			QAbstractItemModel::createIndex(colCount, rowCount()));

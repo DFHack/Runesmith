@@ -635,7 +635,7 @@ bool DFInterface::readMats(const DFHack::t_creature *creature, std::vector<DFHac
 			}
 			
 			//resume();
-			return true;			
+			return true;
 		}
 	}
 

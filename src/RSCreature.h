@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <QString>
-#include <DFHack.h>
+//#include <DFHack.h>
 class DFInterface;
 
 #define NUM_CREATURE_TRAITS 30

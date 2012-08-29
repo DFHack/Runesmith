@@ -5,7 +5,7 @@
 #include <map>
 #include <string>
 #include <QString>
-#include <DFHack.h>
+#include <stdint.h>
 #include "ExportableStats.h"
 class RSCreature;
 
@@ -51,8 +51,7 @@ public:
 
 	bool writeAllChanges();
 	bool changesPending();
-	bool readMats(const DFHack::t_creature *creature, 
-					std::vector<DFHack::t_material> &mats);
+	bool readMats(const DFHack::t_creature *creature, std::vector<DFHack::t_material> &mats);
 	
 	std::vector<DFHack::t_matgloss> const& getOrganicMats();
 	std::vector<DFHack::t_matgloss> const& getInorgaincMats();

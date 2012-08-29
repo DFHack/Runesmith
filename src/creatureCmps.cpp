@@ -36,7 +36,7 @@ bool creatureDecProfCmp(RSCreature* left, RSCreature* right)
 
 bool creatureAscHapCmp(RSCreature* left, RSCreature* right)
 {
-	if(left->getRawCreature().happiness > right->getRawCreature().happiness)
+	if(left->getHappiness() > right->getHappiness())
 		return true;
 	else
 		return false;
@@ -44,7 +44,7 @@ bool creatureAscHapCmp(RSCreature* left, RSCreature* right)
 
 bool creatureDecHapCmp(RSCreature* left, RSCreature* right)
 {
-	if(left->getRawCreature().happiness < right->getRawCreature().happiness)
+	if(left->getHappiness() < right->getHappiness())
 		return true;
 	else
 		return false;
